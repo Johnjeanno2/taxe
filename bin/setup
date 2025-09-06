@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+set -e
+
+# Usage: ./bin/setup
+# Creates venv, installs dependencies, copies .env.example to .env (if missing), runs migrations and collectstatic
+
+PYTHON=${PYTHON:-python3}
+VENV_DIR=.venv
+
+echo "Creating virtualenv in ${VENV_DIR} (if not present)"
+if [ ! -d "${VENV_DIR}" ]; then
+  ${PYTHON} -m venv ${VENV_DIR}
+fi
+
+# Activate
+. ${VENV_DIR}/bin/activate
+
+echo "Upgrading pip and installing dependencies"
+pip install --upgrade pip
+if [ -f requirements.txt ]; then
+  pip install -r requirements.txt
+else
+  echo "requirements.txt not found, skipping dependency installation"
+fi
+
+# Copy .env
+if [ ! -f .env ]; then
+  if [ -f .env.example ]; then
+    cp .env.example .env
+    echo ".env created from .env.example — please update secrets"
+  else
+    echo "No .env.example found — create .env manually"
+  fi
+fi
+
+# Run migrations and collectstatic
+python manage.py migrate
+python manage.py collectstatic --noinput
+
+echo "Setup complete. Activate virtualenv with: source ${VENV_DIR}/bin/activate"
