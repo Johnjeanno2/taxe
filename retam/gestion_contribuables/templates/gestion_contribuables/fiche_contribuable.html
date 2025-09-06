@@ -1,0 +1,238 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --primary-color: #1fae2e;
+        --secondary-color: #ffe066;
+        --accent-color: #ff4136;
+        --light-color: #f8f9fa;
+        --dark-color: #212529;
+        --success-color: #2ecc40;
+        --danger-color: #ff4136;
+        --border-radius: 8px;
+        --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .grp-module {
+        max-width: 1000px !important;
+        margin: 32px auto !important;
+        padding: 2rem !important;
+        background: white !important;
+        border-radius: var(--border-radius) !important;
+        box-shadow: var(--box-shadow) !important;
+        font-family: 'Roboto', sans-serif !important;
+    }
+    .fiche-title {
+        color: var(--primary-color);
+        font-size: 2em;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        letter-spacing: 1px;
+        border-bottom: 1px solid #e9ecef;
+        padding-bottom: 1rem;
+    }
+    .fiche-title .fa-user-check {
+        color: var(--primary-color);
+        font-size: 1.2em;
+    }
+    .grp-table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        margin: 1.5rem 0 !important;
+        background: white !important;
+    }
+    .grp-table th, .grp-table td {
+        padding: 1rem !important;
+        text-align: left !important;
+        border-bottom: 1px solid #e9ecef !important;
+    }
+    .grp-table th {
+        width: 30% !important;
+        color: var(--primary-color) !important;
+        font-weight: 600 !important;
+        background: var(--light-color) !important;
+    }
+    .grp-table tr:nth-child(even) {
+        background-color: #f8f9fa !important;
+    }
+    .grp-table tr:hover {
+        background-color: #e6f9ec !important;
+    }
+    .grp-button {
+        padding: 0.75rem 1.5rem !important;
+        border-radius: var(--border-radius) !important;
+        font-weight: 500 !important;
+        text-decoration: none !important;
+        transition: all 0.3s ease !important;
+        border: none !important;
+        cursor: pointer !important;
+        min-width: 160px;
+        white-space: nowrap;
+        overflow: visible;
+        text-align: center;
+        box-sizing: border-box;
+        font-size: 1em;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .grp-button.grp-default {
+        background: linear-gradient(90deg, #43ea5e 0%, #1fae2e 100%) !important; /* Vert */
+        color: #fff !important;
+        border: 1px solid #b6e6c9 !important;
+    }
+    .grp-button.grp-default:hover {
+        background: linear-gradient(90deg, #1fae2e 0%, #43ea5e 100%) !important;
+        color: #fff !important;
+    }
+
+    .grp-button.grp-warning {
+        background: linear-gradient(90deg, #ffe066 0%, #e1b800 100%) !important; /* Jaune foncé */
+        color: #06692e !important;
+        border: 1px solid #ffe066 !important;
+    }
+    .grp-button.grp-warning:hover {
+        background: linear-gradient(90deg, #ce131387 0%, #ffe066 100%) !important;
+        color: #b38600 !important;
+    }
+
+    .grp-button.grp-danger {
+        background: linear-gradient(90deg, #ff4136 0%, #d90429 100%) !important; /* Rouge */
+        color: #fff !important;
+        border: 1px solid #ff4136 !important;
+    }
+    .grp-button.grp-danger:hover {
+        background: linear-gradient(90deg, #d90429 0%, #ff726f 100%) !important;
+        color: #fff !important;
+    }
+    .status-badge {
+        display: inline-block;
+        padding: 0.35rem 0.85rem;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin-left: 10px;
+        animation: pulse 1.5s infinite;
+    }
+    .status-active {
+        background-color: rgba(75, 181, 67, 0.15);
+        color: var(--success-color);
+    }
+    .status-inactive {
+        background-color: rgba(255, 51, 51, 0.15);
+        color: var(--danger-color);
+    }
+    @keyframes pulse {
+        0% { box-shadow: 0 0 0 0 rgba(75,181,67,0.2);}
+        70% { box-shadow: 0 0 0 10px rgba(75,181,67,0);}
+        100% { box-shadow: 0 0 0 0 rgba(75,181,67,0);}
+    }
+    .action-buttons {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+        flex-wrap: wrap;
+    }
+    @media (max-width: 700px) {
+        .grp-module {
+            padding: 12px 4px !important;
+        }
+        .fiche-title {
+            font-size: 1.2em;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .grp-table th, .grp-table td {
+            padding: 8px 6px !important;
+            font-size: 0.95em;
+        }
+        .action-buttons {
+            flex-direction: column;
+            gap: 10px;
+        }
+    }
+    @media print {
+        .no-print {
+            display: none !important;
+        }
+        .grp-module {
+            box-shadow: none !important;
+            padding: 0 !important;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="grp-module">
+    <div class="fiche-title">
+        <i class="fa fa-user-check"></i>
+        Fiche du contribuable
+        <span class="status-badge {% if contribuable.actif %}status-active{% else %}status-inactive{% endif %} no-print">
+            {% if contribuable.actif %}Actif{% else %}Inactif{% endif %}
+        </span>
+    </div>
+    <table class="grp-table">
+        <tr>
+            <th>Nom complet</th>
+            <td>{{ contribuable.nom }}</td>
+        </tr>
+        <tr>
+            <th>NIF</th>
+            <td>{{ contribuable.nif }}</td>
+        </tr>
+        <tr>
+            <th>Zone</th>
+            <td>{{ contribuable.zone|default:"-" }}</td>
+        </tr>
+        <tr>
+            <th>Type</th>
+            <td>{{ contribuable.get_type_contribuable_display }}</td>
+        </tr>
+        <tr>
+            <th>Adresse</th>
+            <td>{{ contribuable.adresse }}</td>
+        </tr>
+        <tr>
+            <th>Téléphone</th>
+            <td>{{ contribuable.telephone }}</td>
+        </tr>
+        <tr>
+            <th>Email</th>
+            <td>{{ contribuable.email|default:"-" }}</td>
+        </tr>
+        <tr>
+            <th>Date d'inscription</th>
+            <td>{{ contribuable.date_inscription }}</td>
+        </tr>
+        <tr>
+            <th>Total payé</th>
+            <td>{{ contribuable.total_paye }} FCFA</td>
+        </tr>
+    </table>
+    <div class="action-buttons no-print">
+        <a href="{% url 'gestion_contribuables:contribuable_list' %}" class="grp-button grp-default">
+            <i class="fa fa-arrow-left"></i> Retour à la liste
+        </a>
+        <a href="{% url 'admin:gestion_contribuables_contribuable_change' contribuable.id %}" class="grp-button grp-warning">
+            <i class="fa fa-edit"></i> Modifier le contribuable
+        </a>
+        <button onclick="window.print()" class="grp-button grp-danger">
+            <i class="fa fa-print"></i> Imprimer la fiche
+        </button>
+    </div>
+</div>
+{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+<!-- Font Awesome pour les icônes -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+{% endblock %}

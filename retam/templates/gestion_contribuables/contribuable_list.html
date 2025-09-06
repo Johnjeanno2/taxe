@@ -1,0 +1,131 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block content %}
+<style>
+    .contribuable-container {
+        max-width: 1100px;
+        margin: 32px auto;
+        background: #f8fafc;
+        border-radius: 18px;
+        box-shadow: 0 4px 24px rgba(44, 62, 80, 0.08);
+        padding: 32px 28px 24px 28px;
+        font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+    }
+    .contribuable-title {
+        font-size: 2em;
+        color: #447e9b;
+        margin-bottom: 18px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .contribuable-table-container {
+        overflow-x: auto;
+        margin-bottom: 24px;
+    }
+    .contribuable-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        background: #fff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(44, 62, 80, 0.04);
+    }
+    .contribuable-table th, .contribuable-table td {
+        padding: 14px 16px;
+        text-align: left;
+    }
+    .contribuable-table th {
+        background: linear-gradient(90deg, #106c1f 0%, #e7d003 100%);
+        color: #fff;
+        font-weight: 600;
+        border-bottom: 2px solid #e0e0e0;
+    }
+    .contribuable-table tr:nth-child(even) {
+        background: #f3f7f5;
+    }
+    .contribuable-table tr:hover {
+        background: #e6f9ec;
+        transition: background 0.2s;
+    }
+    .contribuable-table td {
+        color: #232c3d;
+        font-size: 1em;
+    }
+    .contribuable-empty {
+        text-align: center;
+        color: #888;
+        padding: 24px 0;
+        font-size: 1.1em;
+    }
+    .contribuable-actions .grp-button {
+        margin-right: 8px;
+        margin-bottom: 4px;
+        background: linear-gradient(90deg, #43ea5e 0%, #c70e0e 100%) !important;
+        color: #fff !important;
+        border: none !important;
+        border-radius: 6px !important;
+        font-weight: 500;
+        transition: background 0.2s, box-shadow 0.2s;
+        box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
+    }
+    .contribuable-actions .grp-button:hover {
+        background: linear-gradient(90deg, #1fae2e 0%, #d7bd25 100%) !important;
+        color: #fff !important;
+        box-shadow: 0 4px 16px rgba(44, 62, 80, 0.12);
+        text-decoration: none;
+    }
+    @media (max-width: 600px) {
+        .contribuable-container {
+            padding: 16px 4px;
+        }
+        .contribuable-title {
+            font-size: 1.2em;
+        }
+        .contribuable-table th, .contribuable-table td {
+            padding: 8px 6px;
+            font-size: 0.95em;
+        }
+    }
+</style>
+
+<div class="contribuable-container">
+    <div class="contribuable-title">
+        <i class="fa fa-users"></i>
+        Liste des contribuables
+    </div>
+    <div class="contribuable-table-container">
+        <table class="contribuable-table">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Zone</th>
+                    <th>Type</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for contribuable in contribuables %}
+                <tr>
+                    <td>{{ contribuable.nom }}</td>
+                    <td>{{ contribuable.zone }}</td>
+                    <td>{{ contribuable.get_type_contribuable_display }}</td>
+                    <td class="contribuable-actions">
+                        <a href="{% url 'gestion_contribuables:contribuable_detail' contribuable.pk %}" class="grp-button grp-default">Détails</a>
+                        <a href="{% url 'gestion_contribuables:historique_contribuable' contribuable.pk %}" class="grp-button grp-default">Historique</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="contribuable-empty">Aucun contribuable trouvé.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,199 @@
+{% extends "admin/base_site.html" %}
+{% load i18n grp_tags static %}
+
+{% block bodyclass %}custom-login-page{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+<style>
+    html, body.custom-login-page {
+        height: 100%;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+        background: #fff;
+        font-family: 'Roboto', Arial, sans-serif;
+    }
+    .login-viewport {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .login-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    .login-logo {
+        width: 90px;
+        margin-bottom: 18px;
+    }
+    .login-title {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 2.5em;
+        color: #22b12c;
+        font-weight: 700;
+        margin-bottom: 8px;
+        letter-spacing: 1px;
+    }
+    .login-subtitle {
+        color: #ffffff;
+        font-size: 1.2em;
+        margin-bottom: 24px;
+    }
+    .login-form-box {
+        background: #181818;
+        border-radius: 16px;
+        padding: 32px 28px 24px 28px;
+        box-shadow: none;
+        min-width: 340px;
+        max-width: 100vw;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .form-row {
+        margin-bottom: 18px;
+        width: 100%;
+    }
+    .form-row label {
+        font-weight: 700;
+        color: #22b12c;
+        margin-bottom: 6px;
+        display: block;
+        font-size: 1.1em;
+    }
+    .form-row input[type="text"],
+    .form-row input[type="password"] {
+        width: 100%;
+        padding: 12px 14px;
+        border-radius: 12px;
+        border: 2px solid #b6e6c9;
+        font-size: 1.1em;
+        background: #f8fafc;
+        transition: border-color 0.2s, box-shadow 0.2s;
+        margin-bottom: 4px;
+    }
+    .form-row input:focus {
+        border-color: #22b12c;
+        box-shadow: 0 0 0 2px #43ea5e33;
+        background: #fff;
+    }
+    .grp-error-row .errornote {
+        color: #e74c3c;
+        font-size: 0.98em;
+        margin-bottom: 8px;
+        text-align: left;
+    }
+    .grp-submit-row {
+        width: 100%;
+        margin-top: 18px;
+        display: flex;
+        justify-content: center;
+    }
+    .grp-button.grp-default {
+        background: linear-gradient(90deg, #22b12c 0%, #158a1a 100%);
+        color: #fff !important;
+        border: none;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 1.2em;
+        padding: 12px 0;
+        width: 100%;
+        box-shadow: none;
+        transition: background 0.2s, box-shadow 0.2s;
+        cursor: pointer;
+    }
+    .grp-button.grp-default:hover {
+        background: linear-gradient(90deg, #158a1a 0%, #22b12c 100%);
+        color: #fff !important;
+    }
+    .forgot-link {
+        display: block;
+        text-align: right;
+        margin-top: 8px;
+        font-size: 0.98em;
+    }
+    .forgot-link a {
+        color: #22b12c;
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+    .forgot-link a:hover {
+        color: #158a1a;
+        text-decoration: underline;
+    }
+    @media (max-width: 500px) {
+        .login-form-box {
+            padding: 18px 4px 12px 4px;
+            min-width: 0;
+        }
+        .login-title {
+            font-size: 1.3em;
+        }
+    }
+    #grp-navigation, .grp-navigation, nav, .nav-global {
+        display: none !important;
+    }
+</style>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+{% block breadcrumbs %}{% endblock %}
+{% block title %}{% endblock %}
+
+{% block content %}
+<div class="login-viewport">
+    <div class="login-header">
+        <img src="{% static 'img/logo_mairie.png' %}" alt="Logo" class="login-logo">
+        <div class="login-title">Administration RETAM</div>
+        <div class="login-subtitle">Connexion à l’interface du système de gestion des redevances et taxes</div>
+    </div>
+    <form action="{{ app_path }}" method="post" novalidate>
+        {% csrf_token %}
+        <div class="login-form-box">
+            {% if form.errors and not form.non_field_errors %}
+                <div class="grp-row grp-error-row">
+                    <p class="errornote">{% if form.errors.items|length == 1 %}{% trans "Please correct the error below." %}{% else %}{% trans "Please correct the errors below." %}{% endif %}</p>
+                </div>
+            {% endif %}
+            {% if form.non_field_errors %}
+                <div class="grp-row grp-error-row">
+                    {% for error in form.non_field_errors %}
+                        <p class="errornote">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% if error_message %}
+                <div class="grp-row grp-error-row">
+                    <p class="errornote">{{ error_message }}</p>
+                </div>
+            {% endif %}
+            <div class="form-row{% if form.username.errors %} grp-errors{% endif %}">
+                <label for="id_username" class="required">{{ form.username.label }}</label>
+                <input type="text" name="username" id="id_username" autocomplete="username" />
+                {% if form.username.errors %}{{ form.username.errors }}{% endif %}
+            </div>
+            <div class="form-row{% if form.password.errors %} grp-errors{% endif %}">
+                <label for="id_password" class="required">{{ form.password.label }}</label>
+                <input type="password" name="password" id="id_password" autocomplete="current-password" />
+                <input type="hidden" name="next" value="{{ next }}" />
+                {% if form.password.errors %}{{ form.password.errors }}{% endif %}
+            </div>
+            {% url 'admin_password_reset' as password_reset_url %}
+            {% if password_reset_url %}
+                <div class="forgot-link">
+                    <a href="{{ password_reset_url }}">{% trans 'Forgotten your password or username?' %}</a>
+                </div>
+            {% endif %}
+            <div class="grp-module grp-submit-row">
+                <input type="submit" class="grp-button grp-default" value="Connexion" />
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+LOGOUT_REDIRECT_URL = '/admin/login/'

@@ -1,0 +1,837 @@
+.grp-chart-container {
+    background: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.grp-chart-container h2 {
+    margin-top: 0;
+    color: #666;
+    font-size: 16px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+/* ===== DESIGN ULTRA-MODERNE POUR LES FORMULAIRES ===== */
+
+/* Variables CSS pour le design moderne */
+:root {
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    --accent-color: #6366f1;
+    --accent-light: #a5b4fc;
+    --surface: #ffffff;
+    --surface-elevated: #f8fafc;
+    --surface-hover: #f1f5f9;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --border-light: #e2e8f0;
+    --border-focus: #6366f1;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+}
+
+/* OVERRIDE COMPLET - Application directe sur tous les formulaires */
+
+/* Container principal du formulaire ultra-moderne */
+.grp-change-form form,
+body.grp-change-form form {
+    background: var(--surface) !important;
+    border-radius: var(--radius-xl) !important;
+    box-shadow: var(--shadow-xl) !important;
+    padding: 2rem !important;
+    margin: 2rem 0 !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+/* Effet de brillance subtil */
+.grp-change-form form::before,
+body.grp-change-form form::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+    transition: left 0.5s;
+    pointer-events: none;
+}
+
+.grp-change-form form:hover::before,
+body.grp-change-form form:hover::before {
+    left: 100%;
+}
+
+/* Fieldsets modernes */
+.grp-change-form .grp-module,
+body.grp-change-form .grp-module {
+    background: var(--surface-elevated) !important;
+    border: 1px solid var(--border-light) !important;
+    border-radius: var(--radius-lg) !important;
+    padding: 2rem !important;
+    margin-bottom: 2rem !important;
+    box-shadow: var(--shadow-sm) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    position: relative !important;
+}
+
+.grp-change-form .grp-module:hover,
+body.grp-change-form .grp-module:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: var(--shadow-md) !important;
+    border-color: var(--accent-light) !important;
+}
+
+/* Titres de sections ultra-modernes */
+body.grp-change-form .grp-module h2,
+body.grp-change-form .grp-module .grp-collapse-handler {
+    color: var(--text-primary) !important;
+    font-size: 1.25rem !important;
+    font-weight: 600 !important;
+    margin-bottom: 1.5rem !important;
+    padding-bottom: 0.75rem !important;
+    border-bottom: 2px solid var(--accent-color) !important;
+    position: relative !important;
+    background: none !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+}
+
+body.grp-change-form .grp-module h2::before {
+    content: '';
+    width: 4px;
+    height: 1.5rem;
+    background: var(--primary-gradient);
+    border-radius: 2px;
+}
+
+/* Labels modernes */
+body.grp-change-form .grp-module label {
+    font-weight: 600 !important;
+    color: var(--text-primary) !important;
+    font-size: 0.875rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    margin-bottom: 0.5rem !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+}
+
+/* Champs de saisie ultra-modernes - Application directe */
+.grp-module input[type="text"],
+.grp-module input[type="number"],
+.grp-module input[type="email"],
+.grp-module input[type="date"],
+.grp-module input[type="datetime-local"],
+.grp-module select,
+.grp-module textarea {
+    width: 100% !important;
+    padding: 1rem 1.25rem !important;
+    border: 2px solid var(--border-light) !important;
+    border-radius: var(--radius-md) !important;
+    font-size: 1rem !important;
+    background: var(--surface) !important;
+    color: var(--text-primary) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: var(--shadow-sm) !important;
+    position: relative !important;
+}
+
+body.grp-change-form .grp-module input:focus,
+body.grp-change-form .grp-module select:focus,
+body.grp-change-form .grp-module textarea:focus {
+    outline: none !important;
+    border-color: var(--border-focus) !important;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1), var(--shadow-md) !important;
+    background: var(--surface) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Lignes de formulaire */
+body.grp-change-form .grp-row,
+body.grp-change-form .form-row {
+    margin-bottom: 1.5rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.5rem !important;
+    position: relative !important;
+}
+
+/* Textarea spécial */
+body.grp-change-form .grp-module textarea {
+    min-height: 120px !important;
+    resize: vertical !important;
+    font-family: inherit !important;
+}
+
+/* Select moderne */
+body.grp-change-form .grp-module select {
+    cursor: pointer !important;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e") !important;
+    background-position: right 0.75rem center !important;
+    background-repeat: no-repeat !important;
+    background-size: 1.5em 1.5em !important;
+    padding-right: 3rem !important;
+}
+
+/* Messages d'erreur stylés */
+body.grp-change-form .errorlist {
+    background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%) !important;
+    border: 1px solid #fca5a5 !important;
+    border-radius: var(--radius-md) !important;
+    padding: 1rem !important;
+    margin: 0.5rem 0 !important;
+    color: #dc2626 !important;
+    font-size: 0.875rem !important;
+    list-style: none !important;
+}
+
+body.grp-change-form .errorlist li {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+}
+
+body.grp-change-form .errorlist li::before {
+    content: '⚠️';
+    font-size: 1rem;
+}
+
+/* Animations d'entrée */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+body.grp-change-form .grp-module {
+    animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+body.grp-change-form .grp-module:nth-child(2) { animation-delay: 0.1s !important; }
+body.grp-change-form .grp-module:nth-child(3) { animation-delay: 0.2s !important; }
+body.grp-change-form .grp-module:nth-child(4) { animation-delay: 0.3s !important; }
+
+/* Boutons d'ajout/suppression ultra-modernes */
+body.grp-change-form .grp-add-item,
+body.grp-change-form .grp-remove-item,
+body.grp-change-form .add-row,
+body.grp-change-form .delete-row {
+    background: var(--success-gradient) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 50% !important;
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 1.25rem !important;
+    cursor: pointer !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: var(--shadow-md) !important;
+    margin-left: 0.5rem !important;
+}
+
+body.grp-change-form .grp-add-item:hover,
+body.grp-change-form .add-row:hover {
+    transform: scale(1.1) rotate(90deg) !important;
+    box-shadow: var(--shadow-lg) !important;
+}
+
+body.grp-change-form .grp-remove-item:hover,
+body.grp-change-form .delete-row:hover {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%) !important;
+    transform: scale(1.1) rotate(180deg) !important;
+}
+
+/* Micro-interactions et animations avancées */
+body.grp-change-form .validation-icon {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: bold;
+    font-size: 1.25rem;
+    z-index: 10;
+    transition: all 0.3s ease;
+}
+
+body.grp-change-form .validation-icon.success {
+    color: #10b981;
+    animation: bounceIn 0.5s ease;
+}
+
+body.grp-change-form .validation-icon.error {
+    color: #ef4444;
+    animation: shakeX 0.5s ease;
+}
+
+@keyframes bounceIn {
+    0% { transform: translateY(-50%) scale(0); }
+    50% { transform: translateY(-50%) scale(1.2); }
+    100% { transform: translateY(-50%) scale(1); }
+}
+
+@keyframes shakeX {
+    0%, 100% { transform: translateY(-50%) translateX(0); }
+    25% { transform: translateY(-50%) translateX(-5px); }
+    75% { transform: translateY(-50%) translateX(5px); }
+}
+
+/* États de validation */
+body.grp-change-form .error-state input,
+body.grp-change-form .error-state select,
+body.grp-change-form .error-state textarea {
+    border-color: #ef4444 !important;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1) !important;
+    animation: shakeX 0.3s ease;
+}
+
+body.grp-change-form .success-state input,
+body.grp-change-form .success-state select,
+body.grp-change-form .success-state textarea {
+    border-color: #10b981 !important;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1) !important;
+}
+
+/* Effet ripple pour les boutons */
+body.grp-change-form .ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.6);
+    transform: scale(0);
+    animation: ripple-animation 0.6s linear;
+    pointer-events: none;
+}
+
+@keyframes ripple-animation {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* Indicateur de sauvegarde automatique */
+.auto-save-indicator {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-md);
+    padding: 0.75rem 1rem;
+    box-shadow: var(--shadow-lg);
+    font-size: 0.875rem;
+    font-weight: 500;
+    z-index: 9999;
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.auto-save-indicator.saving,
+.auto-save-indicator.saved {
+    transform: translateX(0);
+}
+
+.auto-save-indicator.saving {
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+.auto-save-indicator.saved {
+    color: #10b981;
+    border-color: #10b981;
+}
+
+/* Barre de progression du formulaire */
+.form-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: var(--primary-gradient);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+    z-index: 9999;
+}
+
+/* Floating labels */
+body.grp-change-form .floating-active {
+    transform: translateY(-1.5rem) scale(0.85) !important;
+    color: var(--accent-color) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Champs requis avec indicateur visuel */
+body.grp-change-form .grp-module input:required:invalid {
+    border-color: #f87171 !important;
+}
+
+body.grp-change-form .grp-module input:required:valid {
+    border-color: #34d399 !important;
+}
+
+/* Responsive pour le design ultra-moderne */
+@media (max-width: 1200px) {
+    body.grp-change-form form {
+        margin: 1rem !important;
+        padding: 1.5rem !important;
+    }
+
+    body.grp-change-form .grp-module {
+        padding: 1.5rem !important;
+    }
+}
+
+@media (max-width: 768px) {
+    body.grp-change-form form {
+        margin: 0.5rem !important;
+        padding: 1rem !important;
+        border-radius: var(--radius-md) !important;
+    }
+
+    body.grp-change-form .grp-module {
+        padding: 1rem !important;
+        margin-bottom: 1rem !important;
+    }
+
+    body.grp-change-form .grp-module h2 {
+        font-size: 1.125rem !important;
+    }
+
+    body.grp-change-form .grp-module input,
+    body.grp-change-form .grp-module select,
+    body.grp-change-form .grp-module textarea {
+        padding: 0.875rem 1rem !important;
+    }
+}
+
+/* Mode sombre (optionnel) */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --surface: #1e293b;
+        --surface-elevated: #334155;
+        --surface-hover: #475569;
+        --text-primary: #f8fafc;
+        --text-secondary: #cbd5e1;
+        --border-light: #475569;
+    }
+}
+
+/* ===== OVERRIDE COMPLET POUR DESIGN ULTRA-MODERNE ===== */
+
+/* Formulaires avec design moderne - Application immédiate */
+form {
+    background: var(--surface) !important;
+    border-radius: var(--radius-xl) !important;
+    box-shadow: var(--shadow-xl) !important;
+    padding: 2rem !important;
+    margin: 2rem 0 !important;
+    position: relative !important;
+}
+
+/* Fieldsets modernes - Override complet */
+.grp-module {
+    background: var(--surface-elevated) !important;
+    border: 1px solid var(--border-light) !important;
+    border-radius: var(--radius-lg) !important;
+    padding: 2rem !important;
+    margin-bottom: 2rem !important;
+    box-shadow: var(--shadow-sm) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.grp-module:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: var(--shadow-md) !important;
+    border-color: var(--accent-light) !important;
+}
+
+/* Titres de sections ultra-modernes */
+.grp-module h2,
+.grp-module .grp-collapse-handler {
+    color: var(--text-primary) !important;
+    font-size: 1.25rem !important;
+    font-weight: 600 !important;
+    margin-bottom: 1.5rem !important;
+    padding-bottom: 0.75rem !important;
+    border-bottom: 2px solid var(--accent-color) !important;
+    background: none !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+}
+
+.grp-module h2::before {
+    content: '';
+    width: 4px;
+    height: 1.5rem;
+    background: var(--primary-gradient);
+    border-radius: 2px;
+}
+
+/* Labels modernes - Override complet */
+.grp-module label {
+    font-weight: 600 !important;
+    color: var(--text-primary) !important;
+    font-size: 0.875rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    margin-bottom: 0.5rem !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+}
+
+/* Champs de saisie ultra-modernes - Override complet */
+.grp-module input[type="text"],
+.grp-module input[type="number"],
+.grp-module input[type="email"],
+.grp-module input[type="date"],
+.grp-module input[type="datetime-local"],
+.grp-module select,
+.grp-module textarea {
+    width: 100% !important;
+    padding: 1rem 1.25rem !important;
+    border: 2px solid var(--border-light) !important;
+    border-radius: var(--radius-md) !important;
+    font-size: 1rem !important;
+    background: var(--surface) !important;
+    color: var(--text-primary) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    box-shadow: var(--shadow-sm) !important;
+}
+
+.grp-module input:focus,
+.grp-module select:focus,
+.grp-module textarea:focus {
+    outline: none !important;
+    border-color: var(--border-focus) !important;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1), var(--shadow-md) !important;
+    background: var(--surface) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Animations d'entrée */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.grp-module {
+    animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.grp-module:nth-child(2) { animation-delay: 0.1s !important; }
+.grp-module:nth-child(3) { animation-delay: 0.2s !important; }
+.grp-module:nth-child(4) { animation-delay: 0.3s !important; }
+
+/* Boutons */
+.grp-button, .button, input[type="submit"] {
+    background: linear-gradient(90deg, #0f5a1c 0%, #1fae2e 100%) !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 6px !important;
+    font-weight: 500;
+    padding: 10px 22px !important;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
+}
+.grp-button:hover, .button:hover, input[type="submit"]:hover {
+    background: linear-gradient(90deg, #095711 0%, #43ea5e 100%) !important;
+    color: #fff !important;
+    box-shadow: 0 4px 16px rgba(44, 62, 80, 0.12);
+}
+
+/* Titres */
+h1, h2, h3, h4, h5, h6,
+.grp-module h1, .grp-module h2, .grp-module h3 {
+    color: #fff !important;
+}
+.titre-section, .section-title, .module-title {
+    color: #fff !important;
+}
+
+/* Largeur étendue UNIQUEMENT pour les formulaires (change-form) */
+body.grp-change-form #grp-content {
+    max-width: calc(90% + 250px) !important;
+    width: calc(90% + 250px) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-right: 250px !important;
+}
+
+/* Responsive pour la largeur étendue des formulaires */
+@media (min-width: 1600px) {
+    body.grp-change-form #grp-content {
+        max-width: calc(1440px + 250px) !important;
+    }
+}
+
+@media (max-width: 1200px) {
+    body.grp-change-form #grp-content {
+        width: 90% !important;
+        max-width: 90% !important;
+        padding-right: 0 !important;
+    }
+}
+
+@media (max-width: 768px) {
+    body.grp-change-form #grp-content {
+        width: 95% !important;
+        max-width: 95% !important;
+        padding-right: 0 !important;
+    }
+}
+
+/* Tableaux/listes gardent la largeur totale - priorité maximale */
+body.grp-change-list #grp-content,
+body.grp-app-index #grp-content,
+body.grp-index #grp-content,
+body:not(.grp-change-form) #grp-content {
+    width: 100% !important;
+    max-width: none !important;
+    padding-right: 0 !important;
+    margin: 0 !important;
+    padding-left: 0 !important;
+}
+
+/* Responsive pour les modules Grappelli */
+@media (max-width: 900px) {
+    .grp-module, .grp-group, .grp-row, .grp-table {
+        width: 100% !important;
+        overflow-x: auto;
+        font-size: 0.98em;
+    }
+    .grp-header, .grp-menu {
+        padding: 0.5em 0.5em;
+    }
+    /* Éviter de modifier .grp-content ici pour préserver notre largeur étendue */
+}
+    .grp-table th, .grp-table td {
+        padding: 0.5em;
+        white-space: normal;
+    }
+    .grp-actions {
+        flex-direction: column;
+        gap: 0.5em;
+    }
+    .grp-menu ul {
+        flex-direction: column;
+    }
+    /* Navigation latérale et header */
+    .grp-header, .grp-menu {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+    }
+    .grp-menu li {
+        margin-bottom: 0.5em;
+    }
+    /* Formulaires */
+    .grp-module .form-row {
+        flex-direction: column !important;
+        align-items: stretch !important;
+    }
+}
+
+/* Encore plus petit écran */
+@media (max-width: 600px) {
+    .grp-module, .grp-group, .grp-row, .grp-table {
+        font-size: 0.93em;
+    }
+    .grp-header h1, .grp-header h2 {
+        font-size: 1.2em;
+    }
+    .grp-table th, .grp-table td {
+        font-size: 0.95em;
+        padding: 0.4em;
+    }
+    .grp-button, .button, input[type="submit"] {
+        padding: 8px 14px !important;
+        font-size: 0.98em !important;
+    }
+    /* Réduction des marges */
+    .grp-chart-container, .grp-module {
+        padding: 10px !important;
+        margin-bottom: 10px !important;
+    }
+    /* Masquer certains éléments secondaires si besoin */
+    .grp-header .grp-tools {
+        display: none !important;
+    }
+}
+
+/* Pour les tableaux qui débordent */
+.grp-table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+.grp-table-responsive table {
+    min-width: 600px;
+}
+
+/* Images et icônes responsives */
+img, svg, .fa, .grp-icon {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Correction pour les popups et modales */
+@media (max-width: 600px) {
+    .grp-popup, .grp-modal {
+        width: 95vw !important;
+        left: 2vw !important;
+        right: 2vw !important;
+        padding: 10px !important;
+    }
+}
+
+/* Correction pour les filtres latéraux */
+@media (max-width: 900px) {
+    .grp-filters {
+        width: 100% !important;
+        margin-bottom: 1em !important;
+    }
+}
+
+/* Correction pour les listes d'actions */
+@media (max-width: 600px) {
+    .grp-actions {
+        flex-direction: column !important;
+        gap: 0.5em !important;
+    }
+}
+
+/* Renforcement : en-têtes colonne toujours blancs + meilleur contraste */
+body #result_list thead th,
+body .grp-table thead th,
+body table thead th,
+body .change-list thead th,
+body #changelist-form thead th {
+    background: linear-gradient(90deg, var(--accent-1, #1fae2e) 0%, var(--accent-2, #0f5a1c) 100%) !important;
+    color: #ffffff !important;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.18) !important;
+    border-bottom: 2px solid rgba(255,255,255,0.06) !important;
+    vertical-align: middle !important;
+    white-space: nowrap !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 50 !important;
+}
+
+/* FORCER TOUS LES TITRES DE COLONNES EN BLANC — très spécifique pour battre d'autres règles */
+html body #result_list thead th,
+html body .grp-table thead th,
+html body table#result_list thead th,
+html body .grp-changelist-results thead th,
+html body .change-list thead th,
+html body .module table thead th {
+    color: #ffffff !important;
+    text-shadow: 0 1px 0 rgba(0,0,0,0.18) !important;
+}
+
+/* éléments internes (liens, spans, icônes SVG) */
+html body #result_list thead th *,
+html body .grp-table thead th * {
+    color: #ffffff !important;
+    fill: #ffffff !important;
+    stroke: #ffffff !important;
+    opacity: 1 !important;
+}
+
+/* liens/textes triables dans les th */
+html body #result_list thead th a,
+html body .grp-table thead th a,
+html body #result_list thead th .grp-text,
+html body .grp-table thead th .grp-text {
+    color: #ffffff !important;
+    text-decoration: none !important;
+}
+
+/* cas extrêmes : si un style inline ou très spécifique persiste */
+html > body > * table#result_list thead th,
+html > body > * .grp-table thead th {
+    color: #ffffff !important;
+}
+
+/* Optionnel : augmenter contraste si gradient trop sombre */
+@media (prefers-contrast: high) {
+    body #result_list thead th,
+    body .grp-table thead th {
+        text-shadow: none !important;
+        border-bottom-color: rgba(255,255,255,0.12) !important;
+    }
+}
+
+/* Contrastes / bande colorée pour titres et en-têtes admin */
+:root{
+  --admin-accent-1: #0f6fb6;
+  --admin-accent-2: #2db45a;
+  --admin-title-contrast: #ffffff;
+  --admin-fieldset-bg: #eaf6fb;
+}
+
+/* Bande colorée pour les titres principaux dans la zone de contenu */
+#content h1,
+.breadcrumbs h1,
+.change-form h1,
+.module h2 {
+  color: var(--admin-title-contrast) !important;
+  background: linear-gradient(90deg, var(--admin-accent-1), #3db2ff) !important;
+  padding: 8px 14px !important;
+  border-radius: 8px !important;
+  display: inline-block !important;
+  box-shadow: 0 4px 12px rgba(15,111,182,0.12) !important;
+}
+
+/* Titres de fieldset / sections de formulaire (contraste sombre sur clair) */
+fieldset h2, .fieldset h2, .module .caption {
+  background: var(--admin-fieldset-bg) !important;
+  color: #0a384f !important;
+  padding: 6px 10px !important;
+  border-radius: 6px !important;
+  display: inline-block !important;
+}
+
+/* En-têtes des listes (changelist) */
+.result-list thead th {
+  background: linear-gradient(90deg, var(--admin-accent-2), #1f8a4f) !important;
+  color: #fff !important;
+  border-bottom: 2px solid rgba(0,0,0,0.06) !important;
+}
+
+/* Boutons d'outils et labels : s'assurer que le texte reste lisible */
+.object-tools, .module .object-tools, .breadcrumbs, .subnav {
+  color: inherit !important;
+}
+
+/* Ajustements responsive */
+@media (max-width:720px) {
+  #content h1, .module h2, .change-form h1 { padding:6px 10px !important; font-size:1rem !important; }
+  .result-list thead th { font-size:0.95rem !important; }
+}

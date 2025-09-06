@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Carte - Geolocalisation (Google Maps)</title>
+  <style>
+    html,body,#map { height: 100%; margin: 0; padding: 0; }
+    #map { width: 100%; height: 80vh; }
+    .map-toolbar { padding: 12px; display:flex; gap:12px; align-items:center; }
+    .map-toolbar a { text-decoration:none; color:#0a384f; font-weight:600; }
+  </style>
+</head>
+<body>
+  <div class="map-toolbar">
+    <a href="{% url 'admin:index' %}">&larr; Retour admin</a>
+    <div style="flex:1"></div>
+    <div>Carte centrée sur le Sénégal</div>
+  </div>
+
+  <div id="map"></div>
+
+  <script>
+    const locations = {{ locations_json|safe }};
+    function initMap() {
+      // centre approximatif du Sénégal
+      const centerSenegal = { lat: 14.4974, lng: -14.4524 };
+      const map = new google.maps.Map(document.getElementById('map'), {
+        center: centerSenegal,
+        zoom: 6,
+        mapTypeId: 'roadmap'
+      });
+
+      const bounds = new google.maps.LatLngBounds();
+
+      locations.forEach((loc) => {
+        try {
+          const pos = { lat: parseFloat(loc.lat), lng: parseFloat(loc.lng) };
+          const marker = new google.maps.Marker({
+            position: pos,
+            map,
+            title: loc.name || ''
+          });
+          const info = new google.maps.InfoWindow({
+            content: `<div style="min-width:160px;"><strong>${(loc.name||'')}</strong><div style="font-size:0.9em;color:#444;">ID: ${loc.id||''}</div></div>`
+          });
+          marker.addListener('click', () => info.open(map, marker));
+          bounds.extend(pos);
+        } catch (e) {
+          // ignore invalid coord
+          console.warn('Coord invalid for', loc, e);
+        }
+      });
+
+      // si locations non vides, adapter le zoom/centering
+      if (locations.length) {
+        map.fitBounds(bounds);
+      }
+    }
+  </script>
+
+  <script async
+    src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&callback=initMap">
+  </script>
+</body>
+</html>

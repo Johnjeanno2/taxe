@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détail du Contribuable | RETAM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2ecc40;    /* vert */
+            --secondary: #ffe066;  /* jaune */
+            --accent: #ff4136;     /* rouge */
+            --success: #2ecc40;    /* vert */
+            --danger: #ff4136;     /* rouge */
+            --bg: #f7faff;
+            --white: #fff;
+            --text: #1a2233;
+            --muted: #adb5bd;
+            --shadow: 0 8px 32px 0 rgba(67,97,238,0.10);
+            --radius: 16px;
+        }
+
+        html, body {
+            height: 100%;
+        }
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            font-family: 'Roboto', Arial, sans-serif;
+            color: var(--text);
+            margin: 0;
+            padding-top: 3rem; /* Ajoute un padding en haut */
+        }
+        .center-container {
+            width: 100vw;
+            min-height: 100vh;
+            display: flex;
+            align-items: flex-start; /* Modifie ici pour aligner en haut */
+            justify-content: center;
+        }
+        .card {
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 2.5rem 2.5rem 2rem 2.5rem;
+            max-width: 600px;
+            width: 100%;
+            margin: 3rem 2rem 2rem 2rem; /* Ajoute une marge en haut */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeIn 0.7s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px);}
+            to   { opacity: 1; transform: translateY(0);}
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.4rem;
+        }
+        .header small {
+            color: var(--muted);
+            font-size: 1rem;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.5em 1.2em;
+            border-radius: 50px;
+            font-size: 0.95em;
+            font-weight: 600;
+            margin-top: 1em;
+            letter-spacing: 1px;
+        }
+        .badge-active {
+            background: rgba(67, 170, 139, 0.15);
+            color: var(--success);
+        }
+        .badge-inactive {
+            background: rgba(255, 89, 94, 0.15);
+            color: var(--danger);
+        }
+        .info-grid {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.2rem;
+            margin-bottom: 1.8rem;
+        }
+        .info-item {
+            background: var(--bg);
+            padding: 1rem 1.2rem;
+            border-radius: 10px;
+            font-size: 1.07em;
+            box-shadow: 0 2px 8px rgba(67,97,238,0.03);
+        }
+        .info-item strong {
+            color: var(--accent);
+            display: block;
+            margin-bottom: 0.3em;
+            font-weight: 500;
+        }
+        .adresse-item {
+            width: 100%;
+            margin-bottom: 2rem;
+            background: var(--bg);
+            padding: 1rem 1.2rem;
+            border-radius: 10px;
+            font-size: 1.07em;
+            box-shadow: 0 2px 8px rgba(67,97,238,0.03);
+        }
+        .adresse-item strong {
+            color: var(--accent);
+            display: block;
+            margin-bottom: 0.3em;
+            font-weight: 500;
+        }
+        h2 {
+            color: var(--accent);
+            font-size: 1.25rem;
+            margin: 2rem 0 1rem 0;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(67,97,238,0.05);
+            margin-bottom: 1.2rem;
+        }
+        th, td {
+            padding: 0.95rem 0.7rem;
+            text-align: left;
+        }
+        th {
+            background: var(--primary);
+            color: var(--white);
+            font-weight: 500;
+            font-size: 1em;
+            border: none;
+        }
+        tr:nth-child(even) td {
+            background: #f2f6fd;
+        }
+        tr:hover td {
+            background: #e4f2ff;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: var(--muted);
+        }
+        .actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+        .btn {
+            padding: 0.7rem 1.5rem;
+            border-radius: var(--radius);
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            font-size: 1em;
+            transition: all 0.25s;
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
+        }
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+        .btn-primary:hover {
+            background: var(--accent);
+        }
+        .btn-secondary {
+            background: var(--bg);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+        .btn-secondary:hover {
+            background: var(--secondary);
+            color: var(--white);
+        }
+        .btn-print {
+            background: var(--success);
+            color: var(--white);
+        }
+        .btn-print:hover {
+            background: #238a62;
+        }
+        @media (max-width: 700px) {
+            .card {
+                padding: 1rem;
+            }
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media print {
+            .no-print { display: none; }
+            body { background: white; color: black; }
+            .card { box-shadow: none; }
+        }
+    </style>
+</head>
+<body>
+<div class="center-container">
+    <div class="card">
+        <div class="header">
+            <h1>{{ contribuable.nom }}</h1>
+            <small>NIF : {{ contribuable.nif }}</small>
+            <div>
+                <span class="badge {% if contribuable.actif %}badge-active{% else %}badge-inactive{% endif %}">
+                    {% if contribuable.actif %}Actif{% else %}Inactif{% endif %}
+                </span>
+            </div>
+        </div>
+        <div class="info-grid">
+            <div class="info-item">
+                <strong>Type de contribuable</strong>
+                {{ contribuable.get_type_contribuable_display }}
+            </div>
+            <div class="info-item">
+                <strong>Téléphone</strong>
+                {{ contribuable.telephone }}
+            </div>
+            <div class="info-item">
+                <strong>Email</strong>
+                {{ contribuable.email|default:"Non renseigné" }}
+            </div>
+            <div class="info-item">
+                <strong>Date d'inscription</strong>
+                {{ contribuable.date_inscription }}
+            </div>
+        </div>
+        <div class="adresse-item">
+            <strong>Adresse</strong>
+            {{ contribuable.adresse }}
+        </div>
+        <h2>Historique des paiements</h2>
+        {% if paiements %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Référence</th>
+                    <th>Montant</th>
+                    <th>Date de paiement</th>
+                    <th>Taxe/Redevance</th>
+                    <th class="no-print">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for paiement in paiements %}
+                <tr>
+                    <td>{{ paiement.reference }}</td>
+                    <td>{{ paiement.montant }} FCFA</td>
+                    <td>{{ paiement.date_paiement }}</td>
+                    <td>{{ paiement.get_taxe_redevance_display }}</td>
+                    <td class="no-print">
+                        <a href="#" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.9em;">
+                            <i class="fa-regular fa-file-lines"></i> Quittance
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="empty-state">
+            <i class="fa-regular fa-circle-xmark" style="font-size:2em; margin-bottom:0.5em;"></i>
+            <p>Aucun paiement enregistré pour ce contribuable.</p>
+        </div>
+        {% endif %}
+        <div class="actions no-print">
+            <a href="#" class="btn btn-primary">
+                <i class="fa-solid fa-pen-to-square"></i> Modifier
+            </a>
+            <a href="#" class="btn btn-secondary">
+                <i class="fa-solid fa-clock-rotate-left"></i> Historique
+            </a>
+            <button onclick="window.print()" class="btn btn-print">
+                <i class="fa-solid fa-print"></i> Imprimer
+            </button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

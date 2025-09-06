@@ -1,0 +1,11 @@
+# Activer Passenger (si installé sur cPanel)
+PassengerEnabled On
+# PassengerPython /home/USER/virtualenvs/retam/bin/python
+
+# Servir les fichiers statiques directement (adapte le chemin)
+RewriteEngine On
+RewriteRule ^static/(.*)$ /home/USER/path/to/retam/static/$1 [L]
+
+# Optionnel : définir variables d'environnement si tu ne peux pas via cPanel UI
+# SetEnv SECRET_KEY "your-secret-key"
+# SetEnv DEBUG "False"

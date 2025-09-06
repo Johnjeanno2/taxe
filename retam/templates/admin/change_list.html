@@ -1,0 +1,288 @@
+{% extends "admin/change_list.html" %}
+{% load static i18n %}
+
+{% block content %}
+  <style>
+    /* TITRE UNIQUE */
+    .retam-titles {
+      display:flex;
+      gap:12px;
+      align-items:center;
+      margin:10px 0 16px;
+      padding:10px 14px;
+      border-radius:10px;
+      background: linear-gradient(90deg,#0f6fb6 0%, #2db45a 100%);
+      box-shadow: 0 6px 18px rgba(15,111,182,0.08);
+      color: #fff;
+    }
+    .retam-titles .retam-main{ margin:0; font-size:1.15rem; font-weight:700; }
+    .retam-titles .retam-sub{ margin:0; font-size:0.95rem; font-weight:600; opacity:0.95; }
+    @media (max-width:720px){
+      .retam-titles{ flex-direction:column; gap:6px; }
+      .retam-titles .retam-main{ font-size:1rem }
+      .retam-titles .retam-sub{ font-size:0.9rem }
+    }
+
+    {% if opts.model_name == 'contribuable' or opts.model_name == 'paiement' %}
+    /* SECTION STATISTIQUES + CARD (chart height 420px) */
+    .retam-section-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:10px 14px;
+      margin:14px 0 8px;
+      border-radius:10px;
+      background: linear-gradient(90deg,#0f6fb6 0%, #2db45a 100%);
+      box-shadow: 0 6px 18px rgba(15,111,182,0.06);
+      color:#fff;
+    }
+    .chart-card{ background: linear-gradient(180deg,#ffffff,#fbfefb); border-radius:12px; padding:14px; border:1px solid rgba(11,90,43,0.05); box-shadow: 0 8px 24px rgba(11,90,43,0.04); }
+    .chart-card-header{ display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+    .chart-card-header h3{ margin:0; font-size:1rem; color:var(--chart-head-color, #0f5a1c); }
+    .chart-responsive{ width:100%; height:420px; position:relative; }
+    .chart-responsive canvas{ width:100% !important; height:100% !important; display:block; }
+    {% endif %}
+
+
+  </style>
+
+  <!-- template data-only -->
+  <div id="retam-titles-template" style="display:none"
+       data-main="{{ opts.verbose_name|capfirst|escapejs }}"
+       data-sub="{{ opts.verbose_name_plural|capfirst|escapejs }}">
+    <div class="retam-titles" role="banner" aria-label="{% trans 'Titres' %}">
+      <h1 class="retam-main"></h1>
+      <h2 class="retam-sub"></h2>
+    </div>
+  </div>
+
+  <!-- SECTION STATISTIQUES - Seulement pour contribuables et paiements -->
+  {% if opts.model_name == 'contribuable' or opts.model_name == 'paiement' %}
+  <div id="admin-charts-section" aria-label="Section statistiques">
+    <div class="retam-section-header" role="region" aria-label="Entête statistiques">
+      <div class="retam-section-title">Statistiques</div>
+      <div class="retam-section-sub">Montant collecté — 12 derniers mois</div>
+    </div>
+
+    <div id="admin-charts" aria-hidden="false">
+      <div class="chart-card" role="region" aria-label="Graphique montants">
+        <div class="chart-card-header">
+          <h3>Montant collecté — 12 derniers mois</h3>
+          <div class="chart-actions" aria-hidden="true"></div>
+        </div>
+        <div class="chart-responsive">
+          <canvas id="chart-container"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+
+
+
+  <!-- Filtres personnalisés désactivés pour éviter les conflits avec les filtres natifs -->
+
+  {{ block.super }}
+
+  <!-- JSON injection (si présent) - Seulement pour contribuables et paiements -->
+  {% if opts.model_name == 'contribuable' or opts.model_name == 'paiement' %}
+    {% if paiements_months_labels_json and paiements_months_data_json %}
+      <script id="paiements_months_labels_json" type="application/json">{{ paiements_months_labels_json|safe }}</script>
+      <script id="paiements_months_data_json" type="application/json">{{ paiements_months_data_json|safe }}</script>
+    {% endif %}
+    {% if stats %}
+      {{ stats|json_script:"stats-data" }}
+    {% endif %}
+  {% endif %}
+
+
+
+  <!-- Chart.js CDN - Seulement pour contribuables et paiements -->
+  {% if opts.model_name == 'contribuable' or opts.model_name == 'paiement' %}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
+  {% endif %}
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function(){
+      try{
+        // --- Insert unique title block and remove duplicates with same text ---
+        var tpl = document.getElementById('retam-titles-template');
+        if (tpl) {
+          var mainText = tpl.getAttribute('data-main') || '';
+          var subText  = tpl.getAttribute('data-sub') || '';
+
+          // remove existing exact-text duplicates (keep first occurrence)
+          function removeTextDuplicates(text){
+            if(!text) return;
+            var seen = false;
+            var nodes = Array.from(document.querySelectorAll('h1,.retam-main,.retam-sub,.retam-titles,.retam-single-title,.module h2,.change-form h1,.breadcrumbs h1,.object-tools a'));
+            nodes.forEach(function(n){
+              if(!n || !n.textContent) return;
+              var txt = n.textContent.trim();
+              if(txt === text){
+                if(!seen){
+                  seen = true; // keep this first found
+                } else {
+                  try{ n.remove(); }catch(e){}
+                }
+              }
+            });
+          }
+          removeTextDuplicates(mainText);
+          removeTextDuplicates(subText);
+
+          // ensure our controlled block exists and is first in header
+          if (!document.getElementById('retam-titles')) {
+            var node = tpl.querySelector('.retam-titles').cloneNode(true);
+            node.id = 'retam-titles';
+            node.querySelector('.retam-main').textContent = mainText;
+            node.querySelector('.retam-sub').textContent = subText;
+            var header = document.getElementById('grp-content-title') || document.querySelector('header#grp-content-title') || document.querySelector('#grp-content > header');
+            if (header) header.insertBefore(node, header.firstChild);
+            else {
+              var content = document.getElementById('grp-content-container') || document.getElementById('grp-content');
+              if(content) content.parentNode.insertBefore(node, content);
+            }
+          }
+        }
+
+        // --- Laisser les filtres natifs fonctionner normalement ---
+        try{
+          // S'assurer que les filtres natifs sont visibles et fonctionnels
+          var native = document.getElementById('changelist-filter') || document.querySelector('.module.filter') || document.querySelector('#filters');
+          if (native) {
+            native.style.display = ''; // s'assurer qu'il est visible
+            native.style.position = 'relative'; // s'assurer du positionnement
+            native.style.zIndex = 'auto'; // éviter les conflits de z-index
+          }
+
+          // Masquer notre zone de filtres personnalisée pour éviter les conflits
+          var customFilters = document.getElementById('retam-filters-top');
+          if (customFilters) {
+            customFilters.style.display = 'none';
+          }
+        }catch(e){
+          console.warn('Erreur lors de la restauration des filtres:', e);
+        }
+
+        {% if opts.model_name == 'contribuable' or opts.model_name == 'paiement' %}
+        // --- Chart rendering - Seulement pour contribuables et paiements ---
+        console.log('🎯 Modèle détecté:', '{{ opts.model_name }}');
+        var chartContainer = document.getElementById('chart-container');
+        console.log('📊 Chart container trouvé:', !!chartContainer);
+        console.log('📈 Chart.js disponible:', typeof Chart !== 'undefined');
+
+        if (chartContainer && typeof Chart !== 'undefined') {
+          var labels = null, values = null, title = 'Montant (FCFA)';
+          var elLabels = document.getElementById('paiements_months_labels_json');
+          var elValues = document.getElementById('paiements_months_data_json');
+          console.log('🔍 Éléments JSON trouvés - Labels:', !!elLabels, 'Values:', !!elValues);
+
+          if (elLabels) { try { labels = JSON.parse(elLabels.textContent || '[]'); } catch(e){ labels = null; console.error('❌ Erreur parsing labels:', e); } }
+          if (elValues) { try { values = JSON.parse(elValues.textContent || '[]'); } catch(e){ values = null; console.error('❌ Erreur parsing values:', e); } }
+
+          console.log('📋 Données récupérées - Labels:', labels, 'Values:', values);
+          var statsEl = document.getElementById('stats-data');
+          if ((!labels || !values) && statsEl) {
+            try {
+              var payload = JSON.parse(statsEl.textContent || '{}');
+              labels = labels || payload.labels;
+              values = values || payload.values;
+              title = payload.label || title;
+            } catch(e){}
+          }
+
+          if (labels && values && labels.length === values.length) {
+            console.log('✅ Création du graphique avec', labels.length, 'points de données');
+            var fmt = new Intl.NumberFormat('fr-FR', { maximumFractionDigits: 0 });
+            var ctx = chartContainer.getContext('2d');
+            if (window._retamStatsChart) window._retamStatsChart.destroy();
+
+            var valueLabels = {
+              id: 'valueLabels',
+              afterDatasetsDraw: function(chart) {
+                var ctx = chart.ctx;
+                chart.data.datasets.forEach(function(dataset, di){
+                  var meta = chart.getDatasetMeta(di);
+                  meta.data.forEach(function(el, i){
+                    var v = dataset.data[i];
+                    if (v == null) return;
+                    ctx.save();
+                    ctx.fillStyle = '#0f1724';
+                    ctx.font = '600 12px system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'bottom';
+                    var x = el.x;
+                    var y = el.y - 8;
+                    var txt = fmt.format(Math.round(v));
+                    ctx.lineWidth = 3;
+                    ctx.strokeStyle = 'rgba(255,255,255,0.85)';
+                    ctx.strokeText(txt, x, y);
+                    ctx.fillText(txt, x, y);
+                    ctx.restore();
+                  });
+                });
+              }
+            };
+
+            window._retamStatsChart = new Chart(ctx, {
+              type: 'bar',
+              data: {
+                labels: labels,
+                datasets: [{
+                  label: title,
+                  data: values,
+                  backgroundColor: 'rgba(31,174,46,0.92)',
+                  borderRadius: 8,
+                  barPercentage: 0.66,
+                  categoryPercentage: 0.8
+                }]
+              },
+              options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                  legend: { display: false },
+                  tooltip: {
+                    callbacks: {
+                      label: function(ctx) {
+                        return (ctx.dataset.label ? ctx.dataset.label + ': ' : '') + fmt.format(ctx.parsed.y) + ' FCFA';
+                      }
+                    }
+                  }
+                },
+                scales: {
+                  x: { grid: { display: false }, ticks: { color: '#0f1724' } },
+                  y: {
+                    beginAtZero: true,
+                    ticks: { color: '#0f1724', callback: function(v){ return fmt.format(v); } },
+                    grid: { color: 'rgba(15,23,36,0.06)' }
+                  }
+                },
+                layout: { padding: { top: 8, bottom: 8 } }
+              },
+              plugins: [valueLabels]
+            });
+
+            // debounce resize
+            var resizeTimer;
+            window.addEventListener('resize', function(){
+              clearTimeout(resizeTimer);
+              resizeTimer = setTimeout(function(){ if(window._retamStatsChart) window._retamStatsChart.resize(); }, 150);
+            });
+          } else {
+            console.log('❌ Impossible de créer le graphique - Labels:', !!labels, 'Values:', !!values, 'Longueurs égales:', labels && values && labels.length === values.length);
+          }
+        } else {
+          console.log('❌ Conditions non remplies - Container:', !!chartContainer, 'Chart.js:', typeof Chart !== 'undefined');
+        }
+        {% endif %}
+
+      }catch(e){
+        console.warn('retam change_list script error', e);
+      }
+    });
+  </script>
+
+{% endblock %}

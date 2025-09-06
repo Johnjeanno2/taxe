@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="fr">
+{% load i18n static %}
+<head>
+  <meta charset="utf-8">
+  <title>Partager la quittance</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    :root{
+      --accent:#0f6fb6;
+      --green:#25D366;
+      --muted:#6b7280;
+      --card-bg:#ffffff;
+      --radius:10px;
+      --max-width:980px;
+    }
+    body{font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;background:#f3f6f9;color:#0b1320;margin:18px}
+    .wrap{max-width:var(--max-width);margin:0 auto}
+    .panel{background:var(--card-bg);border-radius:var(--radius);padding:18px;border:1px solid #e6eef8;box-shadow:0 6px 18px rgba(12,18,30,0.04)}
+    .top{display:flex;align-items:center;gap:12px;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap}
+    .title{font-weight:700;font-size:1.05rem}
+    .meta{color:var(--muted);font-size:0.95rem}
+    .actions{display:flex;gap:10px;align-items:center}
+    .btn{
+      display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:8px;border:0;cursor:pointer;font-weight:700;color:#fff;text-decoration:none;
+    }
+    .btn-send{background:linear-gradient(90deg,var(--green),#128C7E)}
+    .btn-open{background:var(--accent)}
+    .preview{margin-top:12px;border-radius:8px;overflow:hidden;border:1px solid #e6eef8;background:#fff;min-height:520px;height:60vh}
+    .preview object{width:100%;height:100%}
+    .notice{margin-top:10px;color:var(--muted);font-size:0.92rem}
+
+    /* Supprimer les barres sombres et optimiser l'affichage */
+    body{overflow-x:hidden}
+    .wrap{padding-bottom:20px}
+
+    /* Améliorer la visibilité des boutons */
+    .btn{
+      font-size:0.95rem;
+      min-width:140px;
+      justify-content:center;
+      transition:all 0.2s ease;
+      box-shadow:0 2px 8px rgba(0,0,0,0.1);
+    }
+    .btn:hover{
+      transform:translateY(-1px);
+      box-shadow:0 4px 12px rgba(0,0,0,0.15);
+    }
+    .btn-send{
+      background:linear-gradient(90deg,var(--green),#128C7E);
+      border:2px solid transparent;
+    }
+    .btn-send:hover{
+      background:linear-gradient(90deg,#128C7E,var(--green));
+    }
+    .btn-open{
+      background:var(--accent);
+      border:2px solid transparent;
+    }
+    .btn-open:hover{
+      background:#0d5a94;
+    }
+
+    /* Supprimer les éléments sombres indésirables */
+    .dark-bar, .save-bar, .bottom-bar{display:none !important}
+
+    /* Masquer les barres d'outils Django admin indésirables */
+    .submit-row, .grp-submit-row, .admin-submit-row{display:none !important}
+    .object-tools, .grp-object-tools{display:none !important}
+    .breadcrumbs{display:none !important}
+
+    /* Masquer spécifiquement la barre sombre du haut */
+    .grp-header, .grp-navigation, .grp-toolbar, .grp-breadcrumbs{display:none !important}
+    .module h2, .module h3, .module .grp-row{display:none !important}
+    .grp-content-container .grp-content-title{display:none !important}
+
+    /* Masquer tous les éléments de navigation et barres d'outils */
+    nav, .navbar, .toolbar, .admin-toolbar{display:none !important}
+    .change-form .submit-row{display:none !important}
+
+    /* Masquer les éléments avec des classes contenant 'admin', 'grp', 'toolbar' */
+    [class*="admin-"], [class*="grp-"], [class*="toolbar"]{display:none !important}
+
+    /* Forcer l'affichage du contenu principal uniquement */
+    body > *:not(.wrap){display:none !important}
+
+    /* Masquer les éléments avec fond sombre */
+    [style*="background: #"], [style*="background:#"],
+    [class*="dark"], [class*="toolbar"], [class*="footer"]{
+      background:transparent !important;
+    }
+
+    /* S'assurer que le contenu principal est visible */
+    html, body{
+      background:#f3f6f9 !important;
+      min-height:100vh;
+      margin:0 !important;
+      padding:0 !important;
+    }
+
+    /* Réinitialiser complètement la page pour enlever tous les éléments admin */
+    body{
+      font-family:Inter,Segoe UI,Roboto,Arial,sans-serif !important;
+      background:#f3f6f9 !important;
+      color:#0b1320 !important;
+      margin:18px !important;
+    }
+
+    /* S'assurer que seul notre contenu est visible */
+    .wrap{
+      position:relative !important;
+      z-index:9999 !important;
+    }
+
+    /* Optimiser pour mobile */
+    @media(max-width:700px){
+      .top{flex-direction:column;align-items:stretch}
+      .actions{justify-content:space-between;gap:12px}
+      .btn{min-width:120px;padding:12px 16px}
+      body{margin:10px}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="panel">
+      <div class="top">
+        <div>
+          <div class="title">Partager la quittance</div>
+          <div class="meta">
+            Contribuable: {{ contribuable.nom|default:"—" }} — Référence: {{ paiement.reference|default:"—" }}
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="btnSend" class="btn btn-send" type="button" aria-label="Envoyer la quittance au contribuable">
+            📱 Envoyer au contribuable
+          </button>
+
+          <a class="btn btn-open" href="{{ file_url }}" target="_blank" rel="noopener" aria-label="Ouvrir ou imprimer la quittance">
+            🖨️ Ouvrir / Imprimer
+          </a>
+        </div>
+      </div>
+
+      <div class="preview" role="region" aria-label="Aperçu de la quittance">
+        {% if quittance_html %}
+          <div id="inlineQuittance">{{ quittance_html|safe }}</div>
+        {% else %}
+          <object data="{{ file_url }}" type="application/pdf">
+            <p style="padding:20px;color:var(--muted);">
+              Aperçu non disponible. <a href="{{ file_url }}" target="_blank" rel="noopener">Ouvrir le document</a>.
+            </p>
+          </object>
+        {% endif %}
+      </div>
+
+      <div class="notice">
+        Le bouton "Envoyer au contribuable" enverra la quittance au numéro enregistré du contribuable. Assurez‑vous que le numéro est correct.
+      </div>
+    </div>
+  </div>
+
+<script>
+(function(){
+  // nécessite que la vue admin fournisse send_url dans le contexte
+  const sendUrl = "{{ send_url|default:'' }}";
+  const btn = document.getElementById('btnSend');
+
+  function getCookie(name){
+    const v = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+    return v ? v.pop() : '';
+  }
+
+  async function postSend(){
+    if (!sendUrl) { alert("URL d'envoi manquante (send_url)."); return; }
+    if (!confirm("Confirmer l'envoi de la quittance au contribuable ?")) return;
+    btn.disabled = true; btn.textContent = "Envoi en cours…";
+    try {
+      const resp = await fetch(sendUrl, {
+        method: "POST",
+        credentials: "same-origin",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": getCookie('csrftoken')
+        },
+        body: JSON.stringify({})
+      });
+      const json = await resp.json().catch(()=>({}));
+      if (resp.ok) {
+        alert(json.msg || "Quittance envoyée.");
+      } else {
+        alert(json.msg || ("Erreur lors de l'envoi (" + resp.status + ")"));
+      }
+    } catch (e) {
+      console.error(e);
+      alert("Erreur réseau lors de l'envoi.");
+    } finally {
+      btn.disabled = false; btn.textContent = "📱 Envoyer au contribuable";
+    }
+  }
+
+  if (btn) btn.addEventListener('click', postSend);
+})();
+</script>
+</body>
+</html>

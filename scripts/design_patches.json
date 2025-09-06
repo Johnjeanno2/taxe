@@ -1,0 +1,93 @@
+{
+  "version": "1.0.0",
+  "description": "Configuration des patches de design pour les statistiques",
+  "patches": {
+    "stat_cards": {
+      "description": "Améliorations des cartes de statistiques",
+      "selectors": [
+        ".stat-card",
+        ".stat-icon", 
+        ".stat-value",
+        ".stat-title"
+      ],
+      "changes": [
+        {
+          "property": "background",
+          "value": "linear-gradient(145deg, #ffffff 0%, #f8fafc 100%)"
+        },
+        {
+          "property": "border-radius", 
+          "value": "24px"
+        },
+        {
+          "property": "box-shadow",
+          "value": "0 12px 40px rgba(30, 58, 92, 0.12), 0 4px 16px rgba(0, 0, 0, 0.04)"
+        }
+      ]
+    },
+    "tables": {
+      "description": "Améliorations des tableaux de statistiques",
+      "selectors": [
+        ".stat-table th",
+        ".stat-table td",
+        ".stat-table tr:hover td"
+      ],
+      "changes": [
+        {
+          "property": "padding",
+          "value": "20px"
+        },
+        {
+          "property": "transition",
+          "value": "all 0.3s ease"
+        }
+      ]
+    },
+    "badges": {
+      "description": "Améliorations des badges et étiquettes",
+      "selectors": [
+        ".type-badge",
+        ".zone-badge", 
+        ".count-badge"
+      ],
+      "changes": [
+        {
+          "property": "border-radius",
+          "value": "25px"
+        },
+        {
+          "property": "font-weight",
+          "value": "700"
+        },
+        {
+          "property": "text-transform",
+          "value": "uppercase"
+        }
+      ]
+    }
+  },
+  "animations": {
+    "shimmer": {
+      "keyframes": {
+        "0%, 100%": "background-position: 0% 50%",
+        "50%": "background-position: 100% 50%"
+      },
+      "duration": "3s",
+      "timing": "ease-in-out",
+      "iteration": "infinite"
+    },
+    "hover_effects": {
+      "transform": "translateY(-8px) scale(1.02)",
+      "transition": "all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1)"
+    }
+  },
+  "color_scheme": {
+    "primary": "#0a384f",
+    "secondary": "#d17e54", 
+    "accent": "#79aec8",
+    "success": "#4caf50",
+    "warning": "#ff6200",
+    "white": "#ffffff",
+    "light_bg": "#f8fafc"
+  }
+}

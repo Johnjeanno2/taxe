@@ -1,0 +1,114 @@
+{% load i18n static %}
+<div class="grp-related-widget-wrapper related-widget-wrapper">
+    {{ widget }}
+    {% block links %}
+        {% if can_change_related or can_add_related or can_delete_related %}
+            <ul class="grp-tools grp-related-widget-tools" aria-hidden="false" role="toolbar" aria-label="{% trans "Related object actions" %}">
+                {# Change related (si disponible) #}
+                {% if can_change_related %}
+                    <li>
+                        <a class="grp-related-widget-wrapper-link grp-change-related related-widget-wrapper-link change-related"
+                           id="change_id_{{ name }}"
+                           href="{{ change_related_template_url }}?{{ url_params }}"
+                           title="{% blocktrans %}Change selected {{ model }}{% endblocktrans %}"
+                           aria-label="{% blocktrans %}Change selected {{ model }}{% endblocktrans %}">
+                            <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <path fill="currentColor" d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                            </svg>
+                        </a>
+                    </li>
+                {% endif %}
+
+                {# Add related #}
+                {% if can_add_related %}
+                    <li>
+                        <a class="grp-related-widget-wrapper-link grp-add-related grp-add-another related-widget-wrapper-link add-related add-another"
+                           id="add_id_{{ name }}"
+                           href="{{ add_related_url }}?{{ url_params }}"
+                           title="{% blocktrans %}Add another {{ model }}{% endblocktrans %}"
+                           aria-label="{% blocktrans %}Add another {{ model }}{% endblocktrans %}">
+                            <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <path fill="currentColor" d="M19 13H13v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                            </svg>
+                        </a>
+                    </li>
+                {% endif %}
+
+                {# Delete related (si disponible) #}
+                {% if can_delete_related %}
+                    <li>
+                        <a class="grp-related-widget-wrapper-link grp-delete-related related-widget-wrapper-link delete-related"
+                           id="delete_id_{{ name }}"
+                           href="{{ delete_related_template_url }}?{{ url_params }}"
+                           title="{% blocktrans %}Delete selected {{ model }}{% endblocktrans %}"
+                           aria-label="{% blocktrans %}Delete selected {{ model }}{% endblocktrans %}">
+                            <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <path fill="currentColor" d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                            </svg>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        {% endif %}
+    {% endblock %}
+</div>
+
+<style>
+/* Styles spécifiques et discrets pour les contrôles liés */
+.grp-related-widget-wrapper {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  position:relative;
+  font-family: Inter, system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+}
+
+.grp-related-widget-tools {
+  display:flex;
+  gap:8px;
+  margin:0;
+  padding:0;
+  list-style:none;
+  align-items:center;
+}
+
+.grp-related-widget-tools li { display:inline-flex; }
+
+.grp-related-widget-wrapper-link {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:34px;
+  height:34px;
+  border-radius:8px;
+  background:transparent;
+  color: #0b5a2b;
+  border:1px solid rgba(11,90,43,0.06);
+  text-decoration:none;
+  transition: background .12s ease, transform .08s ease, box-shadow .12s ease;
+}
+
+.grp-related-widget-wrapper-link svg { width:16px; height:16px; }
+
+.grp-related-widget-wrapper-link:hover {
+  background: rgba(16,162,74,0.08);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(11,90,43,0.06);
+}
+
+.grp-related-widget-wrapper-link:focus,
+.grp-related-widget-wrapper-link:focus-visible {
+  outline: 3px solid rgba(22,163,74,0.16);
+  outline-offset:2px;
+}
+
+/* variants */
+.grp-add-related { color: #146a2a; background: linear-gradient(90deg,#e8f8ec,#f7fff8); }
+.grp-delete-related { color: #a82b2b; background: linear-gradient(90deg,#fff3f3,#fffaf9); }
+.grp-change-related { color: #0b4f28; background: linear-gradient(90deg,#f2fff4,#f9fff9); }
+
+/* compact on small screens */
+@media (max-width:480px){
+  .grp-related-widget-wrapper-link { width:30px; height:30px; border-radius:6px; }
+}
+</style>

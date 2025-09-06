@@ -1,0 +1,85 @@
+/* geolocalisation/static/geolocalisation/css/osm_map.css */
+
+/* Styles pour les marqueurs personnalisés */
+.custom-marker {
+    background: transparent;
+    border: none;
+}
+
+.custom-marker div {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Styles pour les popups */
+.zone-popup h4 {
+    margin: 0 0 10px 0;
+    color: #2c3e50;
+    font-size: 16px;
+}
+
+.zone-popup p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.contribuable-popup h5 {
+    margin: 0 0 10px 0;
+    color: #e74c3c;
+    font-size: 16px;
+}
+
+.contribuable-popup p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+/* Styles pour la barre de recherche */
+.leaflet-control-geosearch {
+    background: white;
+    border: 2px solid rgba(0,0,0,0.2);
+    border-radius: 4px;
+}
+
+.leaflet-control-geosearch input {
+    border: none;
+    outline: none;
+    padding: 8px 12px;
+    font-size: 14px;
+    width: 250px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .leaflet-control-geosearch input {
+        width: 200px;
+    }
+    
+    #map {
+        height: 400px;
+    }
+}
+
+/* Styles pour les clusters de marqueurs */
+.marker-cluster-small {
+    background-color: rgba(181, 226, 140, 0.6);
+}
+
+.marker-cluster-small div {
+    background-color: rgba(110, 204, 57, 0.6);
+}
+
+.marker-cluster-medium {
+    background-color: rgba(241, 211, 87, 0.6);
+}
+
+.marker-cluster-medium div {
+    background-color: rgba(240, 194, 57, 0.6);
+}
+
+.marker-cluster-large {
+    background-color: rgba(253, 156, 115, 0.6);
+}
+
+.marker-cluster-large div {
+    background-color: rgba(241, 128, 23, 0.6);
+}

@@ -1,0 +1,8 @@
+Django==4.2.11
+dj-database-url==1.2.0
+psycopg2-binary==2.9.10
+python-dotenv==1.1.0
+# facultatif / selon ton code
+twilio==8.0.0
+# si tu veux servir statics via whitenoise
+whitenoise==6.5.0

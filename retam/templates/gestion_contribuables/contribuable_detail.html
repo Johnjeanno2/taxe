@@ -1,0 +1,129 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block content %}
+<style>
+    .contribuable-detail-container {
+        max-width: 700px;
+        margin: 32px auto;
+        background: #f8fafc;
+        border-radius: 18px;
+        box-shadow: 0 4px 24px rgba(44, 62, 80, 0.08);
+        padding: 32px 28px 24px 28px;
+        font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+    }
+    .contribuable-detail-title {
+        font-size: 2em;
+        color: #447e9b;
+        margin-bottom: 18px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .contribuable-detail-table {
+        width: 100%;
+        background: #fff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(44, 62, 80, 0.04);
+        border-collapse: separate;
+        border-spacing: 0;
+        margin-bottom: 18px;
+    }
+    .contribuable-detail-table th, .contribuable-detail-table td {
+        padding: 14px 16px;
+        text-align: left;
+    }
+    .contribuable-detail-table th {
+        background: linear-gradient(90deg, #43ea5e 0%, #1fae2e 100%);
+        color: #fff;
+        font-weight: 600;
+        width: 30%;
+    }
+    .contribuable-detail-table tr:nth-child(even) td {
+        background: #f3f7f5;
+    }
+    .contribuable-detail-table td {
+        color: #232c3d;
+        font-size: 1em;
+    }
+    .contribuable-detail-actions {
+        margin-top: 24px;
+        display: flex;
+        gap: 12px;
+    }
+    .contribuable-detail-actions .grp-button {
+        background: linear-gradient(90deg, #43ea5e 0%, #1fae2e 100%) !important;
+        color: #fff !important;
+        border: none !important;
+        border-radius: 6px !important;
+        font-weight: 500;
+        transition: background 0.2s, box-shadow 0.2s;
+        box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
+        padding: 10px 22px;
+        text-decoration: none;
+    }
+    .contribuable-detail-actions .grp-button:hover {
+        background: linear-gradient(90deg, #1fae2e 0%, #43ea5e 100%) !important;
+        color: #fff !important;
+        box-shadow: 0 4px 16px rgba(44, 62, 80, 0.12);
+        text-decoration: none;
+    }
+    @media (max-width: 600px) {
+        .contribuable-detail-container {
+            padding: 16px 4px;
+        }
+        .contribuable-detail-title {
+            font-size: 1.2em;
+        }
+        .contribuable-detail-table th, .contribuable-detail-table td {
+            padding: 8px 6px;
+            font-size: 0.95em;
+        }
+        .contribuable-detail-actions {
+            flex-direction: column;
+            gap: 8px;
+        }
+    }
+</style>
+
+<div class="contribuable-detail-container">
+    <div class="contribuable-detail-title">
+        <i class="fa fa-user"></i>
+        Détail du contribuable
+    </div>
+    <table class="contribuable-detail-table">
+        <tr>
+            <th>Nom</th>
+            <td>{{ contribuable.nom }}</td>
+        </tr>
+        <tr>
+            <th>Zone</th>
+            <td>{{ contribuable.zone }}</td>
+        </tr>
+        <tr>
+            <th>Type</th>
+            <td>{{ contribuable.get_type_contribuable_display }}</td>
+        </tr>
+        <tr>
+            <th>Adresse</th>
+            <td>{{ contribuable.adresse }}</td>
+        </tr>
+        <tr>
+            <th>Téléphone</th>
+            <td>{{ contribuable.telephone }}</td>
+        </tr>
+        <!-- Ajoute d'autres champs si besoin -->
+    </table>
+    <div class="contribuable-detail-actions">
+        <a href="{% url 'gestion_contribuables:historique_contribuable' contribuable.pk %}" class="grp-button grp-default">
+            <i class="fa fa-history"></i> Voir l'historique
+        </a>
+        <a href="{% url 'gestion_contribuables:contribuable_list' %}" class="grp-button grp-default">
+            <i class="fa fa-arrow-left"></i> Retour à la liste
+        </a>
+    </div>
+</div>
+{% endblock %}

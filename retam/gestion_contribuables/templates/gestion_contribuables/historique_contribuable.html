@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historique du Contribuable | RETAM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2ecc40;      /* vert */
+            --secondary: #ffe066;    /* jaune */
+            --accent: #ff4136;       /* rouge */
+            --success: #2ecc40;      /* vert */
+            --danger: #ff4136;       /* rouge */
+            --bg: #f7faff;
+            --white: #fff;
+            --text: #1a2233;
+            --muted: #adb5bd;
+            --shadow: 0 8px 32px 0 rgba(67,97,238,0.10);
+            --radius: 16px;
+        }
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            font-family: 'Roboto', Arial, sans-serif;
+            color: var(--text);
+            margin: 0;
+            padding-top: 3rem;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+        .card {
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 2.5rem 2.5rem 2rem 2.5rem;
+            max-width: 600px;
+            width: 100%;
+            margin: 3rem 2rem 2rem 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeIn 0.7s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px);}
+            to   { opacity: 1; transform: translateY(0);}
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.4rem;
+        }
+        .header small {
+            color: var(--muted);
+            font-size: 1rem;
+        }
+        .history-list {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .history-item {
+            background: var(--bg);
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 2px 8px rgba(67,97,238,0.03);
+            display: flex;
+            align-items: flex-start;
+            gap: 1.2rem;
+        }
+        .history-date {
+            color: var(--accent);
+            font-weight: 500;
+            min-width: 120px;
+            font-size: 1em;
+        }
+        .history-details {
+            color: var(--text);
+            font-size: 1.07em;
+        }
+        .empty-state {
+            text-align: center;
+            color: var(--muted);
+            margin-top: 2rem;
+        }
+        .back-link {
+            margin-top: 2rem;
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .back-link:hover {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+        @media (max-width: 700px) {
+            .card {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="header">
+            <h1>Historique de {{ contribuable.nom }}</h1>
+            <small>NIF : {{ contribuable.nif }}</small>
+        </div>
+        {% if historiques %}
+        <ul class="history-list">
+            {% for h in historiques %}
+            <li class="history-item">
+                <span class="history-date">
+                    <i class="fa-regular fa-clock"></i>
+                    {{ h.date_modification|date:"d/m/Y H:i" }}
+                </span>
+                <span class="history-details">
+                    <strong>Action :</strong> {{ h.action }}<br>
+                    {% if h.utilisateur %}
+                        <strong>Utilisateur :</strong> {{ h.utilisateur }}<br>
+                    {% endif %}
+                    {% if h.details %}
+                        {% if h.details|safe|slice:0:1 == "{" %}
+                            {% with details_dict=h.details|json_script:"details_json" %}
+                                {% for key, value in h.details_dict.items %}
+                                    <strong>{{ key|capfirst }} :</strong> {{ value }}<br>
+                                {% endfor %}
+                            {% endwith %}
+                        {% else %}
+                            {{ h.details }}
+                        {% endif %}
+                    {% endif %}
+                </span>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <div class="empty-state">
+            <i class="fa-regular fa-circle-xmark" style="font-size:2em; margin-bottom:0.5em;"></i>
+            <p>Aucun historique pour ce contribuable.</p>
+        </div>
+        {% endif %}
+        <a href="javascript:history.back()" class="back-link">
+            <i class="fa-solid fa-arrow-left"></i> Retour
+        </a>
+    </div>
+</body>
+</html>

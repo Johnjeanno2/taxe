@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Notification de retard de paiement</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background-color: #f8f9fa; padding: 10px; text-align: center; }
+        .content { padding: 20px; }
+        .footer { margin-top: 20px; font-size: 0.8em; color: #6c757d; }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #dc3545;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>RETAM - Notification de retard de paiement</h2>
+        </div>
+        
+        <div class="content">
+            <p>Bonjour,</p>
+            
+            <p>Nous vous informons que le paiement suivant est en retard :</p>
+            
+            <ul>
+                <li><strong>Contribuable :</strong> {{ contribuable.nom }}</li>
+                <li><strong>NIF :</strong> {{ contribuable.nif }}</li>
+                <li><strong>Montant :</strong> {{ paiement.montant }} FCFA</li>
+                <li><strong>Date d'échéance :</strong> {{ paiement.date_echeance|date:"d/m/Y" }}</li>
+                <li><strong>Jours de retard :</strong> {{ jours_retard }}</li>
+            </ul>
+            
+            <p>Veuillez régulariser votre situation au plus vite.</p>
+            
+            <p>
+                <a href="{{ absolute_admin_url }}" class="button">Accéder à votre espace</a>
+            </p>
+        </div>
+        
+        <div class="footer">
+            <p>Ceci est un message automatique, merci de ne pas y répondre.</p>
+            <p>© {% now "Y" %} RETAM - Tous droits réservés</p>
+        </div>
+    </div>
+</body>
+</html>

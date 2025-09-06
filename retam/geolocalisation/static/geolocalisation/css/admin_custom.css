@@ -1,0 +1,39 @@
+/* static/css/admin_custom.css */
+
+/* Carte Leaflet dans l'admin */
+.leaflet-container {
+    width: 100% !important;
+    max-width: none !important;
+    height: 500px !important;
+}
+
+/* Conteneur du champ geom */
+.field-geom {
+    width: 100% !important;
+    max-width: none !important;
+}
+
+/* Widget Leaflet */
+.leaflet-widget {
+    width: 100% !important;
+    max-width: none !important;
+}
+
+/* Override des styles par défaut */
+.form-row .field-geom {
+    width: 100% !important;
+    max-width: none !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .leaflet-container {
+        height: 400px !important;
+    }
+}
+
+@media (min-width: 1200px) {
+    .leaflet-container {
+        height: 600px !important;
+    }
+}

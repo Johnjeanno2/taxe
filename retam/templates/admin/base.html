@@ -1,0 +1,363 @@
+{% load static %}{% load i18n grp_tags %}
+<!DOCTYPE html>
+{% get_current_language as LANGUAGE_CODE %}{% get_current_language_bidi as LANGUAGE_BIDI %}
+<html lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE" />{% endblock %}
+    <!-- STYLESHEETS -->
+    {% block stylesheets %}
+        <link href="{% static "grappelli/jquery/ui/jquery-ui.min.css" %}" rel="stylesheet" type="text/css" media="screen" />
+        <link href="{% static "grappelli/stylesheets/screen.css" %}" rel="stylesheet" type="text/css" media="all" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+        <style>
+            .header-retam {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                background: #09402d;
+                color: #fff;
+                padding: 12px 32px;
+            }
+            .header-retam .header-left,
+            .header-retam .header-center,
+            .header-retam .header-right {
+                display: flex;
+                align-items: center;
+            }
+            .header-retam .header-left img,
+            .header-retam .header-right img {
+                height: 48px;
+                width: 40px;
+                border-radius: 8px;
+                background: #fff;
+                padding: 2px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            }
+            .header-retam .header-center {
+                flex-direction: column;
+                flex: 1;
+                text-align: center;
+            }
+            .header-retam .mairie-title {
+                font-size: 2em;
+                font-weight: bold;
+                letter-spacing: 1px;
+            }
+            .header-retam .retam-title {
+                font-size: 1.2em;
+                color: #f7c948;
+                font-weight: 600;
+                margin-top: 2px;
+            }
+            .header-retam p {
+                font-size: 1.1em;
+                margin-top: 2px;
+            }
+            .retam-bar {
+                height: 6px;
+                background: #f7c948;
+                border: none;
+                margin: 0;
+                width: 100%;
+            }
+            .modern-navbar {
+                background: linear-gradient(90deg, #0a384f 60%, #d9220a 100%);
+                color: #fff;
+                display: flex;
+                height: 30px;
+                align-items: center;
+                justify-content: space-between;
+                padding: 18px 32px;
+                border-radius: 0 0 16px 16px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+                margin-bottom: 30px;
+            }
+            .modern-navbar .navbar-left {
+                display: flex;
+                align-items: center;
+                gap: 16px;
+            }
+            .modern-navbar .navbar-title {
+                font-size: 2.1em;
+                font-weight: bold;
+                letter-spacing: 1px;
+            }
+            .modern-navbar .navbar-menu {
+                display: flex;
+                gap: 24px;
+            }
+            .modern-navbar .navbar-menu a {
+                color: #fff;
+                text-decoration: none;
+                font-size: 1.1em;
+                font-weight: 500;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                padding: 6px 14px;
+                border-radius: 6px;
+                transition: background 0.2s;
+            }
+            .modern-navbar .navbar-menu a:hover {
+                background: rgba(255,255,255,0.12);
+            }
+            @media (max-width: 700px) {
+                .header-retam { flex-direction: column; padding: 10px; }
+                .header-retam .header-center { margin: 8px 0; }
+                .modern-navbar {
+                    flex-direction: column;
+                    align-items: flex-start;
+                    padding: 16px;
+                }
+                .modern-navbar .navbar-title {
+                    font-size: 1.3em;
+                }
+                .modern-navbar .navbar-menu {
+                    gap: 12px;
+                    margin-top: 10px;
+                }
+            }
+            .navbar-dropdown {
+                position: relative;
+                display: inline-block;
+            }
+            .dropdown-toggle {
+                cursor: pointer;
+            }
+            .dropdown-menu {
+                display: none;
+                position: absolute;
+                background: #0a384f;
+                min-width: 180px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+                border-radius: 0 0 8px 8px;
+                z-index: 10;
+                margin-top: 6px;
+                right: 0;
+            }
+            .navbar-dropdown:hover .dropdown-menu,
+            .navbar-dropdown:focus-within .dropdown-menu {
+                display: block;
+            }
+            .dropdown-menu a {
+                display: block;
+                color: #fff;
+                padding: 10px 18px;
+                text-decoration: none;
+                font-size: 1em;
+                border-bottom: 1px solid #2196f3;
+            }
+            .dropdown-menu a:last-child {
+                border-bottom: none;
+            }
+            .dropdown-menu a:hover {
+                background: #2196f3;
+            }
+            /* Centrer le contenu de l'admin et supprimer les marges */
+            
+
+            #grp-content {
+                margin-top: 0 !important;
+                margin-bottom: 0 !important;
+                padding-top: 0 !important;
+                padding-bottom: 0 !important;
+            }
+
+.nav-dashboard-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(90deg, #22b12c 0%, #158a1a 100%);
+    color: #fff !important;
+    font-weight: 700;
+    font-size: 1.1em;
+    padding: 10px 22px;
+    border-radius: 24px;
+    box-shadow: 0 2px 8px rgba(34,177,44,0.10);
+    text-decoration: none !important;
+    transition: background 0.2s, box-shadow 0.2s, color 0.2s;
+    border: none;
+}
+
+.nav-dashboard-link:hover, .nav-dashboard-link.active {
+    background: linear-gradient(90deg, #158a1a 0%, #22b12c 100%);
+    color: #fff !important;
+    box-shadow: 0 4px 16px rgba(34,177,44,0.18);
+    text-decoration: none;
+}
+
+        /* Masquer le h2 natif si .retam-titles est inséré (garde un seul titre visible) */
+        header#grp-content-title .retam-titles + h2,
+        header#grp-content-title .retam-titles ~ h2,
+        header#grp-content-title .retam-titles + .module h2,
+        header#grp-content-title .retam-titles ~ .module h2 {
+          display: none !important;
+        }
+
+        /* Sécurité : si l'admin affiche h1 puis h2, masquer le second pour n'afficher qu'un seul titre */
+        header#grp-content-title h1 + h2 { display: none !important; }
+    </style>
+    {% endblock %}
+    <!-- EXTRASTYLES -->
+    {% block extrastyle %}{% endblock %}
+    <!-- JAVASCRIPTS -->
+    {% block javascripts %}{% endblock %}
+    <!-- EXTRAHEAD -->
+    {% block extrahead %}{% endblock %}
+</head>
+<body class="{% if is_popup %}grp-popup {% endif %}{% if LANGUAGE_BIDI %}rtl {% endif %}{% block bodyclass %}{% endblock %}">
+    <div id="container" class="grp-container">
+
+        {% block header %}
+            <div class="header-retam">
+                <div class="header-left">
+                    <img src="{% static 'img/logo_senegal.png' %}" alt="Logo mairie">
+                </div>
+                <div class="header-center">
+                    <div class="mairie-title">RETAM</div>
+                    <div class="retam-title">COMMUNE DE MBOUR</div>
+                    <p>Redevances et Taxes Municipales</p>
+                </div>
+                <div class="header-right">
+                    <img src="{% static 'img/logo_mairie.png' %}" alt="Logo Sénégal">
+                </div>
+            </div>
+            <div class="retam-bar"></div>
+            <nav class="modern-navbar">
+                <div class="navbar-left">
+                    <span class="navbar-title">RETAM - Mairie de Mbour</span>
+                    <a href="{% url 'admin:index' %}" class="nav-dashboard-link">
+                        <i class="fas fa-chart-line"></i> Tableau de bord
+                    </a>
+                </div>
+                    
+                <div class="navbar-menu">
+                    
+                    <div class="navbar-dropdown">
+                        <a href="{% url 'admin:index' %}" class="dropdown-toggle">
+                            <i class="fas fa-user-shield"></i> admin <i class="fas fa-caret-down"></i>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a href="{% url 'admin:password_change' %}">
+                                <i class="fas fa-key" style="color:#22b12c;"></i> Modifier le mot de passe
+                            </a>
+                            <div style="height:1px;background:#2196f3;opacity:0.15;margin:4px 0 4px 0;"></div>
+                            <a href="{% url 'admin:logout' %}">
+                                <i class="fas fa-sign-out-alt" style="color:#d33364;"></i> <span style="font-weight:600;">Déconnexion</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        {% endblock %}
+
+        <!-- CONTENT -->
+        <article id="grp-content" class="{% block content-class %}{% endblock %}">
+            {% block messages %}
+                {% if messages %}
+                    <ul class="grp-messagelist">
+                        {% for message in messages %}
+                            <li{% if message.tags %} class="grp-{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endblock %}
+    
+            <header id="grp-content-title">
+                {% block pretitle %}{% endblock %}
+                {% block content_title %}{% endblock %}
+                {% block object-tools %}{% endblock %}
+            </header>
+
+            <div id="grp-content-container">
+                {% block content %}
+                    {{ content }}
+                    {% block filters %}{% endblock %}
+                {% endblock %}
+            </div>
+        </article>
+
+        {% block footer %}
+            {% include "admin/footer.html" %}
+        {% endblock %}
+    </div>
+
+    <!-- Ajustements : garantir que le footer fixe/sticky n'occulte pas le contenu -->
+    <style>
+      /* layout : pousser le footer en bas et permettre un padding dynamique */
+      html, body { height: 100%; margin: 0; padding: 0; }
+      #container { min-height: 100vh; display: flex; flex-direction: column; }
+      article#grp-content { flex: 1 0 auto; }
+      footer, .grp-fixed-footer, .retam-footer { flex-shrink: 0; margin-top: auto; }
+
+      /* classe utilitaire pour éléments en bas (si besoin) */
+      .sticky-bottom { position: sticky; bottom: 0; z-index: 1100; }
+
+      /* réduire risque d'occlusion par défaut sur petits écrans */
+      @media (max-width: 1099px) {
+        body { padding-bottom: 0 !important; }
+      }
+    </style>
+
+    <script>
+      (function(){
+        function debounce(fn, wait){ var t; return function(){ clearTimeout(t); t = setTimeout(fn, wait||80); }; }
+
+        function isVisible(el){
+          var cs = getComputedStyle(el);
+          if (cs.display === 'none' || cs.visibility === 'hidden' || cs.opacity === '0') return false;
+          // element must occupy layout or have a bounding rect -> visible
+          var r = el.getBoundingClientRect();
+          return !!(r.width || r.height);
+        }
+
+        function adjustBottomPadding(){
+          try {
+            var total = 0;
+            // éléments susceptibles d'être fixés en bas
+            var candidates = Array.prototype.slice.call(document.querySelectorAll('footer, .grp-fixed-footer, .sticky-bottom, .bottom-toolbar'));
+            candidates.forEach(function(el){
+              var cs = getComputedStyle(el);
+              if (!isVisible(el)) return; // ignore hidden elements
+              if (cs.position === 'fixed' || cs.position === 'sticky') {
+                // use offsetHeight (includes padding/border); fallback to bounding rect
+                var h = el.offsetHeight || Math.round(el.getBoundingClientRect().height) || 0;
+                total += h;
+              }
+            });
+
+            // apply padding only when needed (desktop fixed footers)
+            var content = document.getElementById('grp-content') || document.getElementById('grp-content-container') || document.getElementById('container');
+            if (total > 0 && window.matchMedia('(min-width:1100px)').matches) {
+              // add a small safety margin so content isn't flush against the bar
+              var pad = total + 8;
+              document.body.style.paddingBottom = pad + 'px';
+              if (content) content.style.paddingBottom = pad + 'px';
+            } else {
+              document.body.style.paddingBottom = '';
+              if (content) content.style.paddingBottom = '';
+            }
+          } catch (e) {
+            console.warn('adjustBottomPadding', e);
+          }
+        }
+
+        // run on load / resize / mutations (for dynamic footers)
+        var debounced = debounce(adjustBottomPadding, 120);
+        window.addEventListener('load', debounced);
+        window.addEventListener('resize', debounced);
+        window.addEventListener('orientationchange', debounced);
+
+        // observe DOM changes that may insert footers (e.g. admin JS)
+        var mo = new MutationObserver(debounced);
+        mo.observe(document.body, { childList: true, subtree: true });
+
+        // initial call
+        setTimeout(adjustBottomPadding, 160);
+      })();
+    </script>
+</body>
+</html>

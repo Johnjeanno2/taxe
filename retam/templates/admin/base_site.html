@@ -1,0 +1,32 @@
+{% extends "admin/base.html" %}
+{% load static %}
+{% block user-tools %}
+    
+    <nav class="user-tools-nav">
+        <ul id="grp-user-tools">
+            <li>
+                <a href="{% url 'admin:index' %}"><i class="fas fa-user-shield"></i> admin</a>
+            </li>
+            <li>
+                <a href="{% url 'admin:password_change' %}"><i class="fas fa-key"></i> Modifier le mot de passe</a>
+            </li>
+            <li>
+                <a href="{% url 'admin:logout' %}"><i class="fas fa-sign-out-alt"></i> Déconnexion</a>
+            </li>
+        </ul>
+    </nav>
+{% endblock %}
+
+{% block breadcrumbs %}
+    <!-- On masque les breadcrumbs par défaut -->
+{% endblock %}
+
+{% block extrastyle %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/admin_custom.css' %}">
+{% endblock %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <script src="{% static 'js/modern_forms.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,141 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block content %}
+<style>
+    .historique-container {
+        max-width: 900px;
+        margin: 32px auto;
+        background: #f8fafc;
+        border-radius: 18px;
+        box-shadow: 0 4px 24px rgba(44, 62, 80, 0.08);
+        padding: 32px 28px 24px 28px;
+        font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+    }
+    .historique-title {
+        font-size: 2em;
+        color: #0e3c2e;
+        margin-bottom: 18px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+    .historique-title .fa-history {
+        color: #43ea5e;
+        font-size: 1.2em;
+    }
+    .historique-table-container {
+        overflow-x: auto;
+        margin-bottom: 24px;
+    }
+    .historique-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        background: #fff;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(44, 62, 80, 0.04);
+    }
+    .historique-table th, .historique-table td {
+        padding: 14px 16px;
+        text-align: left;
+    }
+    .historique-table th {
+        background: linear-gradient(90deg, #43ea5e 0%, #1fae2e 100%);
+        color: #fff;
+        font-weight: 600;
+        border-bottom: 2px solid #e0e0e0;
+    }
+    .historique-table tr:nth-child(even) {
+        background: #f3f7f5;
+    }
+    .historique-table tr:hover {
+        background: #e6f9ec;
+        transition: background 0.2s;
+    }
+    .historique-table td {
+        color: #232c3d;
+        font-size: 1em;
+    }
+    .historique-empty {
+        text-align: center;
+        color: #888;
+        padding: 24px 0;
+        font-size: 1.1em;
+    }
+    .historique-back {
+        display: inline-block;
+        margin-top: 24px;
+        padding: 10px 22px;
+        background: linear-gradient(90deg, #43ea5e 0%, #1fae2e 100%);
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        font-size: 1em;
+        font-weight: 500;
+        text-decoration: none;
+        box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
+        transition: background 0.2s, box-shadow 0.2s;
+    }
+    .historique-back:hover {
+        background: linear-gradient(90deg, #1fae2e 0%, #43ea5e 100%);
+        box-shadow: 0 4px 16px rgba(44, 62, 80, 0.12);
+        color: #fff;
+        text-decoration: none;
+    }
+    @media (max-width: 600px) {
+        .historique-container {
+            padding: 16px 4px;
+        }
+        .historique-title {
+            font-size: 1.2em;
+        }
+        .historique-table th, .historique-table td {
+            padding: 8px 6px;
+            font-size: 0.95em;
+        }
+    }
+</style>
+
+<div class="historique-container">
+    <div class="historique-title">
+        <i class="fa fa-history"></i>
+        Historique du contribuable&nbsp;: <span style="color:#1fae2e;">{{ contribuable.nom }}</span>
+    </div>
+
+    <div class="historique-table-container">
+        <table class="historique-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Action</th>
+                    <th>Utilisateur</th>
+                    <th>Détails</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for historique in historiques %}
+                    <tr>
+                        <td>{{ historique.date|date:"d/m/Y H:i" }}</td>
+                        <td>{{ historique.action }}</td>
+                        <td>{{ historique.utilisateur }}</td>
+                        <td>{{ historique.details }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="4" class="historique-empty">
+                            Aucun historique pour ce contribuable.
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <a href="{% url 'admin:gestion_contribuables_contribuable_changelist' %}" class="historique-back">
+        <i class="fa fa-arrow-left"></i> Retour à la liste
+    </a>
+</div>
+{% endblock %}

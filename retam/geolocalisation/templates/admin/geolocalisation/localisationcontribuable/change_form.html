@@ -1,0 +1,19 @@
+{% extends "admin/change_form.html" %}
+{% load static %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <!-- Charger Google Maps pour le formulaire d'admin (clé via context processor) -->
+    <script src="{% static 'geolocalisation/js/admin_localisation_google.js' %}"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&libraries=geometry,places&callback=initAdminGoogleMap"></script>
+    <style>
+        /* masquer la widget leaflet si présent */
+        .leaflet-container { display: none !important; }
+        #google-map { height: 500px; margin-bottom: 10px; }
+    </style>
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+    <div id="google-map"></div>
+{% endblock %}

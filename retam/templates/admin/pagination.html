@@ -1,0 +1,133 @@
+{% load admin_list i18n %}
+{% spaceless %}
+<nav class="grp-pagination" role="navigation" aria-label="{% trans 'Pagination' %}">
+    <header style="display:none"><h1>{% trans "Pagination" %}</h1></header>
+
+    <style>
+      :root{
+        --pg-bg: #ffffff;
+        --pg-accent: #16a34a;
+        --pg-accent-dark: #0b5a2b;
+        --pg-muted: #6b7280;
+        --pg-radius: 10px;
+        --pg-shadow: 0 8px 20px rgba(11,90,43,0.06);
+      }
+
+      .grp-pagination {
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:12px;
+        background: var(--pg-bg);
+        padding:10px 14px;
+        border-radius: var(--pg-radius);
+        box-shadow: var(--pg-shadow);
+        border: 1px solid rgba(11,90,43,0.04);
+        font-family: Inter, system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+      }
+
+      .grp-pagination ul {
+        list-style:none;
+        margin:0;
+        padding:0;
+        display:flex;
+        gap:8px;
+        align-items:center;
+      }
+
+      .grp-pagination .grp-results { color: var(--pg-muted); font-weight:600; padding-right:8px; }
+
+      .grp-pagination a, .grp-pagination span {
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        min-width:40px;
+        height:36px;
+        padding:6px 10px;
+        border-radius:8px;
+        text-decoration:none;
+        color: #0f1724;
+        background: transparent;
+        border: 1px solid transparent;
+        font-weight:600;
+      }
+
+      .grp-pagination a.total {
+        background: linear-gradient(90deg,var(--pg-accent-dark),var(--pg-accent));
+        color: #fff !important;
+        box-shadow: 0 8px 20px rgba(11,90,43,0.06);
+      }
+
+      .grp-pagination li.current > span,
+      .grp-pagination li.current a {
+        background: linear-gradient(90deg, rgba(16,162,74,0.12), rgba(11,90,43,0.06));
+        border-color: rgba(11,90,43,0.06);
+        font-weight:700;
+        color: var(--pg-accent-dark);
+      }
+
+      .grp-pagination li a:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(11,90,43,0.06);
+      }
+
+      .grp-separator span { padding:0 8px; color: var(--pg-muted); min-width:auto; }
+
+      .grp-showall a { background:transparent; color:var(--pg-accent-dark); border:1px solid rgba(11,90,43,0.04); padding:6px 10px; border-radius:8px; }
+
+      @media (max-width:720px) {
+        .grp-pagination { flex-direction:column; align-items:stretch; gap:10px; }
+        .grp-pagination ul { flex-wrap:wrap; gap:6px; }
+        .grp-pagination a, .grp-pagination span { min-width:34px; height:34px; padding:6px 8px; font-size:0.92rem; }
+      }
+    </style>
+
+    <ul aria-hidden="true" class="grp-left">
+        {% if cl.show_full_result_count %}
+            {% if cl.result_count != cl.full_result_count %}
+                <li class="grp-results"><span>
+                    {% blocktrans count cl.result_count as counter %}{{ counter }} result{% plural %}{{ counter }} results{% endblocktrans %}
+                </span></li>
+            {% endif %}
+                <li class="grp-results">
+                    {% if cl.result_count != cl.full_result_count or cl.show_all %}
+                        <a href="?{% if cl.is_popup %}_popup=1{% endif %}" class="total" title="{% trans 'Total results' %}">{% blocktrans with cl.full_result_count as full_result_count %}{{ full_result_count }} total{% endblocktrans %}</a>
+                    {% else %}
+                        <span title="{% trans 'Total results' %}">{% blocktrans with cl.full_result_count as full_result_count %}{{ full_result_count }} total{% endblocktrans %}</span>
+                    {% endif %}
+                </li>
+        {% else %}
+            <li class="grp-results">
+                <span>
+                    {% blocktrans count cl.result_count as counter %}
+                        {{ counter }} result
+                    {% plural %}
+                        {{ counter }} results
+                    {% endblocktrans %}
+                </span>
+            </li>
+            <li class="grp-results">
+                <a href="?{% if cl.is_popup %}_popup=1{% endif %}" class="total">
+                    {% trans "Show all" %}
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+
+    <ul class="grp-pages" role="menubar" aria-label="{% trans 'Pages' %}">
+        {% if pagination_required %}
+            {% for i in page_range %}
+                {% if not i|floatformat %}
+                    <li class="grp-separator" aria-hidden="true"><span>…</span></li>
+                {% else %}
+                    <li role="menuitem" class="{% if i == cl.paginator.page %}current{% endif %}">{% paginator_number cl i %}</li>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        {% if show_all_url %}
+            <li class="grp-showall"><a href="{{ show_all_url }}">{% trans 'Show all' %}</a></li>
+        {% endif %}
+    </ul>
+</nav>
+{% endspaceless %}

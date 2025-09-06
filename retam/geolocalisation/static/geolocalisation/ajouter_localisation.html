@@ -1,0 +1,111 @@
+<div id="map" style="height: 500px;"></div>
+<input type="hidden" name="geom" id="id_geom">
+
+<!-- Charger l'API Google Maps (clé fournie via context processor) -->
+<script async defer src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&libraries=geometry,places&callback=initGoogleMap"></script>
+<script>
+    let gmap;
+    let marker = null;
+    let polygons = [];
+
+    function initGoogleMap() {
+        // Centrer sur le Sénégal
+        const senegal = { lat: 14.4974, lng: -14.4524 };
+        gmap = new google.maps.Map(document.getElementById('map'), {
+            center: senegal,
+            zoom: 7,
+            mapTypeId: 'roadmap'
+        });
+
+        // Charger les zones GeoJSON fournies par la vue
+        try {
+            const zonesGeoJSON = JSON.parse('{{ zones_geojson|escapejs }}');
+            loadZonesFromGeoJSON(zonesGeoJSON);
+            // si pas de zones, ajuster la vue pour tout le Sénégal
+            if(!zonesGeoJSON.features || !zonesGeoJSON.features.length){
+                var senegalBounds = new google.maps.LatLngBounds(
+                    new google.maps.LatLng(12.0, -17.6),
+                    new google.maps.LatLng(16.8, -11.2)
+                );
+                gmap.fitBounds(senegalBounds);
+            }
+        } catch (err) {
+            console.error('Erreur parsing zones_geojson:', err);
+        }
+
+        // Clic sur la carte pour placer un marqueur
+        gmap.addListener('click', function(e) {
+            const latLng = e.latLng;
+            if (isPointInAnyPolygon(latLng)) {
+                placeMarker(latLng);
+            } else {
+                alert("Veuillez placer le marqueur à l'intérieur d'une zone délimitée.");
+            }
+        });
+    }
+
+    function loadZonesFromGeoJSON(geojson) {
+        if (!geojson || !geojson.features) return;
+        geojson.features.forEach(function(feature) {
+            if (!feature.geometry) return;
+            if (feature.geometry.type === 'Polygon' || feature.geometry.type === 'MultiPolygon') {
+                const paths = [];
+                if (feature.geometry.type === 'Polygon') {
+                    feature.geometry.coordinates.forEach(function(ring) {
+                        const ringPath = ring.map(function(coord) { return {lng: coord[0], lat: coord[1]}; });
+                        paths.push(ringPath);
+                    });
+                } else if (feature.geometry.type === 'MultiPolygon') {
+                    feature.geometry.coordinates.forEach(function(poly) {
+                        poly.forEach(function(ring) {
+                            const ringPath = ring.map(function(coord) { return {lng: coord[0], lat: coord[1]}; });
+                            paths.push(ringPath);
+                        });
+                    });
+                }
+
+                const polygon = new google.maps.Polygon({
+                    paths: paths,
+                    strokeColor: '#0a384f',
+                    strokeOpacity: 0.8,
+                    strokeWeight: 2,
+                    fillColor: '#79aec8',
+                    fillOpacity: 0.15,
+                    clickable: false
+                });
+                polygon.setMap(gmap);
+                polygons.push(polygon);
+            }
+        });
+    }
+
+    function isPointInAnyPolygon(latLng) {
+        for (let i = 0; i < polygons.length; i++) {
+            if (google.maps.geometry.poly.containsLocation(latLng, polygons[i])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function placeMarker(latLng) {
+        if (marker) marker.setMap(null);
+        marker = new google.maps.Marker({
+            position: latLng,
+            map: gmap,
+            draggable: true
+        });
+        updateGeomField(latLng);
+
+        marker.addListener('dragend', function(e) {
+            updateGeomField(e.latLng);
+        });
+    }
+
+    function updateGeomField(latLng) {
+        const geomField = document.getElementById('id_geom');
+        if (geomField) {
+            geomField.value = `POINT(${latLng.lng()} ${latLng.lat()})`;
+        }
+    }
+</script>

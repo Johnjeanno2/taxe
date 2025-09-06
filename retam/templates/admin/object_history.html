@@ -1,0 +1,126 @@
+{% extends "admin/base_site.html" %}
+
+{% load i18n admin_urls static %}
+
+{% block stylesheets %}
+    {{ block.super }}
+    <style>
+    :root{
+      --bg: #f6faf7;
+      --card: #ffffff;
+      --accent-1: #20b24a;
+      --accent-2: #0f5a1c;
+      --muted: #6b7280;
+      --radius: 12px;
+      --shadow: 0 10px 30px rgba(15,90,28,0.06);
+    }
+
+    body { background: var(--bg); font-family: Inter, system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif; color: #0f1724; }
+
+    .grp-object-history { max-width: 1100px; margin: 22px auto; padding: 0 12px; }
+
+    .history-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(15,90,28,0.04);
+      overflow: hidden;
+    }
+
+    .history-header { display:flex; align-items:center; gap:12px; margin-bottom:12px; }
+    .history-header h1 { margin:0; font-size:1.1rem; color:var(--accent-2); }
+
+    table.grp-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: transparent;
+    }
+
+    table.grp-table thead th {
+      background: linear-gradient(90deg,var(--accent-1),var(--accent-2));
+      color: #fff;
+      font-weight: 700;
+      padding: 12px 14px;
+      text-align:left;
+      position: sticky;
+      top:0;
+      z-index:30;
+    }
+
+    table.grp-table tbody td, table.grp-table tbody th[scope="grp-row"] {
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(15,90,28,0.03);
+      vertical-align: middle;
+      color: #0f1724;
+      font-size: 0.95rem;
+    }
+
+    table.grp-table tbody tr:nth-child(even) { background: #fbfff9; }
+    table.grp-table tbody tr:hover { background: #eefaf0; }
+
+    .history-empty { padding: 18px; color: var(--muted); }
+
+    /* Responsive: convert rows to cards on small screens */
+    @media (max-width: 820px) {
+      table.grp-table thead { display:none; }
+      table.grp-table tbody tr { display:block; margin-bottom:12px; background:var(--card); border-radius:10px; box-shadow: 0 8px 18px rgba(15,90,28,0.04); padding:10px; }
+      table.grp-table tbody td, table.grp-table tbody th[scope="grp-row"] { display:flex; justify-content:space-between; padding:8px 10px; border-bottom:none; }
+      table.grp-table tbody td::before, table.grp-table tbody th[scope="grp-row"]::before { content: attr(data-label); font-weight:700; color:var(--muted); flex:0 0 45%; text-align:left; margin-right:8px; }
+      table.grp-table tbody td > * { flex:1 1 auto; text-align:right; }
+    }
+    </style>
+{% endblock %}
+
+{% block breadcrumbs %}
+    <ul class="grp-horizontal-list">
+        <li><a href="{% url 'admin:index' %}">{% trans 'Home' %}</a></li>
+        <li><a href="{% url 'admin:app_list' app_label=opts.app_label %}">{{ opts.app_config.verbose_name }}</a></li>
+        {% url opts|admin_urlname:'changelist' as changelist_url %}
+        <li><a href="{% add_preserved_filters changelist_url %}">{{ module_name }}</a></li>
+        {% url opts|admin_urlname:'change' object.pk|admin_urlquote as object_url %}
+        <li><a href="{% add_preserved_filters object_url %}">{{ object|truncatewords:18 }}</a></li>
+        <li>{% trans 'History' %}</li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    <div class="grp-object-history">
+      <div class="history-card" role="region" aria-label="{% trans 'Object history' %}">
+        <div class="history-header">
+          <h1>{% blocktrans with name=object %}History for “{{ name }}”{% endblocktrans %}</h1>
+        </div>
+
+        {% if action_list %}
+          <table id="grp-change-history" class="grp-table" cellspacing="0">
+            <thead>
+              <tr>
+                <th scope="col">{% trans 'Date/time' %}</th>
+                <th scope="col">{% trans 'User' %}</th>
+                <th scope="col">{% trans 'Action' %}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for action in action_list %}
+                <tr>
+                  <th scope="grp-row" data-label="{% trans 'Date/time' %}">{{ action.action_time|date:_("DATETIME_FORMAT") }}</th>
+                  <td data-label="{% trans 'User' %}">
+                    {% if action.user %}
+                      {{ action.user.get_username }}{% if action.user.get_full_name %} ({{ action.user.get_full_name }}){% endif %}
+                    {% else %}
+                      <span class="muted">{% trans "System" %}</span>
+                    {% endif %}
+                  </td>
+                  <td data-label="{% trans 'Action' %}">{{ action.get_change_message }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+          <div class="history-empty">
+            <p>{% trans "This object doesn't have a change history. It probably wasn't added via this admin site." %}</p>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+{% endblock %}

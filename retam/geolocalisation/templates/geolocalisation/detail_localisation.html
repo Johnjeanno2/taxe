@@ -1,0 +1,102 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<style>
+    .detail-container { padding: 20px; background: white; border-radius: 8px; margin: 20px 0; }
+    .detail-map { height: 700px; min-height: 50vh; width: 100%; border-radius: 8px; margin-top: 20px; background:#fff; }
+    .detail-info { background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+    .detail-actions { margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn { padding: 8px 16px; border-radius: 4px; text-decoration: none; display: inline-block; border: none; cursor: pointer; font-size: 14px; }
+    .btn-primary { background-color: #007bff; color: white; }
+    .btn-secondary { background-color: #6c757d; color: white; }
+    .btn:hover { opacity: 0.8; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="detail-container">
+    <h1>Détail de la localisation</h1>
+    
+    <div class="detail-info">
+        <h3>{{ location.contribuable. nom }}</h3>
+        <p><strong>Zone:</strong> {{ location.zone.nom|default:"Non assigné" }}</p>
+        <p><strong>Date de mise à jour:</strong> {{ location.date_maj|date:"d/m/Y H:i" }}</p>
+        {% if location.geom %}
+        <p><strong>Coordonnées:</strong> {{ location.geom.y|floatformat:6 }}, {{ location.geom.x|floatformat:6 }}</p>
+        {% endif %}
+    </div>
+    
+    {% if location.geom %}
+    <div id="detail-map" class="detail-map"></div>
+    {% else %}
+    <div class="alert alert-warning">
+        Aucune localisation géographique disponible pour ce contribuable.
+    </div>
+    {% endif %}
+    
+    <div class="detail-actions">
+        <a href="{% url 'geolocalisation:carte_zones' %}" class="btn btn-primary">Retour à la carte</a>
+        <a href="{% url 'admin:geolocalisation_localisationcontribuable_change' location.pk %}" class="btn btn-secondary">Modifier</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extrajs %}
+{{ block.super }}
+{% if location.geom %}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const lat = {{ location.geom.y }};
+    const lon = {{ location.geom.x }};
+    const map = L.map('detail-map').setView([lat, lon], 15);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors',
+        maxZoom: 19
+    }).addTo(map);
+
+    // invalidateSize pour éviter la carte noire si le conteneur était masqué
+    function refreshMap() {
+      try {
+        map.invalidateSize({pan:false});
+      } catch(e) { console.warn('invalidateSize error', e); }
+    }
+    // appeler immédiatement après un court délai et au ready/resize
+    setTimeout(refreshMap, 200);
+    map.whenReady(refreshMap);
+    window.addEventListener('resize', function(){ setTimeout(refreshMap, 100); });
+
+    const marker = L.marker([lat, lon]).addTo(map);
+    marker.bindPopup('<strong>{{ location.contribuable.nom }}</strong><br>Zone: {{ location.zone.nom|default:"Non assigné" }}');
+
+    // Ajouter la barre de recherche
+    L.Control.geocoder({
+        defaultMarkGeocode: false,
+        position: 'topright'
+    }).on('markgeocode', function(e) {
+        const {center, name} = e.geocode;
+        map.setView(center, 16);
+        L.marker(center).addTo(map)
+            .bindPopup(name)
+            .openPopup();
+    }).addTo(map);
+
+    {% if location.zone and location.zone.geom %}
+    fetch('{% url "geolocalisation:zones_geojson" %}')
+        .then(response => response.json())
+        .then(data => {
+            const zoneFeature = data.features.find(f => f.properties.id === {{ location.zone.id }});
+            if (zoneFeature) {
+                L.geoJSON(zoneFeature, { style: { color: '#3388ff', weight: 2, fillColor: '#3388ff', fillOpacity: 0.2 } }).addTo(map);
+                setTimeout(refreshMap, 200);
+            }
+        });
+    {% endif %}
+});
+</script>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,214 @@
+{% load i18n %}
+<style>
+  /* Variables */
+  :root {
+    --accent-color: #1fae2e;
+    --accent-dark: #0f5a1c;
+    --border-color: #e1e5e9;
+    --text-muted: #6b7280;
+  }
+
+  /* Barre d'actions - Design simple et propre */
+  .grp-changelist-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #ffffff;
+    padding: 15px 20px;
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--accent-color);
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+
+  /* Boutons */
+  .grp-changelist-actions .grp-button,
+  .grp-changelist-actions .button {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .grp-changelist-actions .grp-button:hover,
+  .grp-changelist-actions .button:hover {
+    background: var(--accent-dark);
+  }
+
+  /* Sélecteurs et inputs */
+  .grp-changelist-actions select,
+  .grp-changelist-actions input {
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 14px;
+  }
+
+  .grp-changelist-actions select:focus,
+  .grp-changelist-actions input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+  }
+
+  /* Compteur d'actions */
+  .grp-action-counter {
+    background: #f8f9fa;
+    border: 1px solid var(--border-color);
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  /* Liste horizontale */
+  .grp-horizontal-list {
+    display: flex;
+    gap: 10px;
+    list-style: none;
+    padding: 0;
+    margin: 0 0 0 auto;
+    align-items: center;
+  }
+
+  /* Masquer les autres barres d'actions */
+  .changelist-actions:not(.grp-changelist-actions),
+  .actions:not(.grp-changelist-actions) {
+    display: none !important;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .grp-changelist-actions {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 10px;
+    }
+
+    .grp-horizontal-list {
+      margin: 0;
+      justify-content: center;
+    }
+  }
+
+  /* Utilitaires */
+  .hidden { display: none !important; }
+</style>
+
+<div class="grp-changelist-actions" id="grp-changelist-actions">
+    {% for field in action_form %}{{ field }}{% endfor %}
+    <button type="submit" class="grp-button" title="{% trans 'Run the selected action' %}" name="index" value="{{ action_index|default:0 }}">{% trans "Go" %}</button>
+    {% if actions_selection_counter %}
+        <span class="action-counter" data-actions-icnt="{{ cl.result_list|length }}"></span>
+        <ul class="grp-horizontal-list grp-float-left">
+            <li class="grp-action-counter"><span class="grp-button grp-button-state-inactive grp-action-counter">{{ selection_note }}</span></li>
+            {% if cl.result_count != cl.result_list|length %}
+                <li class="grp-all hidden"><span class="all grp-button grp-button-state-inactive">{{ selection_note_all }}</span></li>
+                <li class="grp-question hidden"><a href="javascript://" class="grp-button" title="{% trans 'Click here to select the objects across all pages' %}">{% blocktrans with cl.result_count as total_count %}Select all {{ total_count }} {{ module_name }}{% endblocktrans %}</a></li>
+                <li class="grp-clear-selection hidden"><a href="javascript://" class="grp-button grp-clear">{% trans "Clear selection" %}</a></li>
+            {% endif %}
+        </ul>
+    {% endif %}
+</div>
+
+<script>
+(function(){
+  // Fonction simple pour déplacer la barre en haut
+  function moveActionsToTop() {
+    const actionsBar = document.querySelector('.grp-changelist-actions');
+    const form = document.querySelector('#changelist-form, form[method="post"]');
+
+    if (actionsBar && form) {
+      // Placer en première position dans le formulaire
+      form.insertBefore(actionsBar, form.firstChild);
+
+      // Masquer les autres barres d'actions
+      document.querySelectorAll('.changelist-actions:not(.grp-changelist-actions), .actions:not(.grp-changelist-actions)').forEach(el => {
+        el.style.display = 'none';
+      });
+    }
+  }
+
+  // Gestion des soumissions
+  document.addEventListener('click', function(e) {
+    const btn = e.target.closest('.grp-changelist-actions button[type="submit"]');
+    if (!btn) return;
+
+    e.preventDefault();
+
+    const actionSelect = document.querySelector('select[name="action"]');
+    const action = actionSelect ? actionSelect.value : null;
+
+    if (!action) {
+      alert("Veuillez choisir une action.");
+      return;
+    }
+
+    const selectedIds = Array.from(document.querySelectorAll('input[name="_selected_action"]:checked, input.action-select:checked')).map(i => i.value);
+
+    if (selectedIds.length === 0) {
+      alert("Aucun élément sélectionné.");
+      return;
+    }
+
+    // Créer et soumettre le formulaire
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = window.location.href;
+    form.style.display = 'none';
+
+    // CSRF token
+    const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]');
+    if (csrfToken) {
+      const csrf = document.createElement('input');
+      csrf.type = 'hidden';
+      csrf.name = 'csrfmiddlewaretoken';
+      csrf.value = csrfToken.value;
+      form.appendChild(csrf);
+    }
+
+    // Action
+    const actionInput = document.createElement('input');
+    actionInput.type = 'hidden';
+    actionInput.name = 'action';
+    actionInput.value = action;
+    form.appendChild(actionInput);
+
+    // Post flag
+    const postInput = document.createElement('input');
+    postInput.type = 'hidden';
+    postInput.name = 'post';
+    form.appendChild(postInput);
+
+    // Selected IDs
+    selectedIds.forEach(id => {
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = '_selected_action';
+      input.value = id;
+      form.appendChild(input);
+    });
+
+    document.body.appendChild(form);
+    form.submit();
+  });
+
+  // Initialisation
+  function init() {
+    moveActionsToTop();
+  }
+
+  // Exécuter à différents moments pour s'assurer que ça fonctionne
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  window.addEventListener('load', init);
+  setTimeout(init, 100);
+})();
+</script>

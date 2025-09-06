@@ -1,0 +1,1127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GhostTextManager">
+    <option name="inputs">
+      <map>
+        <entry key="Ajouter dans la carte de l'application &quot;geolocalisation&quot; une barre de recherche, pour permettre de faire des recherche de zones, sites, lieux, restaurants régions, pays etc.">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756939299460" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="Ajouter des fonctionnalités avancées et options, telque des aperçu d'imange, 3D, rues, relief etc…">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756987812551" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="Ajuster un peux le styl du design des statistiques">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="2.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756824671619" />
+                  <option value="1756824644291" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="Améliorons la styles des design des statistiques">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756825845203" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="Augmenter de 250px à droite à la largeur du formulaire">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756934536993" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="Ce n'est pas encore fait, la largeur est resté le même, parcour tous les fichiers html de /Users/john/taxe/retam/templates/admin et repère le fichier concerné execute ma requêtte">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756934929646" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="Ces dernières fonctionnalités ne sont toujours pas appliqués sur la carte">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756991245756" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="Changer La positions des boutons d'actions pour les enregistrements, les placer à droite du formulaire">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756922005984" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="Comme tu le  vois ur l'image, je souhaite que le nombre de zone s'affiche en 15, si plus de de 15, cliquez un bouton suivant pour afficher les zones sui suivantes">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1757036655382" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="Dans la carte initiale qui permet d'ajouter une zone, afficher les marqueurs et des repère des zones et les déjà existants">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756833014888" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="Donc centraliser les formulaires, étendre leur leurgeur à 90% de la largeur de la page">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756933946999" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="Eliminer de la carte les champ : Description, Couleur d'affichage">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756944235391" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="Erreur de programmation à /admin/logingeolocalisation/localisationcontribuable/&#10;&#10;la colonne geolocalisation_localisationcontribuable.adresse n'existe pas&#10;LIGNE 1 : ...lisation_localisationcontribuable&quot;.&quot;geom&quot;::bytea, &quot;geocali...&#10;                                                             ^&#10; &#10;&#10;Méthode de demande : &#9;OBTENIR&#10;URL de la demande : &#9;http://127.0.0.1:7000/admin/logingeolocalisation/localisationcontribuable/&#10;Version Django : &#9;5.2.5&#10;Type d'exception : &#9;Erreur de programmation&#10;Valeur d'exception : &#9;&#10;&#10;la colonne geolocalisation_localisationcontribuable.adresse n'existe pas&#10;LIGNE 1 : ...lisation_localisationcontribuable&quot;.&quot;geom&quot;::bytea, &quot;geocali...&#10;                                                             ^&#10; &#10;&#10;Emplacement d'exception : &#9;/Users/john/taxe/.venv/lib/python3.13/site-packages/django/db/backends/utils.py , ligne 105, dans _execute&#10;Élevé pendant : &#9;django.contrib.admin.options.changelist_view&#10;Exécutable Python : &#9;/Utilisateurs/john/taxe/.venv/bin/python&#10;Version Python : &#9;3.13.3&#10;Chemin Python : &#9;&#10;&#10;['/Users/john/taxe/retam',&#10; '/Library/Frameworks/Python.framework/Versions/3.13/lib/python313.zip',&#10; '/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13',&#10; '/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/lib-dynload',&#10; '/Users/john/taxe/.venv/lib/python3.13/site-packages']">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756984293900" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="Erreur de programmation à /admin/logingeolocalisation/zone/&#10;&#10;la colonne geolocalisation_zone.description n'existe pas&#10;LIGNE 1 : ...::bytea, &quot;geolocalisation_zone&quot;.&quot;responsable_id&quot;, &quot;geolocali...&#10;                                                             ^&#10; &#10;&#10;Méthode de demande : &#9;OBTENIR&#10;URL de la demande : &#9;http://127.0.0.1:7000/admin/logingeolocalisation/zone/&#10;Version Django : &#9;5.2.5&#10;Type d'exception : &#9;Erreur de programmation&#10;Valeur d'exception : &#9;&#10;&#10;la colonne geolocalisation_zone.description n'existe pas&#10;LIGNE 1 : ...::bytea, &quot;geolocalisation_zone&quot;.&quot;responsable_id&quot;, &quot;geolocali...&#10;                                                             ^&#10; &#10;&#10;Emplacement d'exception : &#9;/Users/john/taxe/.venv/lib/python3.13/site-packages/django/db/backends/utils.py , ligne 105, dans _execute&#10;Élevé pendant : &#9;django.contrib.admin.options.changelist_view&#10;Exécutable Python : &#9;/Utilisateurs/john/taxe/.venv/bin/python&#10;Version Python : &#9;3.13.3&#10;Chemin Python : &#9;&#10;&#10;['/Users/john/taxe/retam',&#10; '/Library/Frameworks/Python.framework/Versions/3.13/lib/python313.zip',&#10; '/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13',&#10; '/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/lib-dynload',&#10; '/Users/john/taxe/.venv/lib/python3.13/site-packages']">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="2.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756982506940" />
+                  <option value="1756981996097" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="Erreur de valeur à /admin/logingeolocalisation/localisationcontribuable/&#10;&#10;'LocalisationContribuableForm' n'a pas de champ nommé 'zone'. &#10;&#10;Méthode de demande : &#9;POSTE&#10;URL de la demande : &#9;http://127.0.0.1:7000/admin/logingeolocalisation/localisationcontribuable/&#10;Version Django : &#9;5.2.5&#10;Type d'exception : &#9;Erreur de valeur&#10;Valeur d'exception : &#9;&#10;&#10;'LocalisationContribuableForm' n'a pas de champ nommé 'zone'. &#10;&#10;Emplacement d'exception : &#9;/Users/john/taxe/.venv/lib/python3.13/site-packages/django/forms/forms.py , ligne 301, dans add_error&#10;Élevé pendant : &#9;django.contrib.admin.options.changelist_view&#10;Exécutable Python : &#9;/Utilisateurs/john/taxe/.venv/bin/python&#10;Version Python : &#9;3.13.3&#10;Chemin Python : &#9;&#10;&#10;['/Users/john/taxe/retam',&#10; '/Library/Frameworks/Python.framework/Versions/3.13/lib/python313.zip',&#10; '/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13',&#10; '/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/lib-dynload',&#10; '/Users/john/taxe/.venv/lib/python3.13/site-packages']">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756985892531" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="J'ai cette erreur :">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756830517471" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="Je crois que nous allons changer les fonctionnalités de la carte pour pouvoir y intégré cela car la barre de recherche n'arrive toujours pas à y apparaitre">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756940722874" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="Je veux un bouton qui me permet d'implémenter automatiquement les nouvelles ajouts sans a faire du copier coller">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756828739801" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="Le design est déjà presque parfait, ajoutons juste 150 pixel de là largeur de formulaire">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756938488302" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="Le footer doit obligatoirement en bas de toutes pas et sans interférence avec les autres contenus; contenir les contenus des pages pour qu'ils ne se superpose pas avec les footer">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756981676828" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="Le tableau reprend toujours pas la largeur initiale">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756935708697" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="Les noms des zones ne n'apparaissent plus">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="6.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1757092681080" />
+                  <option value="1757092555865" />
+                  <option value="1757090671656" />
+                  <option value="1757090146245" />
+                  <option value="1757089763505" />
+                  <option value="1757089705805" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="Les noms des zones ne n'apparaissent plus,">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="4.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1757093048389" />
+                  <option value="1757092969420" />
+                  <option value="1757092939615" />
+                  <option value="1757092749074" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="Oui exécute l'option 1 pour moi stp">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756982728622" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="Redesigner les formulaire des saisie, ultra-moderne, UI, XUX">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756936038141" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="TESTER">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1757081714790" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="Tout est bon, maintenant nous allons faire de sorte qu'en ajoutant un nouveau &quot;Localisation contribuable&quot;, que les zones existantes soient visible avec des délimitations, pour qu'on puisse précisément marqué la localisation du contribuable dans la zone avec un repère.">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756827798493" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="admin_localisation.js&#10;admin_map_search.js&#10;google_maps_integration.js&#10;osm_map_integration.js&#10;ajouter_localisation.html&#10;Voicii les ficgess">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756993212958" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="admin_localisation.js&#10;admin_map_search.js&#10;google_maps_integration.js&#10;osm_map_integration.js&#10;ajouter_localisation.html&#10;Voicii les fichiers concernés">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756993236020" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="augmenter la hauteur de la cate elle meme, et non le conteneur mais la zone">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756977870063" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="augmentons la hauteur de la carte de 60px">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756942858797" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="ce n'est pas bien fait">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="2.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756916728866" />
+                  <option value="1756915628571" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="ce n'est pas bien fait, le design est trop désorganiser">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756917176205" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="ce n'est pas effectué">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756936501438" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="ce n'est pas encore fait">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756981900433" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="cette bande n'a pas sa place ici dans cette page">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756986080531" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="change le design et la position de la fonctionnalité &quot;Action&quot; qui permet de faire les suppressions, car sa position d'en bas masque le bas des pages">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756915133842" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="comme tu le vois marqué en noir, la bande sombre ayant le bouton &quot;enregistré doit être supprimé car il n'y est d'aucune utilité, et le &quot;envoyeré encerclé en noir n'est pas totalement visible, optimiser son affichage">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756984164229" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="comme tu peux le voir sur l'image jointe, les zones existants et contribuables n'y sont pas visibelement repéré, marque">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756834223908" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="comme tu peux le voir sur l'image ça masque le bas des contenus de page">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756980946462" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="continu la génération">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756917996459" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="enlevé les statistique dans les page de tableau dans l'applicaion &quot;geolocalisation&quot; car ça ne donne rien">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756982981669" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="eyJhbGciOiJSUzI1NiIsImNhdCI6ImNsX0I3ZDRQRDIyMkFBQSIsImtpZCI6Imluc18yeTFHVm1vb2JZeW5NUERjd0QxWnFFWkpQbHQiLCJ0eXAiOiJKV1QifQ.eyJhenAiOiJodHRwczovL2FwcC5zd2VlcC5kZXYiLCJlbWFpbCI6ImplYW5wYXVsbHNlbmVAZ21haWwuY29tIiwiZXhwIjoyMDcyNDM5ODU4LCJpYXQiOjE3NTcwNzk4NTgsImlzcyI6Imh0dHBzOi8vY2xlcmsuc3dlZXAuZGV2IiwianRpIjoiZDhhMTJmNDQ1Zjc0N2RmOTQyMDkiLCJuYmYiOjE3NTcwNzk4NTMsIm9yZ19pbmZvIjp7fSwic3ViIjoidXNlcl8zMjlGZTVRVFFZTXF3ejBkZDVnZTZvand1R0MiLCJ1c2VyX2lkIjoidXNlcl8zMjlGZTVRVFFZTXF3ejBkZDVnZTZvand1R0MifQ.Ea97BnC0R6NBU3hwsaNVbKntprf41bqYHN7hfwUrj5Bu-Cno1oyxoQL1W_Oiwd0SQ9pciLHfKkXTAYzisS5b3BISplavVX0pTc_oW04dwoPhCvh6jDnBW1nb7mQcmeTbotJ2XxIRgET2tPXskqpVYVb3XoRnWGbXlL_OY4FUxbN1mbNelp1y0v1DZGwcw4BOiBjV_GOtWjSggrVn3LGoEdP4fuVWgfctH11aU4i2x3mmiby6UUPu28bfj5eCuSxa1zQtb7ichX1nsHFDzKA0NjIdZTBY0UslZyFV5oS-C-zQlVMw-3ErcRLROeCxXfBOWEQLCOc64ZQ73t4Tvi7q7Q">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1757079938164" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="eyJhbGciOiJSUzI1NiIsImNhdCI6ImNsX0I3ZDRQRDIyMkFBQSIsImtpZCI6Imluc18yeTFHVm1vb2JZeW5NUERjd0QxWnFFWkpQbHQiLCJ0eXAiOiJKV1QifQ.eyJhenAiOiJodHRwczovL2FwcC5zd2VlcC5kZXYiLCJlbWFpbCI6ImplYW5wYXVsbHNlbmVAZ21haWwuY29tIiwiZXhwIjoyMDcyNDQ3NTM4LCJpYXQiOjE3NTcwODc1MzgsImlzcyI6Imh0dHBzOi8vY2xlcmsuc3dlZXAuZGV2IiwianRpIjoiZDk1ZjM1OGRkNmE2NGRiYmMxNzAiLCJuYmYiOjE3NTcwODc1MzMsIm9yZ19pbmZvIjp7fSwic3ViIjoidXNlcl8zMjlGZTVRVFFZTXF3ejBkZDVnZTZvand1R0MiLCJ1c2VyX2lkIjoidXNlcl8zMjlGZTVRVFFZTXF3ejBkZDVnZTZvand1R0MifQ.H9HS-ix4OGiTZtrHbuv8fDNmkNGbAuFsAmNnjh9wKGIoRVkEuaMdHY23Bbm8FN1O3ZH1O7Ck3-aSM-AhT2BFdYJ7CgrFxKy84JiJHOqKNNgXQ4unujf8uo9Cl3d017ywiKIjYJsFHSul-FiG1ez0eHAjs_ITN8E0S1j3KayrrdlKKHf5G2_bFNBIZS4lz9aVpW8yITbBVrlBh7BgdgWH29vVSdE3r6IwRpggT6d3h5M2c09i1LPBZFBEBEwiG0lqflMDaXo4v-cxi-8YMQ391bbdES26md1E1boU6m8Oo3mD95iLt0ZqcPSLz7ia5LsmVPkWH3hjJh7ju0kbs9-RCQ">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1757089537393" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="il est toujours le fomramulaire et pas encore à droite">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756922816710" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="il n'y pas encore le formulaire de recherche">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756939992609" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="il superposé au lieu de se placer à droite du formulaire">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756922707548" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="il toujours pas en bas de page comme position normale d'un pieds de page">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756979516366" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="il y a que les filtres qui ne fonctionnent plus dans  les tableaux">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756938782112" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="il y est toujours">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756983148324" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="j'aime pas les boutons d'enregistrement  en bas de page mais à droite du formulaire">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756922443698" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="je n'arrige pas à implémenter  automatiqment &quot;admin.site.get_urls = lambda: get_admin_urls() + admin.site.get_urls()&#10;&#10;# APRÈS (corrigé)&#10;original_get_urls = admin.site.get_urls&#10;admin.site.get_urls = lambda: get_admin_urls() + original_get_urls()&#10;&quot; dans mon fichier viexs.py">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756830930136" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="je pense que y'a toujours une erreur sue le fichier views">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756834724916" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="la carte est toujours standard pas trop de fonctionnalités">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756988326790" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="la zone de graphique apparait les statistiques n'y paraissent pas">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756983515195" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="le bouton envoyer n'est pas tro visible">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756986310169" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="le footer doit totoalement se placer dessous de tout cntenu de toutes les pages">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756979400904" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="le footer n'est pas tout à fait en bas de toutes pas  alors qu'il devrait">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756978886704" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="les  textes je les veux en français">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756833601210" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="les filtres ne fonctionnent pas">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756978443240" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="les fonctionnalités  demandés sur la carte">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756998352981" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="les tableau par contre doivent prendre la largeur total de la page comme précédemment, la centralisation ne concerne que les formulaire">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756935441828" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="mais comment implémenter automatiquement ces patch dans mon code ?">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756826625250" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="mais il est fixe masque le bas des contenus">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756979675299" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="mais j'arrive pas a auto-implenté ces dernière modifs">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756990307380" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="mais j'arrive pas a auto-implenté ces dernière odifs">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756990299934" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="mais j'arrive pas à appliquer ces dernières modif">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756942447697" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="ne pas fixer le footer mais faire qu&quot;il scrolle">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756981024228" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="optimiser l'affichage dans les autres pages">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756918583257" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="parcourons et améliorons les fichiers :  admin, forms, models, middleware, views, pour que tout cela fonctionne correctement">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756943094948" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="passe en revue le fichier admin views et forms pour voir si tout est ok par parce ces  confionnalaité avancés n'apparaissent toujours pas dans sur la carte">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756999402217" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="passe en revue tous les fichiers et vois les erreurs pour les corriger autmatiquement">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756833572570" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="passer en revue le carte_zone.html">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756942300595" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="placer le graphique juste en dessus  du tableau">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756981798269" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="plaçons-le à l'entête du formulaire pour qu'il ne masque pas le bas des autres page">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756915433319" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="recommençons car la génération du fichier ne fonctionne pas encore">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="2.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756997992010" />
+                  <option value="1756997114867" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="redéfinir le design général en ultra moder UI, UX">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756986934671" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="reparcourir les fichier pour y implémenter automatiquement ma demande à propos de la carte">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756829281220" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="revenons sur ma demande à propos de la carte">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756830379485" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="rien n'est c'est toujours resté le meme le formulaire n'a pas changé">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756936864330" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="toutes ses  FONCTIONNALITÉS DÉJÀ IMPLÉMENTÉES n'apparaissent pas sur carte">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756998880687" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="trop standard, ajoutes-y les fonctionnalitée et options que j'ai récemment demandé">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756989484623" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="tu n'as comprit, la statistique doit être dans les modeles &quot;contribuables&quot; et &quot;paiements&quot; au dessous ou dessus du tableau seulement dans dans ses models">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756983409653" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="utiliser le footer que est dans le fichier base.html">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756979248141" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="voici le fichier dans lequel apporté cette modification demandé">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756937542239" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="voici les fichiers templates, vois celuis qui gère le template des formulaires :&#10;_footer.html&#10;actions.html&#10;actions_simple.html&#10;app_index.html&#10;base.html&#10;base_site.html&#10;change_form.html&#10;change_list.html&#10;change_list_filter_confirm.html&#10;change_list_filter_confirm_sidebar.html&#10;change_list_filter_sidebar.html&#10;change_list_results.html&#10;csv_export_selected_confirmation.html&#10;delete_confirmation.html&#10;delete_selected_confirmation.html&#10;filter.html&#10;filter_listing.html&#10;index.html&#10;login.html&#10;object_history.html&#10;pagination.html&#10;popup_response.html&#10;prepopulated_fields_js.html&#10;related_widget_wrapper.html&#10;screen.css&#10;search_form.html&#10;stats.html&#10;submit_line.html&#10;template_validator.html">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756935134394" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="voici ma clé Api : AIzaSyCkcKUyv5VgfXokyxOk3x7MOBMykowbGkA, dans l'application &quot;geolocalisation&quot; je souhaite changer de carte passer de OSM, Google Map sans supprimer des données dé">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="6.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1757040699562" />
+                  <option value="1757040633800" />
+                  <option value="1757040581022" />
+                  <option value="1757040401090" />
+                  <option value="1757040373062" />
+                  <option value="1757040310003" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="voici ma clé Api : AIzaSyCkcKUyv5VgfXokyxOk3x7MOBMykowbGkA, dans l'application &quot;geolocalisation&quot; je souhaite changer de carte passer de OSM, Google Map sans supprimer des données existant">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="16.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1757087484395" />
+                  <option value="1757082453245" />
+                  <option value="1757082382206" />
+                  <option value="1757079848762" />
+                  <option value="1757079777352" />
+                  <option value="1757079756767" />
+                  <option value="1757079564049" />
+                  <option value="1757079447261" />
+                  <option value="1757079432362" />
+                  <option value="1757079387883" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="vérifie le fichier carte_zones.html contien des erreurs">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756907116846" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="à droite du formulaire et non à gauche">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756922590299" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+        <entry key="ça ne s'est bien paasé comme je les  demandé">
+          <value>
+            <GhostTextMetaData>
+              <option name="count" value="1.0" />
+              <option name="timestamps">
+                <list>
+                  <option value="1756988183314" />
+                </list>
+              </option>
+            </GhostTextMetaData>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

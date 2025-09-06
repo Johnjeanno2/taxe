@@ -1,0 +1,189 @@
+{% load i18n static %}
+
+<style>
+  /* Variables thématiques */
+  :root{
+    --bg: #f6faf7;
+    --card: #ffffff;
+    --accent-1: #20b24a;
+    --accent-2: #0f5a1c;
+    --muted: #6b7280;
+    --surface: #f8fbf7;
+    --radius: 12px;
+    --shadow-sm: 0 8px 20px rgba(15,90,28,0.06);
+    --shadow-lg: 0 18px 40px rgba(15,90,28,0.08);
+    --gap: 12px;
+  }
+
+  /* Conteneur */
+  .grp-module.grp-changelist-results { margin: 10px 0 20px; }
+
+  .grp-table, #result_list {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid rgba(15,90,28,0.04);
+  }
+
+  /* En‑têtes : gradient + texte blanc — liens forcés en blanc */
+  #result_list thead th {
+    background: linear-gradient(90deg, var(--accent-1) 0%, var(--accent-2) 100%);
+    color: #ffffff;
+    font-weight: 700;
+    padding: 14px 16px;
+    text-align: left;
+    vertical-align: middle;
+    font-size: 0.95rem;
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  /* Forcer tous les éléments dans les th en blanc (liens, icônes) */
+  #result_list thead th *,
+  .grp-table thead th * {
+    color: #ffffff !important;
+    fill: #ffffff !important;
+    stroke: #ffffff !important;
+    opacity: 1 !important;
+    text-decoration: none !important;
+  }
+  /* Liens triables */
+  #result_list thead th a { color: #ffffff !important; text-decoration:none; }
+
+  /* Lignes / cellules */
+  #result_list tbody td {
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(15,90,28,0.03);
+    color: #0f1724;
+    font-size: 0.95rem;
+    vertical-align: middle;
+    background: transparent;
+  }
+  #result_list tbody tr:nth-child(even) { background: var(--surface); }
+  #result_list tbody tr:hover { background: #eefaf0; }
+
+  /* Petite mise en forme pour les contrôles de tri */
+  .grp-sortoptions { display:inline-flex; gap:6px; align-items:center; margin-right:8px; }
+  .grp-sortpriority { background: rgba(255,255,255,0.12); padding: 2px 6px; border-radius: 6px; font-size:0.8rem; color: #fff; }
+  .grp-sortremove, .grp-toggle { width:18px; height:18px; display:inline-block; }
+
+  /* Responsive : transformation en cartes */
+  @media (max-width: 780px) {
+    #result_list thead { display: none; }
+
+    #result_list, .grp-module.grp-changelist-results table { border: none; box-shadow: none; }
+    #result_list tbody tr {
+      display: block;
+      margin-bottom: 12px;
+      background: var(--card);
+      padding: 12px;
+      border-radius: 10px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid rgba(15,90,28,0.03);
+    }
+
+    #result_list tbody td {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 10px;
+      border: none;
+      align-items: center;
+      gap: var(--gap);
+    }
+
+    #result_list tbody td::before {
+      content: attr(data-label);
+      font-weight:700;
+      color:var(--muted);
+      flex: 0 0 45%;
+      text-align:left;
+      padding-right: 8px;
+    }
+    #result_list tbody td > * { flex: 1 1 auto; text-align: right; }
+  }
+
+  /* Accessibilité / liens dans le tableau (valeur par défaut) */
+  #result_list a { color: var(--accent-2); text-decoration: none; }
+  #result_list a:hover { text-decoration: underline; }
+
+  /* Utilitaires */
+  .grp-table-responsive { width:100%; overflow:auto; }
+  .grp-errors td { background: #fff4f4; color: #8a1a1a; padding: 10px; font-weight:600; }
+</style>
+
+{% if result_hidden_fields %}
+  <div class="hiddenfields" aria-hidden="true">
+    {% for item in result_hidden_fields %}{{ item }}{% endfor %}
+  </div>
+{% endif %}
+
+{% if results %}
+  <div class="grp-module grp-changelist-results grp-table-responsive">
+    <table id="result_list" cellspacing="0" class="grp-table grp-sortable">
+      <thead>
+        <tr>
+          {% for header in result_headers %}
+            <th scope="col" {{ header.class_attrib }}>
+              {% if header.sortable and header.sort_priority > 0 %}
+                <div class="grp-sortoptions" aria-hidden="true">
+                  <a href="{{ header.url_toggle }}" class="grp-toggle {% if header.ascending %}grp-ascending{% else %}grp-descending{% endif %}" title="{% trans "Toggle sorting" %}"></a>
+                  {% if num_sorted_fields > 1 %}
+                    <span class="grp-sortpriority" title="{% blocktrans with priority_number=header.sort_priority %}Sorting priority: {{ priority_number }}{% endblocktrans %}">{{ header.sort_priority }}</span>
+                  {% endif %}
+                  <a class="grp-sortremove" href="{{ header.url_remove }}" title="{% trans "Remove from sorting" %}"></a>
+                </div>
+              {% endif %}
+              <div class="grp-text">
+                {% if header.sortable %}
+                  <a href="{{ header.url_primary }}">{{ header.text|capfirst }}</a>
+                {% else %}
+                  <span>{{ header.text|capfirst }}</span>
+                {% endif %}
+              </div>
+            </th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for result in results %}
+          {% if result.form.non_field_errors %}
+            <tr class="grp-errors"><td colspan="{{ result|length }}">{{ result.form.non_field_errors }}</td></tr>
+          {% endif %}
+          <tr class="grp-row {% cycle 'grp-row-even' 'grp-row-odd' %}">
+            {% for item in result %}
+              {{ item }}
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endif %}
+
+<script>
+  // Ajoute data-label sur chaque <td> à partir des en-têtes (utile pour mobile)
+  document.addEventListener('DOMContentLoaded', function () {
+    try {
+      const table = document.getElementById('result_list');
+      if (!table) return;
+      const headerCells = Array.from(table.querySelectorAll('thead th'));
+      const headers = headerCells.map(th => {
+        const txtEl = th.querySelector('.grp-text');
+        return txtEl ? txtEl.textContent.trim() : th.textContent.trim();
+      });
+      const rows = table.querySelectorAll('tbody tr');
+      rows.forEach(function (tr) {
+        const cells = tr.querySelectorAll('td');
+        cells.forEach(function (td, idx) {
+          if (!td.hasAttribute('data-label')) td.setAttribute('data-label', headers[idx] || '');
+        });
+      });
+    } catch (err) {
+      console.warn('addDataLabels error', err);
+    }
+  });
+</script>

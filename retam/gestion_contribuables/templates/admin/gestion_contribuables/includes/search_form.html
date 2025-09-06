@@ -1,0 +1,32 @@
+<form method="get" class="row g-3">
+    <div class="col-md-3">
+        {{ search_form.q.label_tag }}
+        {{ search_form.q }}
+    </div>
+    
+    <div class="col-md-2">
+        {{ search_form.type_contribuable.label_tag }}
+        {{ search_form.type_contribuable }}
+    </div>
+    
+    <div class="col-md-3">
+        {{ search_form.zone.label_tag }}
+        {{ search_form.zone }}
+    </div>
+    
+    <div class="col-md-2 d-flex align-items-end">
+        <div class="form-check form-switch">
+            {{ search_form.actif }}
+            {{ search_form.actif.label_tag }}
+        </div>
+    </div>
+    
+    <div class="col-md-2 d-flex align-items-end">
+        <button type="submit" class="btn btn-primary me-2">
+            <i class="bi bi-search"></i> Filtrer
+        </button>
+        <a href="?" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-counterclockwise"></i>
+        </a>
+    </div>
+</form>

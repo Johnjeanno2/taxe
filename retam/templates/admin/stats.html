@@ -1,0 +1,65 @@
+{% load static %}
+<! -- ...existing code... -->
+<link rel="stylesheet" href="{% static 'css/your-admin-overrides.css' %}">
+
+<style>
+  /* Conteneur plein large */
+  .retam-stats-wrap{
+    width: 100%;
+    max-width: none;
+    margin: 0 auto;
+    padding: 12px 18px;
+    box-sizing: border-box;
+  }
+  /* Canvas responsive avec hauteur fixe pour conserver proportions */
+  .retam-stats-canvas {
+    width: 100% !important;
+    height: 420px; /* ajuster selon besoin */
+    display: block;
+  }
+</style>
+
+<div class="retam-stats-wrap">
+  <canvas id="statsChart" class="retam-stats-canvas"></canvas>
+</div>
+
+{# Sérialise les données passées depuis la vue #}
+{{ stats|json_script:"stats-data" }}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  (function(){
+    const payload = JSON.parse(document.getElementById('stats-data').textContent || '{}');
+    const labels = payload.labels || [];
+    const values = payload.values || [];
+
+    const ctx = document.getElementById('statsChart').getContext('2d');
+    // si chart déjà initialisé sur la page, on le détruit d'abord
+    if (window._retamStatsChart) { window._retamStatsChart.destroy(); }
+
+    window._retamStatsChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: payload.label || 'Valeurs',
+          data: values,
+          backgroundColor: 'rgba(34,197,94,0.9)',
+          borderRadius: 6,
+          barPercentage: 0.7,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: { beginAtZero: true, ticks: { precision:0 } }
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: { mode: 'index', intersect: false }
+        }
+      }
+    });
+  })();
+</script>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BigDataIdeConnectionSettings">
+    <option name="connections">
+      <list>
+        <ExtendedConnectionData>
+          <option name="extended">
+            <map>
+              <entry key="connType" value="rO0ABX5yAD5jb20uaW50ZWxsaWouYmlnZGF0YXRvb2xzLmRhdGFicmlja3MuY2xpZW50LkRhdGFicmlja3NDb25uVHlwZQAAAAAAAAAAEgAAeHIADmphdmEubGFuZy5FbnVtAAAAAAAAAAASAAB4cHQAB1BST0ZJTEU=" />
+              <entry key="connectedClusterId" value="rO0ABXQAAA==" />
+              <entry key="tunnel" value="rO0ABXNyAFdjb20uamV0YnJhaW5zLmJpZ2RhdGF0b29scy5jb21tb24uY29ubmVjdGlvbi50dW5uZWwubW9kZWwuQ29ubmVjdGlvblNzaFR1bm5lbERhdGFMZWdhY3mINKLe8MxKawIABVoACWlzRW5hYmxlZEkACnJlbW90ZVBvcnRMAAhjb25maWdJZHQAEkxqYXZhL2xhbmcvU3RyaW5nO0wACWxvY2FsUG9ydHQAE0xqYXZhL2xhbmcvSW50ZWdlcjtMAApyZW1vdGVIb3N0cQB+AAF4cAD/////dAAAcHEAfgAE" />
+            </map>
+          </option>
+          <option name="fqn" value="com.intellij.bigdatatools.databricks.rfs.DatabricksConnectionData" />
+          <option name="groupId" value="DatabricksConnections" />
+          <option name="innerId" value="Databricks@DatabricksConnections@-1957757404499556344" />
+          <option name="name" value="Databricks" />
+          <option name="perProject" value="true" />
+        </ExtendedConnectionData>
+      </list>
+    </option>
+  </component>
+</project>

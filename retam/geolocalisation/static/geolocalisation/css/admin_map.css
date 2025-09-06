@@ -1,0 +1,452 @@
+/* geolocalisation/static/geolocalisation/css/admin_map.css */
+
+/* Carte principale - occupe toute la largeur */
+.leaflet-container {
+    height: 500px;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 2px solid rgba(121, 174, 200, 0.3);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Contrôles de couches */
+.leaflet-control-layers {
+    background: white;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Zoom controls */
+.leaflet-control-zoom {
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Optimisation pour mobile */
+@media (max-width: 768px) {
+    .leaflet-container {
+        height: 400px;
+        width: 100% !important;
+    }
+}
+
+/* Pour les écrans très larges */
+@media (min-width: 1200px) {
+    .leaflet-container {
+        height: 600px;
+        width: 100% !important;
+    }
+}
+
+/* S'assurer que le conteneur parent n'a pas de contraintes */
+.field-geom .leaflet-container,
+.field-geom .leaflet-map-pane {
+    width: 100% !important;
+    max-width: none !important;
+}
+
+/* Override des styles par défaut de Django */
+.field-geom {
+    width: 100% !important;
+    max-width: none !important;
+}
+
+/* Conteneur du widget Leaflet */
+.leaflet-widget {
+    width: 100% !important;
+    max-width: none !important;
+}
+
+/* ========================================
+   STYLES POUR LES ZONES ET DÉLIMITATIONS
+   ======================================== */
+
+/* Overlay d'instructions pour la carte */
+.map-instructions {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 15px 18px;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    max-width: 320px;
+    font-size: 13px;
+    border-left: 4px solid #79aec8;
+    backdrop-filter: blur(10px);
+}
+
+.map-instructions h5 {
+    margin: 0 0 10px 0;
+    color: #0a384f;
+    font-size: 15px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.map-instructions ul {
+    margin: 0;
+    padding-left: 18px;
+}
+
+.map-instructions li {
+    margin: 6px 0;
+    color: #555;
+    line-height: 1.4;
+}
+
+/* Styles pour les popups Leaflet personnalisées */
+.leaflet-popup-content {
+    margin: 15px 18px;
+    line-height: 1.5;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.leaflet-popup-content-wrapper {
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border: 2px solid rgba(121, 174, 200, 0.3);
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+}
+
+.leaflet-popup-tip {
+    background: rgba(255, 255, 255, 0.98);
+    border: 2px solid rgba(121, 174, 200, 0.3);
+    border-top: none;
+    border-right: none;
+}
+
+/* Popup des zones */
+.zone-popup {
+    min-width: 220px;
+}
+
+.zone-popup h4 {
+    margin: 0 0 15px 0;
+    color: #0a384f;
+    font-size: 17px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid rgba(121, 174, 200, 0.2);
+}
+
+.zone-popup .zone-info {
+    margin: 15px 0;
+}
+
+.zone-popup .zone-info p {
+    margin: 8px 0;
+    font-size: 14px;
+    color: #555;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.zone-popup .zone-info strong {
+    color: #0a384f;
+    min-width: 90px;
+}
+
+.zone-popup .zone-actions {
+    margin-top: 18px;
+    text-align: center;
+}
+
+.zone-popup .btn {
+    background: linear-gradient(135deg, #79aec8, #0a384f);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 12px rgba(121, 174, 200, 0.3);
+}
+
+.zone-popup .btn:hover {
+    background: linear-gradient(135deg, #0a384f, #79aec8);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(121, 174, 200, 0.4);
+}
+
+/* Popup des marqueurs */
+.marker-popup {
+    text-align: center;
+    min-width: 220px;
+}
+
+.marker-popup h5 {
+    margin: 0 0 15px 0;
+    color: #d17e54;
+    font-size: 16px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid rgba(209, 126, 84, 0.2);
+}
+
+.marker-popup p {
+    margin: 8px 0;
+    font-size: 14px;
+    color: #555;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.marker-popup strong {
+    color: #d17e54;
+    min-width: 80px;
+    text-align: left;
+}
+
+.marker-popup small {
+    color: #888;
+    font-style: italic;
+    display: block;
+    margin-top: 12px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Styles pour les marqueurs personnalisés */
+.custom-marker {
+    background: none !important;
+    border: none !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.custom-marker i {
+    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.3));
+    transition: all 0.3s ease;
+}
+
+.custom-marker:hover i {
+    transform: scale(1.2);
+    filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.4));
+}
+
+/* Légende de la carte */
+.map-legend {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 18px;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    font-size: 13px;
+    border-left: 4px solid #79aec8;
+    backdrop-filter: blur(10px);
+    min-width: 200px;
+}
+
+.map-legend h6 {
+    margin: 0 0 12px 0;
+    color: #0a384f;
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 8px 0;
+    font-size: 12px;
+    color: #555;
+}
+
+.legend-color {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    flex-shrink: 0;
+}
+
+.legend-color.zone-default {
+    background: rgba(121, 174, 200, 0.15);
+    border-color: #0a384f;
+    border-style: dashed;
+}
+
+.legend-color.zone-selected {
+    background: rgba(209, 126, 84, 0.25);
+    border-color: #d17e54;
+    border-style: solid;
+}
+
+.legend-color.zone-hover {
+    background: rgba(247, 201, 72, 0.3);
+    border-color: #f7c948;
+    border-style: solid;
+}
+
+.legend-color.marker {
+    background: #d17e54;
+    border-color: #d17e54;
+    border-radius: 50%;
+}
+
+/* Notifications de la carte */
+#map-notifications {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10000;
+    max-width: 350px;
+}
+
+.alert {
+    position: relative;
+    padding: 12px 18px;
+    margin-bottom: 12px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-size: 14px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(10px);
+}
+
+.alert-success {
+    color: #155724;
+    background-color: rgba(212, 237, 218, 0.95);
+    border-color: #c3e6cb;
+}
+
+.alert-info {
+    color: #0c5460;
+    background-color: rgba(209, 236, 241, 0.95);
+    border-color: #bee5eb;
+}
+
+.alert-warning {
+    color: #856404;
+    background-color: rgba(255, 243, 205, 0.95);
+    border-color: #ffeaa7;
+}
+
+.alert-error {
+    color: #721c24;
+    background-color: rgba(248, 215, 218, 0.95);
+    border-color: #f5c6cb;
+}
+
+.close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 12px 18px;
+    color: inherit;
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.close:hover {
+    opacity: 1;
+}
+
+/* Animations */
+@keyframes slideInRight {
+    from { 
+        transform: translateX(100%); 
+        opacity: 0; 
+    }
+    to { 
+        transform: translateX(0); 
+        opacity: 1; 
+    }
+}
+
+@keyframes pulse {
+    0%, 100% { 
+        transform: scale(1); 
+    }
+    50% { 
+        transform: scale(1.05); 
+    }
+}
+
+/* Animation pour les zones sélectionnées */
+.zone-selected {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* Responsive pour les nouveaux éléments */
+@media (max-width: 768px) {
+    .map-instructions {
+        position: relative;
+        margin-bottom: 15px;
+        max-width: none;
+    }
+    
+    .map-legend {
+        position: relative;
+        bottom: auto;
+        right: auto;
+        margin-top: 15px;
+        min-width: auto;
+    }
+    
+    .zone-popup,
+    .marker-popup {
+        min-width: auto;
+    }
+    
+    #map-notifications {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .map-instructions {
+        padding: 12px 15px;
+        font-size: 12px;
+    }
+    
+    .map-legend {
+        padding: 15px;
+        font-size: 12px;
+    }
+    
+    .zone-popup .btn {
+        padding: 8px 16px;
+        font-size: 13px;
+    }
+}

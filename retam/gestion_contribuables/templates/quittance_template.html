@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Quittance de paiement</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
+            background: #f8fafc;
+            color: #2c3e50;
+        }
+        .quittance {
+            background: #fff;
+            border: 2px solid #79aec8;
+            border-radius: 18px;
+            padding: 36px 32px 28px 32px;
+            width: 370px;
+            margin: 40px auto;
+            box-shadow: 0 8px 32px rgba(30,58,92,0.10);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .badge {
+            background: linear-gradient(90deg, #4caf50 60%, #79aec8 100%);
+            color: #fff;
+            font-weight: 700;
+            font-size: 1em;
+            border-radius: 8px;
+            padding: 4px 18px;
+            box-shadow: 0 2px 8px rgba(61,178,255,0.10);
+            letter-spacing: 1px;
+        }
+        h2 {
+            color: #0a384f;
+            font-size: 1.5em;
+            margin-bottom: 0;
+            letter-spacing: 1px;
+        }
+        hr {
+            width: 80%;
+            border: none;
+            border-top: 1.5px solid #79aec8;
+            margin: 14px 0 20px 0;
+        }
+        .info {
+            width: 100%;
+            margin-bottom: 14px;
+        }
+        .info p {
+            margin: 8px 0;
+            font-size: 1.08em;
+        }
+        .info strong {
+            color: #0a384f;
+            font-weight: 600;
+        }
+        .montant {
+            background: linear-gradient(90deg, #79aec8 60%, #3db2ff 100%);
+            color: #fff;
+            font-size: 1.25em;
+            font-weight: 700;
+            padding: 10px 0;
+            border-radius: 8px;
+            width: 100%;
+            text-align: center;
+            margin: 18px 0 12px 0;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 8px rgba(61,178,255,0.08);
+        }
+        .montant-total {
+            background:#eaf6fb;
+            color:#0a384f;
+            font-size:1em;
+            font-weight:600;
+            border-radius:8px;
+            width:100%;
+            text-align:center;
+            margin-bottom:0;
+            padding:7px 0;
+        }
+        .qr {
+            margin-top: 18px;
+            margin-bottom: 0;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        .qr img {
+            width: 140px;
+            height: 140px;
+            border: 2px solid #79aec8;
+            display: block;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(61,178,255,0.10);
+        }
+        .qr-desc {
+            font-size: 0.95em;
+            color: #555;
+            margin-top: 0;
+            text-align: center;
+        }
+        .footer {
+            margin-top: 18px;
+            font-size: 0.95em;
+            color: #888;
+            text-align: center;
+        }
+        @media print {
+            .no-print { display: none; }
+            body { background: #fff; }
+            .quittance { box-shadow: none; border-color: #0a384f; }
+        }
+        .no-print {
+            text-align: center;
+            margin-top: 24px;
+        }
+        .no-print button {
+            background: linear-gradient(90deg, #79aec8 60%, #3db2ff 100%);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 28px;
+            font-size: 1.08em;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(61,178,255,0.10);
+            transition: background 0.2s;
+        }
+        .no-print button:hover {
+            background: linear-gradient(90deg, #3db2ff 60%, #79aec8 100%);
+        }
+    </style>
+</head>
+<body>
+    <div class="quittance">
+        <div class="header">
+            <h2>Quittance de paiement</h2>
+            <span class="badge">Payé</span>
+        </div>
+        <hr>
+        <div class="info">
+            <p><strong>Contribuable :</strong> {{ contribuable.nom }} <span style="color:#888;">(NIF : {{ contribuable.nif }})</span></p>
+            <p><strong>Type de taxe/redevance :</strong> {{ paiement.get_taxe_redevance_display }}</p>
+            <p><strong>Date de paiement :</strong> {{ paiement.date_paiement }}</p>
+            <p><strong>Référence :</strong> {{ paiement.reference }}</p>
+            <p><strong>Date d'émission :</strong> {{ date_emission }}</p>
+        </div>
+        <div class="montant">
+            Montant payé : {{ paiement.montant }} FCFA
+        </div>
+        <div class="montant-total">
+            Total payé (tous paiements) : {{ total_paye }} FCFA
+        </div>
+
+        <div class="qr" role="img" aria-label="QR code de la quittance">
+            {% if qr_base64 %}
+                <img src="data:image/png;base64,{{ qr_base64 }}" alt="QR Code">
+                <div class="qr-desc">Scannez pour voir les détails de la quittance</div>
+            {% else %}
+                {# Fallback : génération via Google Charts en utilisant la référence (urlencoded) #}
+                <img src="https://chart.googleapis.com/chart?cht=qr&chs=140x140&chl={{ paiement.reference|default:''|urlencode }}" alt="QR Code (généré)">
+                <div class="qr-desc">QR généré depuis la référence (fallback)</div>
+            {% endif %}
+        </div>
+
+        <div class="footer">
+            Document généré par la plateforme de gestion fiscale - Mairie de Mbour
+        </div>
+        <div class="no-print">
+            <button onclick="window.print()">Imprimer la quittance</button>
+        </div>
+    </div>
+</body>
+</html>

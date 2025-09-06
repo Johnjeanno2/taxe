@@ -1,0 +1,62 @@
+{% load i18n %}
+<div class="grp-module grp-filter-module" role="region" aria-label="{{ title|default:_('Filter') }}">
+  <style>
+    .grp-filter-row{ display:flex; gap:8px; align-items:center; margin:6px 0; }
+    .grp-filter-label{ font-weight:700; color:#0f1724; min-width:120px; }
+    .grp-filter-select{ flex:1; padding:8px 10px; border-radius:8px; border:1px solid rgba(11,90,43,0.08); background:#fff; box-sizing:border-box; }
+    .grp-filter-links{ display:none; margin-top:8px; }
+    .grp-filter-links a{ display:block; padding:6px 8px; border-radius:6px; text-decoration:none; color:#0f1724; }
+    .grp-filter-links a.selected{ background:linear-gradient(90deg,#0f5a1c,#16a34a); color:#fff; font-weight:700; }
+    @media (prefers-reduced-motion:reduce){ .grp-filter-select{ transition:none; } }
+  </style>
+
+  <div class="grp-filter-row">
+    <label class="grp-filter-label" for="filter-{{ field_name|default:'filter'|slugify }}">{{ title|capfirst }}</label>
+
+    <select id="filter-{{ field_name|default:'filter'|slugify }}" class="grp-filter-select" aria-label="{{ title|capfirst }}">
+      <option value="" {% if not choices|length %}selected{% endif %}>{{ _("— Filtrer —") }}</option>
+      {% for choice in choices %}
+        <option value="{{ choice.query_string|default:'' }}" {% if choice.selected %}selected{% endif %}>
+          {{ choice.display }}{% if choice.count is not None %} ({{ choice.count }}){% endif %}
+        </option>
+      {% endfor %}
+    </select>
+  </div>
+
+  {# Liste de secours accessible si JS désactivé #}
+  <noscript>
+    <div class="grp-filter-links" aria-hidden="false">
+      {% for choice in choices %}
+        {% if choice.query_string %}
+          <a href="{{ request.path }}{{ choice.query_string }}" class="{% if choice.selected %}selected{% endif %}">{{ choice.display }}{% if choice.count is not None %} ({{ choice.count }}){% endif %}</a>
+        {% else %}
+          <a href="{{ request.path }}" class="{% if choice.selected %}selected{% endif %}">{{ choice.display }}{% if choice.count is not None %} ({{ choice.count }}){% endif %}</a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </noscript>
+  <script>
+    (function(){
+      var sel = document.getElementById('filter-{{ field_name|default:"filter"|slugify }}');
+      if (!sel) return;
+      sel.addEventListener('change', function(){
+        var q = this.value || '';
+        // cas valeur vide -> page courante sans filtre
+        if (!q) { window.location.href = window.location.pathname; return; }
+        // q commence par ? ou & -> c'est une query_string fournie par Django
+        var first = q.charAt(0);
+        if (first === '?' || first === '&') {
+          window.location.href = window.location.pathname + q;
+          return;
+        }
+        // q commence par / -> URL absolue relative fournie
+        if (first === '/') {
+          window.location.href = q;
+          return;
+        }
+        // fallback : ajouter ? devant
+        window.location.href = window.location.pathname + '?' + q;
+      });
+    })();
+  </script>
+</div>

@@ -1,0 +1,180 @@
+{% extends "admin/base_site.html" %}
+
+{% load i18n l10n admin_urls static %}
+
+{% block stylesheets %}
+    {{ block.super }}
+    {{ media.css }}
+    <style>
+      :root{
+        --bg: #f6faf7;
+        --card: #ffffff;
+        --accent: #16a34a;
+        --accent-dark: #0b5a2b;
+        --muted: #6b7280;
+        --danger: #d14343;
+        --radius: 12px;
+        --shadow: 0 12px 30px rgba(5,78,39,0.06);
+      }
+
+      body.grp-delete-confirmation {
+        background: linear-gradient(180deg,#f4f7f5,#eef6ee);
+        color: #0f1724;
+        font-family: Inter, system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+      }
+
+      .delete-selected-wrapper {
+        max-width: 1100px;
+        margin: 28px auto;
+        padding: 20px;
+      }
+
+      .delete-card {
+        background: var(--card);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 20px;
+        border: 1px solid rgba(11,90,43,0.04);
+      }
+
+      .delete-header {
+        display:flex;
+        align-items:center;
+        gap:14px;
+        margin-bottom: 12px;
+      }
+      .delete-header h1 {
+        margin:0;
+        font-size:1.15rem;
+        color:var(--accent-dark);
+      }
+
+      .grp-nested-list { margin: 8px 0 18px 0; padding-left: 18px; color: #22332a; }
+      .grp-nested-list li { margin:6px 0; }
+
+      .warning {
+        background: linear-gradient(90deg, rgba(209,67,67,0.05), rgba(209,67,67,0.02));
+        border-left: 4px solid var(--danger);
+        padding: 10px 12px;
+        border-radius: 8px;
+        color: var(--danger);
+        margin-bottom: 14px;
+      }
+
+      .grp-submit-row { display:flex; gap:12px; align-items:center; justify-content:flex-end; }
+      .grp-fixed-footer {
+        left: 0; right: 0; bottom: 0; z-index: 1200;
+        box-shadow: 0 -12px 36px rgba(0,0,0,0.12);
+        background: linear-gradient(180deg, rgba(22,163,74,0.02), rgba(11,90,43,0.01));
+        border-top: 1px solid rgba(11,90,43,0.02);
+        padding: 12px 20px;
+        border-radius: 8px 8px 0 0;
+      }
+      @media (min-width:1100px){ .grp-fixed-footer { position: fixed !important; } }
+      @media (max-width:1099px){ .grp-fixed-footer { position: sticky !important; } }
+      @media (max-width:760px){ .grp-fixed-footer { position: static !important; box-shadow:none; padding:10px 12px; } }
+
+      .grp-button {
+        background: linear-gradient(90deg,var(--accent-dark),var(--accent));
+        color:#fff; border:none; padding:8px 14px; border-radius:10px; font-weight:700; cursor:pointer;
+      }
+      .grp-button.grp-cancel-link { background: transparent; color:var(--accent-dark); border: 1px solid rgba(11,90,43,0.06); box-shadow:none; }
+      .muted { color: var(--muted); font-size:0.95rem; }
+    </style>
+{% endblock %}
+
+{% block bodyclass %}grp-delete-confirmation{% endblock %}
+{% block content-class %}{% endblock %}
+
+{% block breadcrumbs %}
+    <ul class="grp-horizontal-list">
+        <li><a href="{% url 'admin:index' %}">{% trans "Home" %}</a></li>
+        <li><a href="{% url 'admin:app_list' app_label=opts.app_label %}">{{ opts.app_config.verbose_name }}</a></li>
+        <li><a href="{% url opts|admin_urlname:'changelist' %}">{{ opts.verbose_name_plural|capfirst }}</a></li>
+        <li>{% trans 'Delete multiple objects' %}</li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+  <div class="delete-selected-wrapper">
+    <div class="delete-card">
+      <div class="delete-header">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect width="24" height="24" rx="6" fill="#ffecec"/>
+          <path d="M8 9l8 8M16 9l-8 8" stroke="#d14343" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <h1>{% trans "Confirm deletion of selected items" %}</h1>
+      </div>
+
+      <div class="delete-body">
+        {% if perms_lacking or protected %}
+            {% if perms_lacking %}
+                <div class="warning">
+                    <strong>{% trans "Permission required" %}</strong>
+                    <div class="muted">{% blocktrans %}Deleting the selected {{ objects_name }} would remove related objects for which you lack delete permissions.{% endblocktrans %}</div>
+                </div>
+                <ul class="grp-nested-list">
+                    {% for obj in perms_lacking %}
+                        <li>{{ obj }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            {% if protected %}
+                <div class="warning">
+                    <strong>{% trans "Protected related objects" %}</strong>
+                    <div class="muted">{% blocktrans %}Deleting the selected {{ objects_name }} would require removing protected related items.{% endblocktrans %}</div>
+                </div>
+                <ul class="grp-nested-list">
+                    {% for obj in protected %}
+                        <li>{{ obj }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% else %}
+            <h2>{% blocktrans %}Are you sure you want to delete the selected {{ objects_name }}? All of the following objects and their related items will be deleted:{% endblocktrans %}</h2>
+
+            {% include "admin/includes/object_delete_summary.html" %}
+            {% for deleteable_object in deletable_objects %}
+                <ul class="grp-nested-list">{{ deleteable_object|unordered_list }}</ul>
+            {% endfor %}
+
+            <form action="" method="post" novalidate>{% csrf_token %}
+                <div id="submit" class="grp-module grp-submit-row grp-fixed-footer" role="region" aria-label="{% trans 'Delete confirmation actions' %}">
+                    {% for obj in queryset %}
+                        <input type="hidden" name="{{ action_checkbox_name }}" value="{{ obj.pk|unlocalize }}" />
+                    {% endfor %}
+                    <input type="hidden" name="action" value="delete_selected" />
+                    <input type="hidden" name="post" value="yes" />
+                    <ul style="list-style:none; margin:0; padding:0; display:flex; gap:12px; align-items:center;">
+                        <li style="margin-right:auto;"><a href="." class="grp-button grp-cancel-link">{% trans "Cancel" %}</a></li>
+                        <li><input type="submit" value="{% trans "Yes, I'm sure" %}" class="grp-button grp-default" /></li>
+                    </ul>
+                </div>
+            </form>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block javascripts %}
+  {{ block.super }}
+  {{ media.js }}
+  <script>
+    (function(){
+      function adjustFooterPadding(){
+        var footer = document.querySelector('.grp-fixed-footer');
+        if (!footer) return;
+        var isFixed = window.matchMedia('(min-width:1100px)').matches;
+        if (isFixed) {
+          document.body.style.paddingBottom = footer.offsetHeight + 'px';
+        } else {
+          document.body.style.paddingBottom = '';
+        }
+      }
+      window.addEventListener('load', adjustFooterPadding);
+      window.addEventListener('resize', adjustFooterPadding);
+      setTimeout(adjustFooterPadding,120);
+    })();
+  </script>
+{% endblock %}

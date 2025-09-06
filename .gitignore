@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+*.egg
+.env
+.pytest_cache/
+
+# Virtualenvs
+.venv/
+venv/
+
+# Django
+db.sqlite3
+media/
+staticfiles/
+
+# VSCode
+.vscode/
+
+# MacOS
+.DS_Store
+
+# Node
+node_modules/
+
+# Docker
+.env
+**/docker-compose.override.yml
+
+# Logs
+*.log

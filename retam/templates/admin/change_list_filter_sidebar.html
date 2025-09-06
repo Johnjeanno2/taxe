@@ -1,0 +1,112 @@
+{% extends "admin/base_site.html" %}
+
+{% load admin_list i18n grp_tags admin_urls static %}
+
+{# STYLESHEETS - ajouter ici les CSS spécifiques à la page change-list #}
+{% block stylesheets %}
+    {{ block.super }}
+    {{ media.css }}
+    <style>
+    /* Exemple minimal : personnalise ici selon besoin */
+    #grp-filters { margin-bottom: 12px; }
+    .grp-pulldown-content { z-index: 1300; }
+    </style>
+{% endblock %}
+
+{# JAVASCRIPTS - scripts additionnels si besoin #}
+{% block javascripts %}
+    {{ block.super }}
+    {{ media.js }}
+    <script>
+    // script léger : ferme les pulldowns au click en dehors
+    (function(){
+      document.addEventListener('click', function(e){
+        var el = e.target;
+        if (!el.closest) return;
+        var open = document.querySelectorAll('.grp-pulldown-content.show');
+        open.forEach(function(c){
+          if (!el.closest('.grp-pulldown-container') || !c.closest('.grp-pulldown-container').contains(el)) {
+            c.classList.remove('show');
+          }
+        });
+      });
+    })();
+    </script>
+{% endblock %}
+
+{# BODY / CLASSES #}
+{% block bodyclass %}grp-change-list{% endblock %}
+{% block content-class %}{% endblock %}
+
+{# BREADCRUMBS #}
+{% block breadcrumbs %}
+    {% if not is_popup %}
+        <ul class="grp-horizontal-list">
+            <li><a href="{% url 'admin:index' %}">{% trans "Home" %}</a></li>
+            <li><a href="{% url 'admin:app_list' app_label=cl.opts.app_label %}">{{ cl.opts.app_config.verbose_name }}</a></li>
+            <li>{{ cl.opts.verbose_name_plural|capfirst }}</li>
+        </ul>
+    {% endif %}
+{% endblock %}
+
+{# TITRE DE LA PAGE #}
+{% block content_title %}
+    <h1>{{ cl.opts.verbose_name_plural|capfirst }}</h1>
+{% endblock %}
+
+{# OUTILS D'OBJET (Add, etc.) #}
+{% block object-tools %}
+    <ul class="grp-object-tools">
+        {% block object-tools-items %}
+            {% if has_add_permission %}
+                {% url cl.opts|admin_urlname:'add' as add_url %}
+                <li><a href="{% add_preserved_filters add_url is_popup %}" class="grp-add-link grp-state-focus">
+                    {% blocktrans with cl.opts.verbose_name as name %}Add {{ name }}{% endblocktrans %}
+                </a></li>
+            {% endif %}
+        {% endblock %}
+    </ul>
+{% endblock %}
+
+{# CONTENU PRINCIPAL (filtres + résultats) #}
+{% block content %}
+    <div class="grp-module">
+        <div class="grp-row">
+            <div class="l-2cr-fluid {% if cl.has_filters and cl.search_fields %}l-d-12{% else %}{% if cl.has_filters or cl.search_fields %}l-d-6{% endif %}{% endif %}">
+                {% if cl.has_filters or cl.search_fields %}
+                    {% block aside %}
+                        <aside class="c-1">
+                            {% if cl.search_fields %}
+                                <div id="search" class="g-d-6 g-d-f">
+                                    {% search_form cl %}
+                                </div>
+                            {% endif %}
+                            {% if cl.has_filters %}
+                                <div id="grp-filters" class="g-d-6 g-d-l">
+                                    <div class="grp-filter">
+                                        <div class="grp-pulldown-container">
+                                            <a href="javascript://" class="grp-button grp-pulldown-handler">{% trans 'Filters' %}</a>
+                                            <div class="grp-pulldown-content" aria-hidden="true">
+                                                {% for spec in cl.filter_specs %}{% admin_list_filter cl spec %}{% endfor %}
+                                                <div class="grp-module grp-pulldown-footer" style="margin-top:12px;">
+                                                    <div class="grp-row">
+                                                        <a href="" role="button" id="grp-filter-apply" class="grp-button">{% trans 'Apply' %}</a>
+                                                        <a href="?" id="grp-filter-clear" class="grp-button grp-reset-link">{% trans 'Reset' %}</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </aside>
+                    {% endblock %}
+                {% endif %}
+                {% block pagination_top %}
+                    <div class="c-2">{% pagination cl %}</div>
+                {% endblock %}
+            </div>
+        </div>
+        {% block date_hierarchy %}{% if cl.date_hierarchy %}{% date_hierarchy cl %}{% endif %}{% endblock %}
+    </div>
+{% endblock %

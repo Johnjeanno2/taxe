@@ -1,0 +1,13 @@
+{% load i18n %}
+<div class="grp-module">
+  <h3>{{ title|capfirst }}</h3>
+  <ul>
+    {% for choice in choices %}
+      <li>
+        <a href="{{ request.path }}{{ choice.query_string }}">{{ choice.display }}{% if choice.count is not None %} ({{ choice.count }}){% endif %}</a>
+      </li>
+    {% empty %}
+      <li><em>{% trans "Aucun choix" %}</em></li>
+    {% endfor %}
+  </ul>
+</div>

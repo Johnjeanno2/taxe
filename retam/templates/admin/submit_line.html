@@ -1,0 +1,189 @@
+{% load i18n admin_urls %}
+<style>
+  :root{
+    --accent:#16a34a;
+    --accent-700:#0b5a2b;
+    --danger:#d14343;
+    --bg-footer: linear-gradient(180deg, rgba(22,163,74,0.02), rgba(11,90,43,0.01));
+    --radius:10px;
+    --shadow: 0 12px 30px rgba(5,78,39,0.06);
+  }
+
+  /* Layout principal : formulaire + boutons côte à côte */
+  #grp-content {
+    display: flex !important;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  /* Le formulaire prend l'espace disponible */
+  form {
+    flex: 1;
+    min-width: 0;
+    order: 1;
+  }
+
+  /* Barre de soumission : positionnée à droite du formulaire */
+  footer.grp-module.grp-submit-row.grp-fixed-footer {
+    position: static !important;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 16px;
+    background: var(--bg-footer);
+    border: 1px solid rgba(11,90,43,0.08);
+    box-shadow: var(--shadow);
+    border-radius: var(--radius);
+    width: 200px;
+    backdrop-filter: blur(6px);
+    align-self: flex-start;
+    position: sticky;
+    top: 20px;
+    order: 2;
+  }
+
+  footer.grp-module.grp-submit-row.grp-fixed-footer > div {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .grp-actions-left {
+    display: flex;
+    gap: 10px;
+    align-items: stretch;
+    margin-bottom: 8px;
+  }
+
+  .grp-button {
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background: linear-gradient(90deg,var(--accent-700),var(--accent));
+    color:#fff;
+    padding:8px 14px;
+    border-radius:8px;
+    border:none;
+    cursor:pointer;
+    font-weight:700;
+    box-shadow: 0 8px 20px rgba(11,90,43,0.06);
+    text-decoration:none;
+  }
+  .grp-button:hover { transform: translateY(-2px); }
+
+  .grp-button.grp-delete-link {
+    background: linear-gradient(90deg, #d85b5b, #d14343);
+    color:#fff;
+    box-shadow: 0 8px 20px rgba(209,67,67,0.06);
+    border: none;
+  }
+
+  .grp-button.grp-default { background: linear-gradient(90deg,var(--accent-700),var(--accent)); }
+
+  /* Responsive : adapter la position sur petits écrans */
+  @media (max-width: 1200px) {
+    #grp-content {
+      flex-direction: column !important;
+      gap: 0 !important;
+    }
+
+    footer.grp-module.grp-submit-row.grp-fixed-footer {
+      position: sticky !important;
+      top: auto;
+      bottom: 0;
+      width: 100%;
+      flex-direction: row;
+      justify-content: flex-end;
+      padding: 12px 18px;
+      order: 3;
+    }
+    footer.grp-module.grp-submit-row.grp-fixed-footer > div {
+      flex-direction: row;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .grp-actions-right {
+      flex-direction: row !important;
+      align-items: center !important;
+    }
+    .grp-actions-left {
+      margin-right: auto !important;
+      margin-bottom: 0 !important;
+    }
+  }
+  @media (max-width: 720px) {
+    footer.grp-module.grp-submit-row.grp-fixed-footer {
+      border-radius: 8px;
+      padding: 10px;
+    }
+    footer.grp-module.grp-submit-row.grp-fixed-footer > div {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .grp-actions-left {
+      width: 100%;
+      margin-bottom: 8px !important;
+    }
+    .grp-actions-right {
+      flex-direction: column !important;
+      align-items: stretch !important;
+    }
+    .grp-button {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>
+
+<footer class="grp-module grp-submit-row grp-fixed-footer" role="region" aria-label="{% trans 'Submit options' %}">
+    <header style="display:none"><h1>{% trans "Submit Options" %}</h1></header>
+    <div>
+        {% block submit-row %}
+        <div class="grp-actions-right" style="display:flex; flex-direction:column; gap:10px; align-items:stretch;">
+        {% if show_save %}
+            <input type="submit" value="{% trans 'Save' %}" class="grp-button grp-default" name="_save" />
+        {% endif %}
+        {% if show_save_as_new %}
+            <input type="submit" value="{% trans 'Save as new' %}" class="grp-button" name="_saveasnew" />
+        {% endif %}
+        {% if show_save_and_add_another %}
+            <input type="submit" value="{% trans 'Save and add another' %}" class="grp-button" name="_addanother" />
+        {% endif %}
+        {% if show_save_and_continue %}
+            <input type="submit" value="{% trans 'Save and continue editing' %}" class="grp-button" name="_continue" />
+        {% endif %}
+        </div>
+        {% if show_delete_link %}
+            {% url opts|admin_urlname:'delete' original.pk|admin_urlquote as delete_url %}
+            <div class="grp-actions-left">
+              <a href="{% add_preserved_filters delete_url %}" class="grp-button grp-delete-link" role="button">
+                {% trans "Delete" %}
+              </a>
+            </div>
+        {% endif %}
+        {% endblock %}
+    </div>
+</footer>
+
+<script>
+  // Assurer que les boutons restent visibles
+  (function(){
+    function adjustButtonsVisibility(){
+      var footer = document.querySelector('.grp-fixed-footer');
+      if (!footer) return;
+
+      // Sur petits écrans, revenir au comportement normal (sticky)
+      if (window.matchMedia('(max-width:1200px)').matches) {
+        document.body.style.paddingBottom = '';
+      }
+    }
+    window.addEventListener('load', adjustButtonsVisibility);
+    window.addEventListener('resize', adjustButtonsVisibility);
+    setTimeout(adjustButtonsVisibility, 120);
+  })();
+</script>

@@ -1,0 +1,53 @@
+<!-- templates/geolocalisation/carte_zones.html -->
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+<!-- Utilisation de Google Maps - Leaflet supprimé -->
+{% block extrajs %}
+<!-- Charger l'API Google Maps avec la clé injectée par le context processor -->
+<script async defer src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&libraries=geometry,places&callback=__gmaps_init"></script>
+<script src="{% static 'geolocalisation/js/google_maps_integration.js' %}"></script>
+<script>
+function __gmaps_init(){
+  try{
+    {% extends "admin/base_site.html" %}
+    {% load static %}
+
+    {% block extrastyle %}
+    {{ block.super }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+    <style>
+      #map { width: 100%; height: 80vh; min-height: 400px; border-radius: 6px; }
+    </style>
+    {% endblock %}
+
+    {% block content %}
+      <div class="container">
+        <h1>Carte des zones et localisations</h1>
+        <div id="map"></div>
+      </div>
+    {% endblock %}
+
+    {% block extrajs %}
+    {{ block.super }}
+    <!-- Charger d'abord le JS d'intégration (définit GoogleMapsIntegration) -->
+    <script src="{% static 'geolocalisation/js/google_maps_integration.js' %}"></script>
+    <!-- Définir la fonction de callback avant le chargement de l'API -->
+    <script>
+    function __gmaps_init(){
+      try{
+        if (typeof initMapStyles === 'function') initMapStyles();
+        var app = new GoogleMapsIntegration('map');
+        app.init();
+        // Charger zones et localisations
+        fetch('{% url "geolocalisation:all_zones_geojson" %}').then(r=>r.json()).then(data=>{ if(data.features) app.addZonesFromGeoJSON(data); }).catch(()=>{});
+        fetch('{% url "geolocalisation:localisations_geojson" %}').then(r=>r.json()).then(data=>{ if(data.features) app.addLocalisationsFromGeoJSON(data); }).catch(()=>{});
+      }catch(e){ console.error('gmap init failed', e); }
+    }
+    </script>
+    <!-- Charger l'API Google Maps (callback appellera __gmaps_init) -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&libraries=geometry,places&callback=__gmaps_init"></script>
+    {% endblock %}

@@ -1,0 +1,495 @@
+{% extends "admin/base_site.html" %}
+
+<!-- LOADING -->
+{% load static i18n admin_modify admin_urls grp_tags %}
+
+<!-- STYLESHEETS -->
+{% block stylesheets %}
+    {{ block.super }}
+    <style>
+        /* ===== DESIGN ULTRA-MODERNE POUR LES FORMULAIRES ===== */
+
+        /* Variables CSS pour le design moderne */
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --accent-color: #6366f1;
+            --accent-light: #a5b4fc;
+            --surface: #ffffff;
+            --surface-elevated: #f8fafc;
+            --surface-hover: #f1f5f9;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border-light: #e2e8f0;
+            --border-focus: #6366f1;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --radius-sm: 6px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+        }
+
+        /* Centraliser et étendre les formulaires - UNIQUEMENT pour les pages de formulaire */
+        body.grp-change-form #grp-content {
+            max-width: calc(90% + 400px) !important;
+            margin: 0 auto !important;
+            width: calc(90% + 400px) !important;
+            padding-right: 250px !important;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
+            min-height: 100vh !important;
+        }
+
+        /* Container principal du formulaire ultra-moderne */
+        form {
+            width: 100% !important;
+            max-width: none !important;
+            background: var(--surface) !important;
+            border-radius: var(--radius-xl) !important;
+            box-shadow: var(--shadow-xl) !important;
+            padding: 2rem !important;
+            margin: 2rem 0 !important;
+            position: relative !important;
+            overflow: hidden !important;
+        }
+
+        /* Effet de brillance subtil */
+        form::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+            pointer-events: none;
+        }
+
+        form:hover::before {
+            left: 100%;
+        }
+
+        /* Fieldsets modernes */
+        .grp-module {
+            width: 100% !important;
+            background: var(--surface-elevated) !important;
+            border: 1px solid var(--border-light) !important;
+            border-radius: var(--radius-lg) !important;
+            padding: 2rem !important;
+            margin-bottom: 2rem !important;
+            box-shadow: var(--shadow-sm) !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            position: relative !important;
+        }
+
+        .grp-module:hover {
+            transform: translateY(-2px) !important;
+            box-shadow: var(--shadow-md) !important;
+            border-color: var(--accent-light) !important;
+        }
+
+        /* Titres de sections ultra-modernes */
+        .grp-module h2,
+        .grp-module .grp-collapse-handler {
+            color: var(--text-primary) !important;
+            font-size: 1.25rem !important;
+            font-weight: 600 !important;
+            margin-bottom: 1.5rem !important;
+            padding-bottom: 0.75rem !important;
+            border-bottom: 2px solid var(--accent-color) !important;
+            position: relative !important;
+            background: none !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 0.5rem !important;
+        }
+
+        .grp-module h2::before {
+            content: '';
+            width: 4px;
+            height: 1.5rem;
+            background: var(--primary-gradient);
+            border-radius: 2px;
+        }
+
+        /* Labels modernes */
+        .grp-module label {
+            font-weight: 600 !important;
+            color: var(--text-primary) !important;
+            font-size: 0.875rem !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.05em !important;
+            margin-bottom: 0.5rem !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 0.5rem !important;
+        }
+
+        /* Lignes de formulaire */
+        .grp-row {
+            width: 100% !important;
+            margin-bottom: 1.5rem !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 0.5rem !important;
+            position: relative !important;
+        }
+
+        /* Champs de saisie ultra-modernes */
+        .grp-module input[type="text"],
+        .grp-module input[type="number"],
+        .grp-module input[type="email"],
+        .grp-module input[type="date"],
+        .grp-module input[type="datetime-local"],
+        .grp-module select,
+        .grp-module textarea {
+            width: 100% !important;
+            padding: 1rem 1.25rem !important;
+            border: 2px solid var(--border-light) !important;
+            border-radius: var(--radius-md) !important;
+            font-size: 1rem !important;
+            background: var(--surface) !important;
+            color: var(--text-primary) !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            box-shadow: var(--shadow-sm) !important;
+            position: relative !important;
+        }
+
+        .grp-module input:focus,
+        .grp-module select:focus,
+        .grp-module textarea:focus {
+            outline: none !important;
+            border-color: var(--border-focus) !important;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1), var(--shadow-md) !important;
+            background: var(--surface) !important;
+            transform: translateY(-1px) !important;
+        }
+
+        /* Textarea spécial */
+        .grp-module textarea {
+            min-height: 120px !important;
+            resize: vertical !important;
+            font-family: inherit !important;
+        }
+
+        /* Select moderne */
+        .grp-module select {
+            cursor: pointer !important;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e") !important;
+            background-position: right 0.75rem center !important;
+            background-repeat: no-repeat !important;
+            background-size: 1.5em 1.5em !important;
+            padding-right: 3rem !important;
+        }
+
+        /* Messages d'erreur stylés */
+        .errorlist {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%) !important;
+            border: 1px solid #fca5a5 !important;
+            border-radius: var(--radius-md) !important;
+            padding: 1rem !important;
+            margin: 0.5rem 0 !important;
+            color: #dc2626 !important;
+            font-size: 0.875rem !important;
+            list-style: none !important;
+        }
+
+        .errorlist li {
+            display: flex !important;
+            align-items: center !important;
+            gap: 0.5rem !important;
+        }
+
+        .errorlist li::before {
+            content: '⚠️';
+            font-size: 1rem;
+        }
+
+        /* Animations d'entrée */
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .grp-module {
+            animation: slideInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
+        .grp-module:nth-child(2) { animation-delay: 0.1s !important; }
+        .grp-module:nth-child(3) { animation-delay: 0.2s !important; }
+        .grp-module:nth-child(4) { animation-delay: 0.3s !important; }
+
+        /* Responsive design */
+        @media (min-width: 1600px) {
+            body.grp-change-form #grp-content {
+                max-width: calc(1440px + 400px) !important;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            body.grp-change-form #grp-content {
+                width: 90% !important;
+                max-width: 90% !important;
+                padding-right: 0 !important;
+            }
+
+            form {
+                margin: 1rem !important;
+                padding: 1.5rem !important;
+            }
+
+            .grp-module {
+                padding: 1.5rem !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body.grp-change-form #grp-content {
+                width: 95% !important;
+                max-width: 95% !important;
+                padding-right: 0 !important;
+            }
+
+            form {
+                margin: 0.5rem !important;
+                padding: 1rem !important;
+                border-radius: var(--radius-md) !important;
+            }
+
+            .grp-module {
+                padding: 1rem !important;
+                margin-bottom: 1rem !important;
+            }
+
+            .grp-module h2 {
+                font-size: 1.125rem !important;
+            }
+
+            .grp-module input,
+            .grp-module select,
+            .grp-module textarea {
+                padding: 0.875rem 1rem !important;
+            }
+        }
+    </style>
+{% endblock %}
+
+<!-- JAVASCRIPTS -->
+{% block javascripts %}
+    {{ block.super }}
+    {% url 'admin:jsi18n' as jsi18nurl %}
+    <script type="text/javascript" src="{{ jsi18nurl|default:'../../../jsi18n/' }}"></script>
+    <script type="text/javascript" charset="utf-8">
+        (function($) {
+            $(document).ready(function() {
+                grappelli.initDateAndTimePicker();
+                $("#grp-content-container .grp-group").grp_collapsible_group();
+                $("#grp-content-container .grp-collapse").grp_collapsible({
+                    on_init: function(elem, options) {
+                        // open collapse (and all collapse parents) in case of errors
+                        if (elem.find("ul.errorlist").length > 0) {
+                            elem.removeClass("grp-closed")
+                                .addClass("grp-open");
+                            elem.parents(".grp-collapse")
+                                .removeClass("grp-closed")
+                                .addClass("grp-open");
+                        }
+                    }
+                });
+                var related_lookup_fields_fk = {% get_related_lookup_fields_fk adminform.model_admin %};
+                var related_lookup_fields_m2m = {% get_related_lookup_fields_m2m adminform.model_admin %};
+                var related_lookup_fields_generic = {% get_related_lookup_fields_generic adminform.model_admin %};
+                var autocomplete_fields_fk = {% get_autocomplete_lookup_fields_fk adminform.model_admin %};
+                var autocomplete_fields_m2m = {% get_autocomplete_lookup_fields_m2m adminform.model_admin %};
+                var autocomplete_fields_generic = {% get_autocomplete_lookup_fields_generic adminform.model_admin %};
+                $.each(related_lookup_fields_fk, function() {
+                    $("#id_" + this).grp_related_fk({lookup_url:"{% url 'grp_related_lookup' %}"});
+                });
+                $.each(related_lookup_fields_m2m, function() {
+                    $("#id_" + this).grp_related_m2m({lookup_url:"{% url 'grp_m2m_lookup' %}"});
+                });
+                $.each(related_lookup_fields_generic, function() {
+                    var content_type = "#id_" + this[0],
+                        object_id = "#id_" + this[1];
+                    $(object_id).grp_related_generic({content_type:content_type, object_id:object_id, lookup_url:"{% url 'grp_related_lookup' %}"});
+                });
+                $.each(autocomplete_fields_fk, function() {
+                    $("#id_" + this).grp_autocomplete_fk({
+                        lookup_url:"{% url 'grp_related_lookup' %}",
+                        autocomplete_lookup_url:"{% url 'grp_autocomplete_lookup' %}"
+                    });
+                });
+                $.each(autocomplete_fields_m2m, function() {
+                    $("#id_" + this).grp_autocomplete_m2m({
+                        lookup_url:"{% url 'grp_m2m_lookup' %}",
+                        autocomplete_lookup_url:"{% url 'grp_autocomplete_lookup' %}"
+                    });
+                });
+                $.each(autocomplete_fields_generic, function() {
+                    var content_type = "#id_" + this[0],
+                        object_id = "#id_" + this[1];
+                    $(object_id).grp_autocomplete_generic({
+                        content_type:content_type,
+                        object_id:object_id,
+                        lookup_url:"{% url 'grp_related_lookup' %}",
+                        autocomplete_lookup_url:"{% url 'grp_autocomplete_lookup' %}"
+                    });
+                });
+                $("a#grp-open-all").on("click", function(){
+                    $("#grp-content .grp-collapse-handler").each(function() {
+                        $(this).parent(".grp-collapse").removeClass("grp-closed").addClass("grp-open");
+                    });
+                });
+                $("a#grp-close-all").on("click", function(){
+                    $("#grp-content .grp-collapse-handler").each(function() {
+                        $(this).parent(".grp-collapse").removeClass("grp-open").addClass("grp-closed");
+                    });
+                });
+                // HACK: get rid of currently/change with URL–fields. F**K!!!
+                {% block js_remove_url %}
+                $('p.url').each(function() {
+                    $(this).find("a").remove();
+                    var text = $(this).html();
+                    text = text.replace(/^\w*: /, "");
+                    text = text.replace(/<br>.*: /, "");
+                    $(this).html(text);
+                });
+                {% endblock %}
+                // HACK: rearrange inlines
+                {% block js_rearrange_inlines %}
+                $('div.grp-group').each(function() {
+                    var placeholder = $("fieldset.placeholder."+$(this).attr("id"));
+                    if (placeholder.length) {
+                        $(placeholder).replaceWith($(this));
+                    }
+                });
+                {% endblock %}
+                // HACK: remove input types
+                {% block js_clean_input_types %}
+                var clean_input_types = "{% grappelli_clean_input_types %}";
+                if (clean_input_types == "True") {
+                    grappelli.cleanInputTypes();
+                };
+                {% endblock %}
+            });
+        })(grp.jQuery);
+    </script>
+    {{ media }}
+{% endblock %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <script type="text/javascript">
+        (function($) {
+            $(document).ready(function() {
+                $('.add-another').on("click", function(e) {
+                    e.preventDefault();
+                    showAddAnotherPopup(this);
+                });
+                $('.related-lookup').on("click", function(e) {
+                    e.preventDefault();
+                    showRelatedObjectLookupPopup(this);
+                });
+            {% if adminform and add %}
+                $('form#{{ opts.model_name }}_form :input:visible:enabled:first').focus()
+            {% endif %}
+            });
+        })(grp.jQuery);
+    </script>
+{% endblock %}
+
+<!-- COLTYPE/BODYCLASS -->
+{% block bodyclass %}{{ opts.app_label }}-{{ opts.object_name.lower }} grp-change-form{% endblock %}
+{% block content-class %}{% endblock %}
+
+<!-- PAGE-TOOLS -->
+{% block page-tools %}
+    {% if not is_popup %}
+        <ul>
+            <li><a href="javascript://" class="grp-tool" id="grp-open-all" title="{% trans 'Open All Items' %}">&nbsp;</a></li>
+            <li><a href="javascript://" class="grp-tool" id="grp-close-all" title="{% trans 'Close All Items' %}">&nbsp;</a></li>
+        </ul>
+    {% endif %}
+{% endblock %}
+
+<!-- BREADCRUMBS -->
+{% block breadcrumbs %}
+    {% if not is_popup %}
+        <ul>
+            <li><a href="{% url 'admin:index' %}">{% trans "Home" %}</a></li>
+            <li><a href="{% url 'admin:app_list' app_label=opts.app_label %}">{{ opts.app_config.verbose_name }}</a></li>
+            <li>{% if has_view_permission %}
+                {% url opts|admin_urlname:'changelist' as changelist_url %}
+                <a href="{% add_preserved_filters changelist_url %}">{{ opts.verbose_name_plural|capfirst }}</a>{% else %}{{ opts.verbose_name_plural|capfirst }}
+            {% endif %}</li>
+            <li>{% if add %}{% trans "Add" %} {{ opts.verbose_name }}{% else %}{{ original|truncatewords:"18" }}{% endif %}</li>
+        </ul>
+    {% endif %}
+{% endblock %}
+
+<!-- OBJECT TOOLS -->
+{% block object-tools %}
+    {% if change %}
+        {% if not is_popup %}
+            <ul class="grp-object-tools">
+                {% block object-tools-items %}
+                    {% url opts|admin_urlname:'history' original.pk|admin_urlquote as history_url %}
+                    <li><a href="{% add_preserved_filters history_url %}">{% trans "History" %}</a></li>
+                    {% if has_absolute_url %}<li><a href="{{ absolute_url }}" class="grp-state-focus" target="_blank">{% trans "View on site" %}</a></li>{% endif%}
+                {% endblock %}
+            </ul>
+        {% endif %}
+    {% endif %}
+{% endblock %}
+
+<!-- CONTENT -->
+{% block content %}
+    <form {% if has_file_field %}enctype="multipart/form-data" {% endif %}action="{{ form_url }}" method="post" id="{{ opts.model_name }}_form" novalidate>{% csrf_token %}{% block form_top %}{% endblock %}
+        <div>
+            <!-- Popup Hidden Field -->
+            {% if is_popup %}<input type="hidden" name="_popup" value="1" />{% endif %}
+
+            <!-- No Submit-Row on Top -->
+
+            <!-- Errors -->
+            {% if errors %}
+                <p class="errornote">{% if errors|length == 1 %}{% trans "Please correct the error below." %}{% else %}{% trans "Please correct the errors below." %}{% endif %}</p>
+                <ul class="errorlist">{% for error in adminform.form.non_field_errors %}<li>{{ error }}</li>{% endfor %}</ul>
+            {% endif %}
+
+            <!-- Fieldsets -->
+            {% block field_sets %}
+                {% for fieldset in adminform %}
+                    {% include "admin/includes/fieldset.html" %}
+                {% endfor %}
+            {% endblock %}
+
+            {% block after_field_sets %}{% endblock %}
+
+            <!-- Inlines -->
+            {% block inline_field_sets %}
+                {% for inline_admin_formset in inline_admin_formsets %}
+                    {% include inline_admin_formset.opts.template %}
+                {% endfor %}
+            {% endblock %}
+
+            {% block after_related_objects %}{% endblock %}
+
+            <!-- Submit-Row -->
+            {% block submit_buttons_bottom %}{% submit_row %}{% endblock %}
+
+            <!-- JS for prepopulated fields -->
+            {% prepopulated_fields_js %}
+
+        </div>
+    </form>
+{% endblock %}

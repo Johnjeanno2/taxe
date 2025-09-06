@@ -1,0 +1,209 @@
+{% extends "admin/base_site.html" %}
+
+{# load grp_csrf #}
+
+{% block content %}
+    <style>
+    /* ---------- Layout général ---------- */
+    :root{
+        --accent-1: #1fae2e;
+        --accent-2: #0f5a1c;
+        --muted: #6b7280;
+        --card-bg: #ffffff;
+        --surface: #f8fafc;
+        --shadow: 0 6px 18px rgba(15,90,28,0.08);
+        --radius: 10px;
+    }
+
+    #content-main {
+        max-width: 1100px;
+        margin: 24px auto;
+        padding: 0 16px;
+    }
+
+    /* ---------- Tableaux modernes ---------- */
+    .grp-table, table {
+        width: 100%;
+        border-collapse: collapse;
+        background: var(--card-bg);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 2px 12px rgba(44,62,80,0.06);
+        margin-bottom: 18px;
+    }
+    .grp-table th, table th {
+        background: linear-gradient(90deg, var(--accent-1) 0%, var(--accent-2) 100%);
+        color: #fff;
+        font-weight: 600;
+        padding: 12px 14px;
+        border: none;
+        font-size: 0.98rem;
+        text-align: left;
+    }
+    .grp-table td, table td {
+        padding: 12px 14px;
+        border-bottom: 1px solid #eef2f4;
+        color: #0f1724;
+        font-size: 0.95rem;
+        vertical-align: middle;
+    }
+    .grp-table tr:nth-child(even) {
+        background: var(--surface);
+    }
+    .grp-table tr:hover {
+        background: #eafdf0;
+    }
+
+    /* ---------- Formulaires et fieldsets ---------- */
+    .grp-module, form fieldset {
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 22px;
+        margin-bottom: 20px;
+        border: 1px solid rgba(15,90,28,0.04);
+    }
+    .grp-module.aligned .grp-row { display:flex; gap: 16px; align-items:flex-start; flex-wrap:wrap; }
+    .grp-module .column.span-4 { flex: 0 0 180px; max-width: 220px; }
+    .grp-module .column.span-flexible { flex: 1 1 auto; min-width:220px; }
+
+    .grp-module label, form label {
+        font-weight: 700;
+        color: var(--accent-2);
+        margin-bottom: 6px;
+        display: block;
+        font-size: 0.97rem;
+    }
+    .grp-module input, .grp-module select, .grp-module textarea,
+    form input, form select, form textarea {
+        border-radius: 8px;
+        border: 1.3px solid #dfeee2;
+        padding: 10px 12px;
+        font-size: 0.96rem;
+        background: var(--surface);
+        margin-bottom: 10px;
+        width: 100%;
+        box-sizing: border-box;
+        transition: border-color 0.16s ease, box-shadow 0.16s ease, background 0.16s;
+    }
+    .grp-module input:focus, .grp-module select:focus, .grp-module textarea:focus,
+    form input:focus, form select:focus, form textarea:focus {
+        border-color: var(--accent-1);
+        box-shadow: 0 6px 18px rgba(31,174,46,0.12);
+        background: #fff;
+        outline: none;
+    }
+    .grp-module .errorlist, .errornote {
+        color: #e74c3c;
+        font-size: 0.92rem;
+        margin-top: 6px;
+    }
+
+    /* ---------- Boutons et actions ---------- */
+    .grp-submit-row, .grp-module .grp-submit-row, form .grp-submit-row {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+        margin-top: 18px;
+    }
+    .grp-button, .button, input[type="submit"], .grp-default {
+        background: linear-gradient(90deg, var(--accent-2) 0%, var(--accent-1) 100%);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-weight: 700;
+        padding: 10px 18px;
+        transition: transform 0.08s ease, box-shadow 0.14s ease;
+        box-shadow: 0 6px 18px rgba(15,90,28,0.08);
+        cursor: pointer;
+    }
+    .grp-button:hover, .button:hover, input[type="submit"]:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 26px rgba(15,90,28,0.12);
+    }
+    .grp-button:active, .button:active, input[type="submit"]:active {
+        transform: translateY(0);
+    }
+
+    /* Actions area (actions.html) */
+    .grp-changelist-actions {
+        display:flex;
+        gap:12px;
+        align-items:center;
+        flex-wrap:wrap;
+        margin-bottom: 12px;
+    }
+    .grp-changelist-actions .action-counter {
+        font-size: 0.9rem;
+        color: var(--muted);
+    }
+    .grp-horizontal-list {
+        display:flex;
+        gap:8px;
+        list-style:none;
+        padding:0;
+        margin:0;
+    }
+    .grp-action-counter {
+        display:inline-block;
+        padding:6px 10px;
+        background: #f1fbf5;
+        border: 1px solid rgba(31,174,46,0.08);
+        color: var(--accent-2);
+        border-radius: 8px;
+        font-weight:600;
+    }
+
+    /* Small subtle button style for "Go" fallback */
+    .grp-changelist-actions button[title] {
+        padding: 8px 14px;
+        font-weight: 700;
+    }
+
+    /* ---------- Responsive rules ---------- */
+    @media (max-width: 900px) {
+        .grp-module.aligned .grp-row { flex-direction:column; }
+        .grp-module .column.span-4 { flex: 0 0 100%; max-width: 100%; }
+        .grp-module .column.span-flexible { min-width: 100%; }
+        .grp-changelist-actions { justify-content: space-between; }
+    }
+    @media (max-width: 600px) {
+        #content-main { padding: 0 12px; }
+        .grp-table th, .grp-table td { padding:10px 8px; font-size: 0.92rem; }
+        .grp-button, .button, input[type="submit"] { padding: 9px 14px; font-size: 0.95rem; }
+        .grp-module { padding: 16px; }
+    }
+
+    /* ---------- Utilities ---------- */
+    .muted { color: var(--muted); font-size:0.95rem; }
+    </style>
+
+    <div id="content-main">
+        <form action="" method="post" novalidate>{% csrf_token %}
+            {% if form.error_dict %}
+                <p class="errornote">Your template had {{ form.error_dict.items|length }} error{{ form.error_dict.items|pluralize }}:</p>
+            {% endif %}
+            <fieldset class="grp-module aligned">
+                <div class="grp-row{% if form.site.errors %} error{% endif %} required">
+                    <div class="column span-4"><h4><label for="id_site" class="required">Site:</label></h4></div>
+                    <div class="column span-flexible">
+                        {{ form.site }}
+                        {% if form.site.errors %}{{ form.site.html_error_list }}{% endif %}
+                    </div>
+                </div>
+                <div class="grp-row{% if form.template.errors %} error{% endif %} required">
+                    <div class="column span-4"><h4><label for="id_template" class="required">Template:</label></h4></div>
+                    <div class="column span-flexible">
+                        {{ form.template }}
+                        {% if form.template.errors %}{{ form.template.html_error_list }}{% endif %}
+                    </div>
+                </div>
+            </fieldset>
+            <div class="grp-submit-row">
+                <ul class="grp-submit-row">
+                    <li class="grp-submit-button-container"><input type="submit" value="Check for errors" class="grp-default" /></li>
+                </ul>
+            </div>
+        </form>
+    </div>
+{% endblock %}

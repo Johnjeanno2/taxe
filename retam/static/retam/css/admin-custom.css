@@ -1,0 +1,223 @@
+/* RETAM — admin design system
+   - police Inter pour l'interface, Merriweather pour titres si besoin
+   - palette institutionnelle (bleu foncé, or accent)
+   - layout moderne, meilleure lisibilité et responsive
+*/
+
+:root{
+  --primary:#0a384f;
+  --accent:#f7c948;
+  --muted:#718096;
+  --surface:#ffffff;
+  --bg:#f5f7fa;
+  --success:#4caf50;
+  --danger:#d33364;
+  --radius:12px;
+  --shadow: 0 8px 32px rgba(10,56,79,0.08);
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  --font-serif: "Merriweather", Georgia, serif;
+
+  /* === Standardisation : formulaires, tableaux, barre de recherche (overrides) === */
+  --form-text:#0b2a2a;
+  --form-bg:#ffffff;
+  --form-border:#dbe7ee;
+  --table-head-bg:#0f3a47;
+  --table-head-color:#ffffff;
+  --table-row-alt:#fbfdff;
+  --table-border:#e6eef2;
+  --control-radius:10px;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:var(--font-sans);
+  background:var(--bg);
+  color:#203241;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.45;
+  font-size:15px;
+}
+
+/* Header */
+.header-retam{
+  display:flex;
+  align-items:center;
+  gap:18px;
+  padding:14px 28px;
+  background:linear-gradient(90deg,var(--primary) 0%, #133441 100%);
+  color:var(--surface);
+  border-bottom:4px solid rgba(247,201,72,0.15);
+}
+.header-retam .mairie-title{font-weight:700;font-size:1.25rem;letter-spacing:0.6px}
+.header-retam .retam-title{color:var(--accent);font-weight:600;font-size:0.95rem}
+.header-retam img{height:44px;width:auto;border-radius:6px;background:#fff;padding:4px}
+
+/* Navbar */
+.modern-navbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 24px;margin:0 0 18px 0;background:linear-gradient(90deg,var(--primary) 60%, #12343e 100%);
+  color:#fff;border-radius:0 0 12px 12px;box-shadow:var(--shadow);
+}
+.modern-navbar .navbar-title{font-weight:700;font-size:1.15rem}
+.nav-dashboard-link{padding:8px 18px;border-radius:20px;background:var(--accent);color:#09323a;font-weight:700}
+
+/* Layout */
+.admin-layout{display:flex;gap:28px;padding:22px}
+.sidebar-admin{
+  width:260px;background:#fff;border-radius:14px;padding:14px;box-shadow:var(--shadow);
+  border-left:4px solid var(--accent);
+}
+.sidebar-admin .app-label{font-weight:700;color:var(--primary);padding:10px 12px;border-radius:8px;background:linear-gradient(90deg,#f8f9fa, #fff);margin-bottom:10px}
+.sidebar-admin .module{padding:10px;border-radius:10px;background:#fbfdff}
+
+/* Panels */
+.dashboard-panel{background:var(--surface);border-radius:14px;box-shadow:var(--shadow);overflow:hidden}
+.dashboard-panel-header{padding:22px;background:linear-gradient(135deg,var(--primary), #285b67);color:#fff}
+.dashboard-panel-header h2{margin:0;font-family:var(--font-serif);font-weight:700}
+
+/* Stat cards */
+.stat-card{border-radius:12px;padding:20px;background:linear-gradient(145deg,#fff,#fbfdff);box-shadow:0 8px 28px rgba(10,56,79,0.06)}
+.stat-value{font-weight:800;color:var(--primary);font-size:1.6rem}
+
+/* Tables */
+.stat-table th{background:transparent;color:var(--primary);font-weight:800;padding:14px 18px}
+.stat-table td{padding:14px;border-top:1px solid #f1f5f9}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;border:none;cursor:pointer}
+.btn-primary{background:linear-gradient(90deg,var(--primary),#2f6b77);color:#fff}
+
+/* Utilities */
+.no-data{color:var(--muted);font-style:italic}
+
+/* Responsive */
+@media (max-width: 1024px){
+  .admin-layout{flex-direction:column;padding:12px}
+  .sidebar-admin{width:100%;position:static}
+  .modern-navbar{padding:12px}
+}
+
+/* Small refinements for admin forms and map */
+#grp-content { padding: 12px; }
+.gmi-search-input{padding:8px 10px;border-radius:8px;border:1px solid #e6eef2;width:220px}
+.gmi-search-btn{margin-left:8px;padding:8px 12px;border-radius:8px;background:var(--primary);color:#fff;border:none}
+
+/* === Corrections visuelles pour la barre de recherche (override des styles conflictuels) === */
+.gmi-search-control {
+  background: #ffffff !important;
+}
+
+.gmi-search-input {
+  background: #ffffff !important;
+  color: #0b2a2a !important; /* texte noir foncé lisible */
+  caret-color: #0b3a2b !important;
+  border-color: #dbe7ee !important;
+}
+
+/* placeholder lisible */
+.gmi-search-input::placeholder {
+  color: #9fb0b6 !important;
+  opacity: 1 !important;
+}
+
+/* Gestion de l'autofill (Chrome) */
+input.gmi-search-input:-webkit-autofill,
+input.gmi-search-input:-webkit-autofill:hover,
+input.gmi-search-input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #0b2a2a !important;
+  box-shadow: 0 0 0px 1000px #ffffff inset !important;
+}
+
+/* focus visible */
+.gmi-search-input:focus {
+  outline: none;
+  box-shadow: 0 8px 28px rgba(15,120,80,0.06) !important;
+  border-color: #0f7a4b !important;
+}
+
+/* Barre de recherche : fond blanc + texte noir (prioritaire) */
+.gmi-search-control,
+.gmi-search-control input.gmi-search-input,
+.gmi-search-control .gmi-search-input {
+  background: var(--form-bg) !important;
+  color: var(--form-text) !important;
+  border: 1px solid var(--form-border) !important;
+}
+.gmi-search-input::placeholder { color: #9fb0b6 !important; opacity:1 !important; }
+
+/* Champs de formulaires : texte noir, fond blanc, bord cohérent */
+input[type="text"], input[type="search"], input[type="email"], input[type="number"],
+input[type="date"], input[type="datetime-local"], textarea, select {
+  background: var(--form-bg) !important;
+  color: var(--form-text) !important;
+  border: 1px solid var(--form-border) !important;
+  border-radius: var(--control-radius) !important;
+  padding: 10px 12px !important;
+  font-size: 15px !important;
+  box-shadow: none !important;
+}
+
+/* Forcer couleur saisie sur autofill (Chrome) */
+input:-webkit-autofill, textarea:-webkit-autofill {
+  -webkit-text-fill-color: var(--form-text) !important;
+  box-shadow: 0 0 0px 1000px var(--form-bg) inset !important;
+}
+
+/* Labels et aide */
+label, .help, .field-help {
+  color: #24343a !important;
+  font-weight:600;
+  font-size:0.95rem;
+}
+
+/* Tableaux : entêtes visibles, lignes alternées, bord net */
+table, .change-list table {
+  width: 100%;
+  border-collapse: collapse;
+  background: transparent;
+}
+table th, table td {
+  padding: 10px 12px;
+  border: 1px solid var(--table-border);
+  vertical-align: middle;
+}
+table thead th {
+  background: var(--table-head-bg);
+  color: var(--table-head-color);
+  font-weight:700;
+  text-align:left;
+}
+table tbody tr:nth-child(odd) { background: transparent; }
+table tbody tr:nth-child(even) { background: var(--table-row-alt); }
+
+/* Compacte et cohérent pour listes et inline */
+.inline-related, .grp-inline {
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid rgba(16,59,73,0.03);
+  padding: 8px;
+}
+
+/* Boutons formulaires */
+button, .btn, .submit-row input[type=submit], input[type=submit] {
+  border-radius: 10px !important;
+  padding: 8px 14px !important;
+  font-weight:700 !important;
+}
+
+/* Accessibilité : focus visible */
+input:focus, textarea:focus, select:focus, .gmi-search-input:focus {
+  box-shadow: 0 0 0 6px rgba(15,120,80,0.08) !important;
+  outline: none !important;
+}
+
+/* Responsive : réduire padding sur petits écrans */
+@media (max-width: 820px) {
+  input, textarea, select { padding: 8px 10px !important; font-size:14px !important; }
+  table th, table td { padding: 8px 10px; }
+}
+
+/* Fin des overrides spécifiques */
