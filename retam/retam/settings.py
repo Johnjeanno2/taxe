@@ -5,9 +5,10 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # --- SÉCURITÉ ---
-SECRET_KEY = 'django-insecure-gq@t!$mw00yw2q4750n$gg79derm5$)_xvqvae@&(f%bt59*la'
-DEBUG = True
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+# Read sensitive settings from environment for Render
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-gq@t!$mw00yw2q4750n$gg79derm5$)_xvqvae@&(f%bt59*la')
+DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
 
 # --- APPLICATIONS ---
 INSTALLED_APPS = [
@@ -36,6 +37,8 @@ INSTALLED_APPS = [
 # --- MIDDLEWARE ---
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    # WhiteNoise should come after SecurityMiddleware
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
