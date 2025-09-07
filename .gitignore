@@ -1,33 +1,18 @@
 # Python
 __pycache__/
 *.py[cod]
-*.so
 *.egg-info/
-*.egg
 .env
-.pytest_cache/
-
-# Virtualenvs
-.venv/
 venv/
-
+.env.local
 # Django
-db.sqlite3
-media/
 staticfiles/
-
-# VSCode
+media/
+db.sqlite3
+# Editor
 .vscode/
-
-# MacOS
+.idea/
+# macOS
 .DS_Store
-
-# Node
-node_modules/
-
-# Docker
-.env
-**/docker-compose.override.yml
-
-# Logs
-*.log
+# Archive large file
+Archive.zip

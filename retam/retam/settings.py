@@ -70,15 +70,14 @@ WSGI_APPLICATION = 'retam.wsgi.application'
 # --- BASE DE DONNÉES ---
 DATABASES = {
     'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'admin',
-        'USER': 'postgres',
-        'PASSWORD': 'Test1234',
-        'HOST': 'localhost',
-        'PORT': '5432',
-        'CONN_MAX_AGE': 60,
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'retam', 
+        'USER': 'Jeanno',  
+        'PASSWORD': 'ret@m_db',  
+        'HOST': 'Jeanno.mysql.pythonanywhere-services.com',
+        'PORT': '3306',
         'OPTIONS': {
-            'client_encoding': 'UTF8',
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
         }
     }
 }
