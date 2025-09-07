@@ -68,19 +68,26 @@ TEMPLATES = [
 WSGI_APPLICATION = 'retam.wsgi.application'
 
 # --- BASE DE DONNÉES ---
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'retam', 
-        'USER': 'Jeanno',  
-        'PASSWORD': 'ret@m_db',  
-        'HOST': 'Jeanno.mysql.pythonanywhere-services.com',
-        'PORT': '3306',
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+# Use environment variables (Render: internal host + managed DB or external DB)
+import dj_database_url
+
+DATABASE_URL = os.environ.get('DATABASE_URL')
+if DATABASE_URL:
+    DATABASES = {
+        'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600, engine='django.contrib.gis.db.backends.postgis')
+    }
+else:
+    # Fallback to local Postgres settings (development)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.contrib.gis.db.backends.postgis',
+            'NAME': os.environ.get('POSTGRES_DB', 'retam'),
+            'USER': os.environ.get('POSTGRES_USER', 'retam_user'),
+            'PASSWORD': os.environ.get('POSTGRES_PASSWORD', ''),
+            'HOST': os.environ.get('POSTGRES_HOST', '127.0.0.1'),
+            'PORT': os.environ.get('POSTGRES_PORT', '5432'),
         }
     }
-}
 
 # --- VALIDATION MOT DE PASSE ---
 AUTH_PASSWORD_VALIDATORS = [
