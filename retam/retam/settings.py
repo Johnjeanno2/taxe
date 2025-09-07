@@ -74,13 +74,24 @@ WSGI_APPLICATION = 'retam.wsgi.application'
 # Use environment variables (Render: internal host + managed DB or external DB)
 import dj_database_url
 
-DATABASE_URL = os.environ.get('DATABASE_URL')
+DATABASE_URL = os.environ.get('DATABASE_URL') or os.environ.get('RENDER_DATABASE_URL') or os.environ.get('RENDER_INTERNAL_DATABASE_URL')
+
+if not DATABASE_URL:
+    # Try to build DATABASE_URL from individual Render vars or generic DB vars
+    db_user = os.environ.get('DB_USER') or os.environ.get('POSTGRES_USER') or os.environ.get('RENDER_DB_USER')
+    db_pass = os.environ.get('DB_PASSWORD') or os.environ.get('POSTGRES_PASSWORD') or os.environ.get('RENDER_DB_PASSWORD')
+    db_host = os.environ.get('DB_HOST') or os.environ.get('POSTGRES_HOST') or os.environ.get('RENDER_DB_HOST')
+    db_port = os.environ.get('DB_PORT') or os.environ.get('POSTGRES_PORT') or os.environ.get('RENDER_DB_PORT')
+    db_name = os.environ.get('DB_NAME') or os.environ.get('POSTGRES_DB') or os.environ.get('RENDER_DB_NAME')
+    if db_user and db_pass and db_host and db_name:
+        DATABASE_URL = f"postgresql://{db_user}:{db_pass}@{db_host}:{db_port or '5432'}/{db_name}"
+
 if DATABASE_URL:
     DATABASES = {
         'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600, engine='django.contrib.gis.db.backends.postgis')
     }
 else:
-    # Fallback to local Postgres settings (development)
+    # Final fallback to local Postgres settings (development)
     DATABASES = {
         'default': {
             'ENGINE': 'django.contrib.gis.db.backends.postgis',
