@@ -106,8 +106,8 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.contrib.gis.db.backends.postgis',
-            'NAME': os.environ.get('POSTGRES_DB', 'retam_db'),
-            'USER': os.environ.get('POSTGRES_USER', 'retam_db_user'),
+            'NAME': os.environ.get('POSTGRES_DB', 'c2461288c_retam_db'),
+            'USER': os.environ.get('POSTGRES_USER', 'c2461288c_retam'),
             'PASSWORD': os.environ.get('POSTGRES_PASSWORD', ''),
             'HOST': os.environ.get('POSTGRES_HOST', '127.0.0.1'),
             'PORT': os.environ.get('POSTGRES_PORT', '5432'),
