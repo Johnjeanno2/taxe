@@ -56,3 +56,15 @@ Notes / Dépannage
 - Pour la sécurité, configurez les variables d'environnement via l'interface cPanel (Application Manager) ou via le profil shell et évitez de stocker les secrets dans le repo.
 
 Si vous voulez, j'ajoute des commandes automatiques dans `cpanel_setup.sh` pour tester la connexion et indiquer les étapes à suivre — confirmez et je modifie le script.
+
+DNS & Firewall (exemple pour retam.limitedsn.com)
+1. Dans la zone DNS de votre domaine, ajoutez un enregistrement A:
+   - Nom: retam (ou retam.limitedsn.com selon votre interface)
+   - Type: A
+   - Valeur: 91.234.195.123
+
+2. Firewall / accès DB:
+   - Si vous utilisez une base Postgres distante, autorisez les connexions entrantes depuis l'IP 91.234.195.123 sur le port 5432 (ou configurez le firewall du fournisseur pour permettre le réseau du serveur cPanel).
+   - Testez la connectivité depuis le serveur cPanel (SSH) avec telnet ou nc: `nc -vz HOST 5432`.
+
+3. Après mise à jour DNS, attendez la propagation (quelques minutes à 24h selon TTL), puis testez l'accès web vers https://retam.limitedsn.com/

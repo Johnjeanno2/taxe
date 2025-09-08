@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Read sensitive settings from environment for Render
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-gq@t!$mw00yw2q4750n$gg79derm5$)_xvqvae@&(f%bt59*la')
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1,localhost,retam.limitedsn.com,91.234.195.123').split(',')
 
 # --- APPLICATIONS ---
 INSTALLED_APPS = [
@@ -108,7 +108,7 @@ else:
             'ENGINE': 'django.contrib.gis.db.backends.postgis',
             'NAME': os.environ.get('POSTGRES_DB', 'c2461288c_retam_db'),
             'USER': os.environ.get('POSTGRES_USER', 'c2461288c_retam'),
-            'PASSWORD': os.environ.get('POSTGRES_PASSWORD', ''),
+            'PASSWORD': os.environ.get('ret@m-@dmin-1234', ''),
             'HOST': os.environ.get('POSTGRES_HOST', '127.0.0.1'),
             'PORT': os.environ.get('POSTGRES_PORT', '5432'),
         }
