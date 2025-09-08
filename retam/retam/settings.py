@@ -1,5 +1,7 @@
-import os
 from pathlib import Path
+import os
+import environ  
+import dj_database_url
 
 # --- BASE DIR ---
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -71,34 +73,43 @@ TEMPLATES = [
 WSGI_APPLICATION = 'retam.wsgi.application'
 
 # --- BASE DE DONNÉES ---
-# Use environment variables (Render: internal host + managed DB or external DB)
+# DATABASE configuration: prefer DATABASE_URL / Render, else detect cPanel/MySQL env and
+# fallback to a local PostGIS for development. Note: GeoDjango features require PostGIS.
 import dj_database_url
 
-DATABASE_URL = os.environ.get('DATABASE_URL') or os.environ.get('RENDER_DATABASE_URL') or os.environ.get('RENDER_INTERNAL_DATABASE_URL')
+# Common env vars that may contain a full URL
+DATABASE_URL = (
+    os.environ.get('DATABASE_URL')
+    or os.environ.get('RENDER_DATABASE_URL')
+    or os.environ.get('RENDER_INTERNAL_DATABASE_URL')
+    or os.environ.get('CPANEL_DATABASE_URL')
+)
 
-if not DATABASE_URL:
-    # Try to build DATABASE_URL from individual Render vars or generic DB vars
-    db_user = os.environ.get('DB_USER') or os.environ.get('POSTGRES_USER') or os.environ.get('RENDER_DB_USER')
-    db_pass = os.environ.get('DB_PASSWORD') or os.environ.get('POSTGRES_PASSWORD') or os.environ.get('RENDER_DB_PASSWORD')
-    db_host = os.environ.get('DB_HOST') or os.environ.get('POSTGRES_HOST') or os.environ.get('RENDER_DB_HOST')
-    db_port = os.environ.get('DB_PORT') or os.environ.get('POSTGRES_PORT') or os.environ.get('RENDER_DB_PORT')
-    db_name = os.environ.get('DB_NAME') or os.environ.get('POSTGRES_DB') or os.environ.get('RENDER_DB_NAME')
-    if db_user and db_pass and db_host and db_name:
-        DATABASE_URL = f"postgresql://{db_user}:{db_pass}@{db_host}:{db_port or '5432'}/{db_name}"
+def _use_mysql_env():
+    # detect common cPanel/MySQL env variables
+    return any([
+        os.environ.get('CPANEL_DB_HOST'),
+        os.environ.get('CPANEL_MYSQL_HOST'),
+        os.environ.get('MYSQL_HOST'),
+        os.environ.get('MYSQL_DB'),
+        os.environ.get('USE_MYSQL') == 'True',
+    ])
 
 if DATABASE_URL:
+    # prefer a URL (assume Postgres/PostGIS when URL indicates postgres)
     DATABASES = {
         'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600, engine='django.contrib.gis.db.backends.postgis')
     }
 else:
-    # Final fallback to local Postgres settings (development)
+    # Prefer PostGIS/Postgres for GeoDjango. If no DATABASE_URL provided, build config
+    # from POSTGRES_* env vars or fall back to sensible local defaults for development.
     DATABASES = {
         'default': {
             'ENGINE': 'django.contrib.gis.db.backends.postgis',
             'NAME': os.environ.get('POSTGRES_DB', 'retam_db'),
             'USER': os.environ.get('POSTGRES_USER', 'retam_db_user'),
-            'PASSWORD': os.environ.get('POSTGRES_PASSWORD', '0ZKjUlTwSi2DCf0SBfQrwXk43KN76Eiq'),
-            'HOST': os.environ.get('POSTGRES_HOST', 'dpg-d2urj2ggjjchc73akkiag-a.oregon-postgres.render.com'),
+            'PASSWORD': os.environ.get('POSTGRES_PASSWORD', ''),
+            'HOST': os.environ.get('POSTGRES_HOST', '127.0.0.1'),
             'PORT': os.environ.get('POSTGRES_PORT', '5432'),
         }
     }
