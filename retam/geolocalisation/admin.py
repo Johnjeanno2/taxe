@@ -6,7 +6,8 @@ from django.contrib import admin
 from django import forms
 from django.db import models
 from .models import Zone, LocalisationContribuable
-from .forms import LocalisationContribuableForm, ZoneForm
+# Importer les forms de façon paresseuse (au moment de l'utilisation) pour éviter
+# les erreurs au démarrage si GDAL/GEOS n'est pas présent sur le système.
 
 # Nous remplaçons LeafletGeoAdmin par ModelAdmin standard et injectons nos scripts Google Maps
 from .models import Zone, LocalisationContribuable
@@ -14,7 +15,11 @@ from .forms import LocalisationContribuableForm
 
 @admin.register(Zone)
 class ZoneAdmin(admin.ModelAdmin):
-    form = ZoneForm
+    # on initialise `form` dynamiquement pour éviter d'importer GEOS lors du load
+    @property
+    def form(self):
+        from .forms import ZoneForm as _ZoneForm
+        return _ZoneForm
     list_display = ('nom', 'responsable', 'active', 'date_creation')
     search_fields = ('nom',)
     list_filter = ('responsable', 'active', 'date_creation')
@@ -51,7 +56,10 @@ class ZoneAdmin(admin.ModelAdmin):
 
 @admin.register(LocalisationContribuable)
 class LocalisationContribuableAdmin(admin.ModelAdmin):
-    form = LocalisationContribuableForm
+    @property
+    def form(self):
+        from .forms import LocalisationContribuableForm as _LocalForm
+        return _LocalForm
     list_display = ('contribuable', 'zone', 'adresse_courte', 'precision', 'source', 'verifie', 'date_maj')
     search_fields = ('contribuable__nom', 'adresse')
     list_filter = ('zone', 'precision', 'source', 'verifie', 'date_creation')
